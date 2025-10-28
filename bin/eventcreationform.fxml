@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="EventController"
+      spacing="15"
+      alignment="TOP_CENTER"
+      prefWidth="600" prefHeight="550"
+      stylesheets="@style.css">
+
+    <Label text="Event Creation Form" styleClass="form-title"/>
+
+    <Label text="Event Name:" styleClass="form-label"/>
+    <TextField fx:id="eventNameField" promptText="Enter Event Name" styleClass="form-textfield"/>
+
+    <Label text="Event Date:" styleClass="form-label"/>
+    <DatePicker fx:id="eventDatePicker" styleClass="form-datepicker"/>
+
+    <Label text="Main Organizer Name:" styleClass="form-label"/>
+    <TextField fx:id="mainOrganizerNameField" promptText="Organizer Name" styleClass="form-textfield"/>
+
+    <Label text="Main Organizer Number:" styleClass="form-label"/>
+    <HBox spacing="10" alignment="CENTER_LEFT" prefWidth="400">
+        <Label text="+880" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="mainOrganizerNumberField" promptText="Phone Number" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <Label text="Additional Organizers:" styleClass="form-label"/>
+    <VBox fx:id="organizersContainer" spacing="5" prefWidth="400"/>
+
+    <HBox spacing="10">
+        <Button fx:id="addOrganizerButton" text="Add Organizer" onAction="#handleAddOrganizer" styleClass="form-button"/>
+        <Button fx:id="submitButton" text="Submit" onAction="#handleSubmit" styleClass="form-button"/>
+        <Button fx:id="backButton" text="Back" onAction="#handleBack" styleClass="form-button"/>
+    </HBox>
+
+    <Label fx:id="successLabel" text="" style="-fx-font-weight: bold;"/>
+</VBox>

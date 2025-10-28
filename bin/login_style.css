@@ -3,21 +3,71 @@
     -fx-background-color: #1f3ccc;
 }
 
+#gotoRegBtn {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+}
+
+/* When hovered — lighter color */
 #gotoRegBtn:hover {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
-    -fx-cursor: hand; /* changes mouse pointer */
+-fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
+     -fx-cursor: hand;
 }
-#regBtn:hover {
+
+/* When pressed — darker again */
+#gotoRegBtn:pressed {
     -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
-    -fx-cursor: hand; /* changes mouse pointer */
-}
-#gotoLoginBtn:hover {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
-    -fx-cursor: hand; /* changes mouse pointer */
 }
 
 
+#loginBtn {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+}
+
+/* When hovered — lighter color */
 #loginBtn:hover {
+-fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
+     -fx-cursor: hand;
+}
+
+/* When pressed — darker again */
+#loginBtn:pressed {
     -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
-    -fx-cursor: hand;
+}
+#gotoLoginBtn {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+}
+
+/* When hovered — lighter color */
+#gotoLoginBtn:hover {
+-fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
+     -fx-cursor: hand;
+}
+
+/* When pressed — darker again */
+#gotoLoginBtn:pressed {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+}
+
+
+#regBtn {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+}
+
+/* When hovered — lighter color */
+#regBtn:hover {
+-fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
+     -fx-cursor: hand;
+}
+
+/* When pressed — darker again */
+#regBtn:pressed {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
 }
