@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "EventCreation_10eace1f"
+        },
+        {
+            "type": "java",
+            "name": "App (JavaFX)",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "EventCreation_10eace1f",
+            "vmArgs": "--module-path /Users/macbookair/Downloads/javafx-sdk-24.0.2/lib --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}

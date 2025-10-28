@@ -1,0 +1,23 @@
+.check-box:selected .mark {
+    
+    -fx-background-color: #1f3ccc;
+}
+
+#gotoRegBtn:hover {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-cursor: hand; /* changes mouse pointer */
+}
+#regBtn:hover {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-cursor: hand; /* changes mouse pointer */
+}
+#gotoLoginBtn:hover {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-cursor: hand; /* changes mouse pointer */
+}
+
+
+#loginBtn:hover {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-cursor: hand;
+}

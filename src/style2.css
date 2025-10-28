@@ -1,0 +1,41 @@
+/* Root container */
+.root-box {
+    -fx-padding: 40;
+    -fx-background-color: radial-gradient(
+        focus-angle 0deg,
+        focus-distance 0%,
+        center 50% 50%,
+        radius 80%,
+        #f8c8dc,   /* soft pink center */
+        #d1a6f5,   /* lavender middle */
+        #a8d8ff    /* light sky-blue edges */
+    );
+    -fx-font-family: Arial, sans-serif;
+}
+
+/* Label styling */
+.LeftWelcomeLabel {
+    -fx-font-family: "Segoe UI Light", "Arial", sans-serif;
+    -fx-text-fill: linear-gradient(to bottom, #000000, #9c819c);
+    -fx-font-size: 80px;
+    -fx-opacity: 0.7;
+}
+
+/* "PlanIt" logo-style text */
+
+.RightPlan-it{
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 100px;
+    -fx-text-fill: linear-gradient(to bottom, #000000, #9c819c);
+    -fx-opacity: 0.8;
+}
+
+/* Button styling */
+.continue-text {
+    -fx-font-size: 20px;
+    -fx-text-fill: linear-gradient(from 0% 0% to 100% 100%, #ff5f6d, #ffc371);
+    -fx-effect: dropshadow( gaussian , rgba(222, 224, 70, 0.7) , 4,0,2,2);
+    -fx-font-family: "Sans Sherif", Arial, sans-serif;
+}
+
+
