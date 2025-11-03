@@ -17,8 +17,15 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 
 The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
 
-Compile :
-    javac --module-path "C:/Java/javafx-sdk-25/lib" --add-modules javafx.controls,javafx.fxml -d bin src\App.java src\Controller.java
+<!-- Compile :
+    javac --module-path "C:/Java/javafx-sdk-25/lib" --add-modules javafx.controls,javafx.fxml -d bin -cp "bin;lib/mysql-connector-j-9.5.0.jar" src\App.java src\Controller.java src\DatabaseUtility.java
 
 Run cmd : 
-java --module-path "C:/Java/javafx-sdk-25/lib" --add-modules javafx.controls,javafx.fxml -cp bin App
+java --module-path "C:/Java/javafx-sdk-25/lib" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics -cp "bin;lib/mysql-connector-j-9.5.0.jar" App -->
+
+# Compile
+javac --module-path "C:/Java/javafx-sdk-25/lib" --add-modules javafx.controls,javafx.fxml -cp "lib/mysql-connector-j-9.5.0.jar;lib/jbcrypt-0.4.jar;src" -d bin src\App.java src\Controller.java src\DatabaseUtility.java src\RememberMeUtility.java
+
+# Run
+java --module-path "C:/Java/javafx-sdk-25/lib" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics -cp "bin;lib/mysql-connector-j-9.5.0.jar;lib/jbcrypt-0.4.jar" App
+

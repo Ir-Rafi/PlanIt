@@ -72,7 +72,7 @@
                   <Font name="SansSerif Bold" size="36.0" />
                </font>
             </Button>
-            <Button fx:id="forgotPass" alignment="CENTER" layoutX="372.0" layoutY="527.0" mnemonicParsing="false" style="-fx-background-color: white;" text="Forgot password ?" textAlignment="JUSTIFY" textFill="#1f3ccc">
+            <Button fx:id="forgotPassBtn" alignment="CENTER" layoutX="372.0" layoutY="527.0" mnemonicParsing="false" style="-fx-background-color: white;" text="Forgot password ?" textAlignment="JUSTIFY" textFill="#1f3ccc">
                <font>
                   <Font name="SansSerif Bold" size="36.0" />
                </font>
@@ -248,17 +248,17 @@
                         </LinearGradient>
                      </textFill>
                   </Label>
-                  <Button fx:id="gotoLoginBtn" alignment="CENTER" layoutX="466.0" layoutY="740.0" mnemonicParsing="false"  text="Sign in" textAlignment="JUSTIFY" textFill="WHITE">
+                  <Button fx:id="gotoLoginBtn" alignment="CENTER" layoutX="466.0" layoutY="740.0" mnemonicParsing="false" text="Sign in" textAlignment="JUSTIFY" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Bold" size="36.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" layoutX="83.0" layoutY="742.0" mnemonicParsing="false"  text="Have an account ?" textAlignment="JUSTIFY" textFill="#1f3ccc">
+                  <Label alignment="CENTER" layoutX="83.0" layoutY="742.0" mnemonicParsing="false" text="Have an account ?" textAlignment="JUSTIFY" textFill="#1f3ccc">
                      <font>
                         <Font name="SansSerif Bold" size="36.0" />
                      </font>
-                  </Button>
-                  <Button fx:id="regBtn" alignment="CENTER" layoutX="288.0" layoutY="645.0" mnemonicParsing="false" style="-fx-background-color: linear-g text="Register" textFill="WHITE">
+                  </Label>
+                  <Button fx:id="regBtn" alignment="CENTER" layoutX="288.0" layoutY="645.0" mnemonicParsing="false" text="Register" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Bold" size="36.0" />
                      </font>
@@ -305,6 +305,61 @@
                   </TextField>
                </children>
             </Pane>
+      <Pane fx:id="forgotPane" layoutX="765.0" layoutY="0.0" prefHeight="960.0" prefWidth="765.0" style="-fx-background-color: #ffffff; -fx-border-radius: 20;">
+         <children>
+            <Label alignment="CENTER" layoutX="83.0" layoutY="154.0" text="Forgot Password">
+               <font>
+                  <Font name="Microsoft JhengHei Bold" size="70.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="0.503787945617329" endY="0.8825757657036637" startX="0.5227273093028503" startY="0.1818182251670144">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.07058823853731155" green="0.95686274766922" blue="0.545098066329956" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.423956931359354">
+                           <color>
+                              <Color red="0.09803921729326248" green="0.7764706015586853" blue="0.9254902005195618" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.13333334028720856" green="0.0784313753247261" blue="0.8941176533699036" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <Label fx:id="userError1" layoutX="110.0" layoutY="279.0" prefHeight="42.0" prefWidth="562.0" textAlignment="JUSTIFY" textFill="RED">
+               <font>
+                  <Font name="SansSerif Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="forgotUser" alignment="CENTER" layoutX="111.0" layoutY="364.0" prefHeight="68.0" prefWidth="565.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
+               <font>
+                  <Font name="SansSerif Regular" size="36.0" />
+               </font>
+            </TextField>
+            <Label fx:id="passError1" layoutX="110.0" layoutY="282.0" prefHeight="50.0" prefWidth="566.0" textFill="RED">
+               <font>
+                  <Font name="SansSerif Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="forgotPass" alignment="CENTER" layoutX="105.0" layoutY="514.0" prefHeight="68.0" prefWidth="567.0" promptText="New Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
+               <font>
+                  <Font name="SansSerif Regular" size="36.0" />
+               </font>
+            </PasswordField>
+            <Button fx:id="changePass" alignment="CENTER" layoutX="280.0" layoutY="689.0" mnemonicParsing="false" text="Change" textFill="WHITE">
+               <font>
+                  <Font name="SansSerif Bold" size="36.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
         
       
    </children>

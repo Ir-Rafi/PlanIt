@@ -13,6 +13,7 @@
         "c:\\Java\\javafx-sdk-25\\lib\\javafx-swt.jar",
         "c:\\Java\\javafx-sdk-25\\lib\\jdk.jsobject.jar",
         "c:\\Java\\javafx-sdk-25\\lib\\jfx.incubator.input.jar",
-        "c:\\Java\\javafx-sdk-25\\lib\\jfx.incubator.richtext.jar"
+        "c:\\Java\\javafx-sdk-25\\lib\\jfx.incubator.richtext.jar",
+        "lib/mysql-connector-j-9.5.0.jar" 
     ]
 }
