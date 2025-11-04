@@ -7,8 +7,9 @@ import java.util.Properties;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class DatabaseUtility {
-    private static final String URL = "jdbc:mysql://localhost:3306/db";
-    private static final String USER = "root";  // Replace with your MySQL username
+    private static final String URL = "jdbc:mysql://192.168.0.103:3306/db?connectTimeout=5000&socketTimeout=5000&allowPublicKeyRetrieval=true&useSSL=false";
+    private static final String USER = "root";
+    private static final String PASSWORD  = "iambasic";// Replace with your MySQL username
     
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
@@ -67,8 +68,6 @@ public static boolean userExists(String username) {
     
     return false;
 }
-
-private static final String PASSWORD  = "iambasic";  // Replace with your MySQL password
 
 // Update password for a user
 public static boolean updatePassword(String username, String newPassword) {
