@@ -307,9 +307,9 @@
             </Pane>
       <Pane fx:id="forgotPane" layoutX="683.0" layoutY="0.0" prefHeight="768.0" prefWidth="683.0" style="-fx-background-color: #ffffff; -fx-border-radius: 20;">
          <children>
-            <Label alignment="CENTER" layoutX="127.0" layoutY="171.0" prefHeight="71.0" prefWidth="452.0" text="Forgot Password">
+            <Label alignment="CENTER" layoutX="116.0" layoutY="65.0" prefHeight="71.0" prefWidth="452.0" text="Forgot Password" textAlignment="CENTER">
                <font>
-                  <Font name="Microsoft JhengHei Bold" size="56.0" />
+                  <Font size="40.0" />
                </font>
                <textFill>
                   <LinearGradient endX="0.503787945617329" endY="0.8825757657036637" startX="0.5227273093028503" startY="0.1818182251670144">
@@ -338,26 +338,36 @@
                   <Font name="SansSerif Bold Italic" size="19.0" />
                </font>
             </Label>
-            <TextField fx:id="forgotUser" alignment="CENTER" layoutX="99.0" layoutY="291.0" prefHeight="54.0" prefWidth="505.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
-               <font>
-                  <Font name="SansSerif Regular" size="29.0" />
-               </font>
-            </TextField>
-            <Label fx:id="passError1" layoutX="98.0" layoutY="226.0" prefHeight="40.0" prefWidth="506.0" textFill="RED">
+             <TextField fx:id="forgotUser" alignment="CENTER" layoutX="67.0" layoutY="223.0" prefHeight="63.0" prefWidth="553.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
+                 <font>
+                     <Font name="SansSerif Regular" size="20.0" />
+                 </font>
+             </TextField>
+             <Label fx:id="passMismatch" layoutX="106.0" layoutY="536.0" prefHeight="50.0" prefWidth="566.0" textFill="RED">
                <font>
                   <Font name="SansSerif Bold Italic" size="19.0" />
                </font>
             </Label>
-            <PasswordField fx:id="forgotPass" alignment="CENTER" layoutX="94.0" layoutY="411.0" prefHeight="54.0" prefWidth="507.0" promptText="New Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
+             <PasswordField fx:id="forgotPass" alignment="CENTER" layoutX="76.0" layoutY="339.0" prefHeight="27.0" prefWidth="534.0" promptText="New Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
                <font>
-                  <Font name="SansSerif Regular" size="29.0" />
+                  <Font name="SansSerif Regular" size="20.0" />
                </font>
             </PasswordField>
-            <Button fx:id="changePass" alignment="CENTER" layoutX="279.0" layoutY="553.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="148.0" text="Change" textFill="WHITE">
-               <font>
-                  <Font name="SansSerif Bold" size="29.0" />
-               </font>
-            </Button>
+             <Button fx:id="changePass" alignment="CENTER" layoutX="127.0" layoutY="560.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="142.0" text="Change" textFill="WHITE">
+                 <font>
+                     <Font name="SansSerif Bold" size="24.0" />
+                 </font>
+             </Button>
+             <PasswordField fx:id="ConfiirmPass" alignment="CENTER" layoutX="77.0" layoutY="436.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="534.0" promptText="Confirm New Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
+                 <font>
+                     <Font name="SansSerif Regular" size="20.0" />
+                 </font>
+             </PasswordField>
+             <Button fx:id="Goback" alignment="CENTER" layoutX="439.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="105.0" text="Back" textFill="WHITE">
+                 <font>
+                     <Font name="SansSerif Bold" size="24.0" />
+                 </font>
+             </Button>
          </children>
       </Pane>
         

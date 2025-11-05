@@ -75,6 +75,9 @@ public class login_controller {
     private PasswordField forgotPass;
     @FXML
     private TextField forgotUser;
+    @FXML private Button Goback;               // the Back button in forgotPane
+    @FXML private PasswordField ConfiirmPass;  // Confirm Password field
+    @FXML private Label passMismatch;          // error label for mismatch
 
     @FXML
     public void initialize() {
@@ -103,6 +106,7 @@ public class login_controller {
 
         forgotPassBtn.setOnAction(e -> showForgotPane());
         changePass.setOnAction(e -> handleChangePassword());
+        Goback.setOnAction(e -> hideForgotPane());
     }
 
     private void slideToRegister() {
@@ -236,6 +240,14 @@ public class login_controller {
 
         if (!hasError) {
             // Registration success, transition to login
+            if (DatabaseUtility.userExists(username)) {
+                userRegError.setText("Username already taken");
+                return;
+            }
+            if (DatabaseUtility.emailExists(email)) {
+                emailRegError.setText("Email already registered");
+                return;
+            }
             if (DatabaseUtility.registerUser(username, email, password)) {
                 showAlert(Alert.AlertType.INFORMATION, "Registration Success", "Welcome, " + username + "!");
 
@@ -291,8 +303,10 @@ public class login_controller {
     private void handleChangePassword() {
         String username = forgotUser.getText();
         String newPassword = forgotPass.getText();
+        String confirmPassword = ConfiirmPass.getText();
 
-        if (username.isEmpty() || newPassword.isEmpty()) {
+        passMismatch.setText("");
+        if (username.isEmpty() || newPassword.isEmpty()||confirmPassword.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
             return;
         }
@@ -302,11 +316,18 @@ public class login_controller {
             return;
         }
 
+        if (!newPassword.equals(confirmPassword)) {
+            passMismatch.setText("Passwords do not match!");
+            return;
+        }
+
         if (DatabaseUtility.updatePassword(username, newPassword)) {
             showAlert(Alert.AlertType.INFORMATION, "Success", "Password updated successfully!");
             hideForgotPane(); // slide it back down
             forgotUser.clear();
             forgotPass.clear();
+            ConfiirmPass.clear();
+            passMismatch.setText("");
         } else {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to update password.");
         }

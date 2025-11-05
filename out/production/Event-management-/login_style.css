@@ -86,3 +86,19 @@
 #regBtn:pressed {
     -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
 }
+#Goback {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+}
+
+/* Hover effect — lighter gradient */
+#Goback:hover {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
+    -fx-cursor: hand;
+}
+
+/* Pressed — darker again */
+#Goback:pressed {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+}
