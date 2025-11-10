@@ -27,13 +27,14 @@ public class MainOrganizerView {
 
         assignRolesBtn.setOnAction(e -> showAlert("Assign Roles", "You can assign roles to your team members here."));
         todoBtn.setOnAction(e -> {
-            AdvancedTodoListApp todoView = new AdvancedTodoListApp();
+            AdvancedTodoListApp todoView = new AdvancedTodoListApp(stage.getScene());
             try {
                 todoView.start(stage);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
+        
         bookPlacesBtn.setOnAction(e -> showAlert("Booking", "You can book venues for your event."));
         backBtn.setOnAction(e -> stage.setScene(eventListScene));
 
