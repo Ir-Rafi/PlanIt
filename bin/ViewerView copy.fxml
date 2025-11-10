@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<VBox fx:controller="your.package.ViewerController"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="25"
+      alignment="TOP_CENTER"
+      prefWidth="800" prefHeight="600"
+      style="-fx-background-color: #1E1E2F; -fx-padding: 40;">
+
+    <Label fx:id="titleLabel" text="Viewer Dashboard"
+           style="-fx-font-size: 28px; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
+    <VBox fx:id="eventsContainer"
+          alignment="CENTER"
+          spacing="20" />
+
+    <Button fx:id="backButton" text="← Back"
+            style="-fx-background-color: #2E86DE; -fx-text-fill: white; -fx-background-radius: 10;"/>
+</VBox>
