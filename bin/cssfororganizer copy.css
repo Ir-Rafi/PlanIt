@@ -1,0 +1,62 @@
+/* ======= Global Styles ======= */
+.root {
+    -fx-background-color: #0f2027; /* Deep dark background */
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+    -fx-text-fill: #f4f4f4;
+}
+
+/* ======= Labels ======= */
+.label {
+    -fx-text-fill: #f4f4f4;
+    -fx-font-size: 16px;
+}
+
+.title-label {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFD700; /* Gold title */
+}
+
+/* ======= Buttons ======= */
+.button {
+    -fx-background-radius: 15;
+    -fx-padding: 10 25 10 25;
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to right, #141E30, #243B55);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to right, #243B55, #141E30);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* ======= Card Style ======= */
+.card {
+    -fx-background-color: #1c1c1e;
+    -fx-background-radius: 20;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0, 0, 4);
+}
+
+/* ======= Back Button ======= */
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.back-button:hover {
+    -fx-text-fill: #ffb400;
+}
+
+/* ======= ScrollPane (for event lists) ======= */
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}

@@ -10,8 +10,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import java.time.temporal.ChronoUnit;
+import java.sql.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -21,11 +23,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class EventController implements Initializable {
 
@@ -282,13 +279,19 @@ long durationDays = calculateDurationDays(startDate, endDate);
             : "Event created successfully!";
 
         // Load existing events
-List<EventData> events = loadEvents();
 
-// Add new one
-events.add(event);
+int organizerId = organizers.get(0).registrationCode; // Assuming the main organizer is first
+if (!isPlaceBookedByOrganizer(locationCombo.getValue(), startDate, endDate,
+                              startTimeCombo.getValue(), endTimeCombo.getValue(), organizerId)) {
+    showAlert("Booking Error",
+              "You cannot create this event. The place is not booked by you for the selected date/time range.",
+              Alert.AlertType.ERROR);
+    return;
+}
 
-// Save all
-saveEvents(events);
+insertEventIntoDatabase(event);
+
+
 
             
         showAlert("Success", message, Alert.AlertType.INFORMATION);
@@ -395,29 +398,11 @@ saveEvents(events);
 
     //new
     // Path to store data
-private static final String DATA_FILE = "events.dat";
 
-// Save all events to file
-private static void saveEvents(List<EventData> events) {
-    try (ObjectOutputStream out = new ObjectOutputStream(new java.io.FileOutputStream(DATA_FILE))) {
-        out.writeObject(events);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
 
 // Load all events from file
 @SuppressWarnings("unchecked")
- static List<EventData> loadEvents() {
-    File file = new File(DATA_FILE);
-    if (!file.exists()) return new ArrayList<>();
-    try (ObjectInputStream in = new ObjectInputStream(new java.io.FileInputStream(file))) {
-        return (List<EventData>) in.readObject();
-    } catch (Exception e) {
-        e.printStackTrace();
-        return new ArrayList<>();
-    }
-}
+
 
 private Connection getConnection() throws Exception {
     String url = "jdbc:mysql://ununqd8usvy0wouy:GmDEehgTBjzyuPRuA8i8@b1gtvncwynmgz6qozokc-mysql.services.clever-cloud.com:3306/b1gtvncwynmgz6qozokc";
@@ -464,6 +449,176 @@ private long calculateDurationDays(LocalDate startDate, LocalDate endDate) {
     if (startDate == null || endDate == null) return 1;
     return ChronoUnit.DAYS.between(startDate, endDate) + 1; // inclusive
 }
+
+private void insertEventIntoDatabase(EventData event) {
+    String sql = """
+        INSERT INTO events (
+            event_name, place_name, start_date, end_date,
+            start_time, end_time, Description, Color,
+            ShowMe, Visibility, AttachedFilePath, EventImagePath
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """;
+
+    try (Connection conn = getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+        ps.setString(1, event.name);
+        ps.setString(2, event.location);
+        ps.setDate(3, java.sql.Date.valueOf(event.date));
+        ps.setDate(4, java.sql.Date.valueOf(event.endDate));
+        ps.setString(5, event.startTime);
+        ps.setString(6, event.endTime);
+        ps.setString(7, event.description);
+        ps.setString(8, event.color);
+        ps.setString(9, event.showMe);
+        ps.setString(10, event.visibility);
+        ps.setString(11, event.attachedFilePath != null ? event.attachedFilePath.getAbsolutePath() : null);
+        ps.setString(12, event.eventImagePath != null ? event.eventImagePath.getAbsolutePath() : null);
+
+        ps.executeUpdate();
+
+        // Get the generated event_id
+        ResultSet keys = ps.getGeneratedKeys();
+        int eventId = 0;
+        if (keys.next()) {
+            eventId = keys.getInt(1);
+        }
+
+        // Insert all organizers for this event
+        if (!event.organizers.isEmpty()) {
+            insertOrganizers(eventId, event.organizers);
+        }
+
+        System.out.println("✅ Event and organizers saved successfully to MySQL!");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        showAlert("Database Error", "Failed to save event: " + e.getMessage(), Alert.AlertType.ERROR);
+    }
+}
+
+  @SuppressWarnings("unchecked")
+public static List<EventData> loadEventsFromDB() {
+    List<EventData> events = new ArrayList<>();
+
+    String url = "jdbc:mysql://ununqd8usvy0wouy:GmDEehgTBjzyuPRuA8i8@b1gtvncwynmgz6qozokc-mysql.services.clever-cloud.com:3306/b1gtvncwynmgz6qozokc";
+    String user = "ununqd8usvy0wouy";
+    String password = "GmDEehgTBjzyuPRuA8i8";
+
+    String sql = "SELECT event_id, event_name, place_name, start_date, end_date, start_time, end_time, Description, Color, ShowMe, Visibility, AttachedFilePath, EventImagePath FROM events";
+
+    try (Connection conn = DriverManager.getConnection(url, user, password);
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            int eventId = rs.getInt("event_id");
+            String name = rs.getString("event_name");
+            String location = rs.getString("place_name");
+            LocalDate startDate = rs.getDate("start_date").toLocalDate();
+            LocalDate endDate = rs.getDate("end_date").toLocalDate();
+            String startTime = rs.getString("start_time");
+            String endTime = rs.getString("end_time");
+            String description = rs.getString("Description");
+            String color = rs.getString("Color");
+            String showMe = rs.getString("ShowMe");
+            String visibility = rs.getString("Visibility");
+            String attachedFilePath = rs.getString("AttachedFilePath");
+            String eventImagePath = rs.getString("EventImagePath");
+
+            long durationDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
+            // Fetch organizers using event_id
+            List<Organizer> organizers = new ArrayList<>();
+            try (PreparedStatement orgPs = conn.prepareStatement(
+                    "SELECT organizer_name, organizer_id FROM organizers WHERE event_id = ?")) {
+                orgPs.setInt(1, eventId);
+                ResultSet orgRs = orgPs.executeQuery();
+                while (orgRs.next()) {
+                    organizers.add(new Organizer(orgRs.getString("organizer_name"), orgRs.getInt("organizer_id")));
+                }
+            }
+
+            events.add(new EventData(
+                    name,
+                    startDate,
+                    endDate,
+                    startTime,
+                    endTime,
+                    location,
+                    description,
+                    organizers,
+                    color,
+                    showMe,
+                    visibility,
+                    attachedFilePath != null ? new File(attachedFilePath) : null,
+                    eventImagePath != null ? new File(eventImagePath) : null,
+                    durationDays
+            ));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return events;
+}
+
+
+private void insertOrganizers(int eventId, List<Organizer> organizers) {
+    String sql = "INSERT INTO organizers (event_id, organizer_name, organizer_id) VALUES (?, ?, ?)";
+    try (Connection conn = getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        for (Organizer org : organizers) {
+            ps.setInt(1, eventId);
+            ps.setString(2, org.name);
+            ps.setInt(3, org.registrationCode);
+            ps.addBatch();
+        }
+        ps.executeBatch();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+private boolean isPlaceBookedByOrganizer(String placeName, LocalDate startDate, LocalDate endDate,
+                                         String startTime, String endTime, int organizerId) {
+    String sql = """
+        SELECT COUNT(*) FROM bookings
+        WHERE place_name = ?
+          AND organizer_id = ?
+          AND start_date <= ?
+          AND end_date >= ?
+          AND start_time <= ?
+          AND end_time >= ?
+    """;
+
+    try (Connection conn = getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, placeName);
+        ps.setInt(2, organizerId);
+        ps.setDate(3, java.sql.Date.valueOf(endDate));
+        ps.setDate(4, java.sql.Date.valueOf(startDate));
+        ps.setString(5, endTime);   // end_time as string
+        ps.setString(6, startTime); // start_time as string
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return false;
+}
+
+
+
+
 
 
 }

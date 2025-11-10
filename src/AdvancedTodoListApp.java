@@ -12,20 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import javafx.scene.layout.Region;
-import javafx.scene.control.ListView;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
-
-
-public class AdvancedTodoListApp extends Application{
+public class AdvancedTodoListApp extends Application {
 
     private ObservableList<Task> allTasks = FXCollections.observableArrayList();
     private ObservableList<String> categories = FXCollections.observableArrayList("Work", "Personal", "Shopping");
@@ -33,11 +20,13 @@ public class AdvancedTodoListApp extends Application{
     private ComboBox<String> filterCombo, priorityCombo, categoryCombo;
     private TextField searchField;
     private Label totalLabel, completedLabel, pendingLabel;
-    private static final String SAVE_FILE = "tasks.dat";
 
+    private Scene organizerScene; // store main organizer scene
 
-    public static void main(String[] args) {
-        launch(args);
+    public AdvancedTodoListApp() {}
+
+    public AdvancedTodoListApp(Scene organizerScene) {
+        this.organizerScene = organizerScene;
     }
 
     @Override
@@ -45,7 +34,7 @@ public class AdvancedTodoListApp extends Application{
         BorderPane root = new BorderPane();
         root.getStyleClass().add("root");
 
-        VBox header = createHeader();
+        VBox header = createHeader(stage);
         root.setTop(header);
 
         VBox mainContent = createMainContent();
@@ -56,19 +45,11 @@ public class AdvancedTodoListApp extends Application{
 
         stage.setTitle("Advanced To-Do List");
         stage.setScene(scene);
-
-        // Start maximized
         stage.setMaximized(true);
-        loadTasks();
-        updateStats();
-
-        stage.setOnCloseRequest(e -> saveTasks());
-
         stage.show();
-        
     }
 
-    private VBox createHeader() {
+    private VBox createHeader(Stage stage) {
         VBox header = new VBox(15);
         header.getStyleClass().add("header");
         header.setPadding(new Insets(20));
@@ -83,7 +64,22 @@ public class AdvancedTodoListApp extends Application{
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        titleBar.getChildren().addAll(title, spacer);
+        // 🧭 BACK BUTTON
+        Button backBtn = new Button("← Back");
+        backBtn.getStyleClass().add("btn-primary");
+        backBtn.setOnAction(e -> {
+            if (organizerScene != null) {
+                stage.setScene(organizerScene);
+            } else {
+                // fallback: show an alert
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Back Navigation");
+                alert.setHeaderText("Organizer scene not available!");
+                alert.showAndWait();
+            }
+        });
+
+        titleBar.getChildren().addAll(title, spacer, backBtn);
 
         HBox statsBar = new HBox(30);
         statsBar.setAlignment(Pos.CENTER);
@@ -177,7 +173,6 @@ public class AdvancedTodoListApp extends Application{
 
     private void addTask(String text, TextField input) {
         if (text == null || text.trim().isEmpty()) return;
-
         Task task = new Task(text.trim());
         allTasks.add(0, task);
         input.clear();
@@ -189,7 +184,6 @@ public class AdvancedTodoListApp extends Application{
         alert.setTitle("Delete Task");
         alert.setHeaderText("Are you sure?");
         alert.setContentText("Do you want to delete this task?");
-
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             allTasks.remove(task);
@@ -241,9 +235,7 @@ public class AdvancedTodoListApp extends Application{
         Button removeCatBtn = new Button("Remove");
         removeCatBtn.setOnAction(e -> {
             String selected = categoryList.getSelectionModel().getSelectedItem();
-            if (selected != null) {
-                categoryList.getItems().remove(selected);
-            }
+            if (selected != null) categoryList.getItems().remove(selected);
         });
 
         HBox catButtons = new HBox(5, addCatBtn, removeCatBtn);
@@ -318,7 +310,7 @@ public class AdvancedTodoListApp extends Application{
     }
 
     private void updateCategoryCombo() {
-        String current = categoryCombo.getValue();
+        String current = categoryCombo != null ? categoryCombo.getValue() : null;
         categoryCombo.getItems().clear();
         categoryCombo.getItems().add("All Categories");
         categoryCombo.getItems().addAll(categories);
@@ -398,32 +390,9 @@ public class AdvancedTodoListApp extends Application{
             setGraphic(cell);
         }
     }
-
-    @SuppressWarnings("unchecked")
-private void loadTasks() {
-    File file = new File(SAVE_FILE);
-    if (!file.exists()) return;
-
-    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-        ArrayList<Task> list = (ArrayList<Task>) ois.readObject();
-        allTasks.setAll(list);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
 }
 
-private void saveTasks() {
-    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_FILE))) {
-        oos.writeObject(new ArrayList<>(allTasks));
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-
-}
-
-class Task implements Serializable {
-    private static final long serialVersionUID = 1L;
+class Task {
     private String text;
     private boolean completed;
     private String priority;

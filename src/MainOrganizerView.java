@@ -22,22 +22,27 @@ public class MainOrganizerView {
         Button assignRolesBtn = new Button("Assign Roles to Members");
         Button todoBtn = new Button("Create To-Do List");
         Button bookPlacesBtn = new Button("Book Event Places");
+        Button progressReportBtn = new Button("Manage Progress Reports");
         Button backBtn = new Button("← Back");
+
         backBtn.setStyle("-fx-background-color: #2E86DE; -fx-text-fill: white; -fx-background-radius: 10;");
 
         assignRolesBtn.setOnAction(e -> showAlert("Assign Roles", "You can assign roles to your team members here."));
-        todoBtn.setOnAction(e -> {
-            AdvancedTodoListApp todoView = new AdvancedTodoListApp();
-            try {
-                todoView.start(stage);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+        todoBtn.setOnAction(e -> showAlert("To-Do", "You can create your task list here."));
+        bookPlacesBtn.setOnAction(e -> {
+    int organizerId = 1; // Replace with actual organizer ID
+    int eventId = 0;     // Optional: 0 if this is a pre-booking before event creation
+    new BookingPage(stage, stage.getScene(), organizerId, eventId);
+});
+
+        progressReportBtn.setOnAction(e -> {
+            ProgressReportWindow reportWindow = new ProgressReportWindow();
+            reportWindow.show();
         });
-        bookPlacesBtn.setOnAction(e -> showAlert("Booking", "You can book venues for your event."));
+
         backBtn.setOnAction(e -> stage.setScene(eventListScene));
 
-        VBox buttonContainer = new VBox(20, assignRolesBtn, todoBtn, bookPlacesBtn);
+        VBox buttonContainer = new VBox(20, assignRolesBtn, todoBtn, bookPlacesBtn, progressReportBtn);
         buttonContainer.setAlignment(Pos.CENTER);
         buttonContainer.prefWidthProperty().bind(layout.widthProperty().multiply(0.35));
 

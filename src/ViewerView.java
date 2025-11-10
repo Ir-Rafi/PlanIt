@@ -24,7 +24,7 @@ public class ViewerView {
         title.setStyle("-fx-font-size: 28px; -fx-text-fill: #fff; -fx-font-weight: bold;");
 
         // Load saved events
-        List<EventController.EventData> events = EventController.loadEvents();
+        List<EventController.EventData> events = EventController.loadEventsFromDB();
 
         // Container for event cards
         VBox eventsContainer = new VBox(20);
