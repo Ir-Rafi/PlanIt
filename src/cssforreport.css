@@ -1,0 +1,32 @@
+.root {
+    -fx-background-color: linear-gradient(to bottom right, #6C63FF, #3F3D56);
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.button {
+    -fx-background-color: #00B894;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 16;
+}
+
+.button:hover {
+    -fx-background-color: #019874;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.back-button:hover {
+    -fx-text-fill: #ffb400;
+}
