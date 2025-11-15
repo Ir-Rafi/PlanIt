@@ -169,7 +169,8 @@ public class DashboardController extends Controller {
                 try {
                     Stage currentStage = (Stage) stage.getScene().getWindow();
                     after_login event_portal = new after_login();
-                    event_portal.start(currentStage);
+                    event_portal.openEventPortal(currentStage, stage.getScene());
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
