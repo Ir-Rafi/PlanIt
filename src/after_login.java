@@ -6,21 +6,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class after_login {
 
     private Stage stage;
-    private Scene dashboardScene;   // original dashboard scene
-
-    // DashboardController theke call korba:
-    // new after_login().openEventPortal(currentStage, dashboardScene);
+    private Scene dashboardScene;
 
     public void applyHoverEffect(Button btn, String normalColor, String hoverColor) {
 
@@ -50,7 +45,6 @@ public class after_login {
         homeLayout.setAlignment(Pos.CENTER);
         homeLayout.setPadding(new Insets(50));
 
-        // BACK TO DASHBOARD BUTTON
         Button dashboardBack = new Button("← Back to Dashboard");
         dashboardBack.setFont(Font.font("Poppins", 16));
         dashboardBack.setStyle(
@@ -60,18 +54,9 @@ public class after_login {
                         "-fx-padding: 8 20 8 20;"
         );
 
-        dashboardBack.setOnMouseEntered(e -> dashboardBack.setStyle(
-                "-fx-background-color: #333; -fx-text-fill: white; -fx-background-radius: 10; -fx-padding: 8 20 8 20;"
-        ));
-        dashboardBack.setOnMouseExited(e -> dashboardBack.setStyle(
-                "-fx-background-color: #555; -fx-text-fill: white; -fx-background-radius: 10; -fx-padding: 8 20 8 20;"
-        ));
-
         applyHoverEffect(dashboardBack, "#555555", "#333333");
 
-        // ✅ Return to the original dashboard scene
         dashboardBack.setOnAction(e -> {
-            System.out.println("Back to Dashboard clicked");
             stage.setScene(dashboardScene);
             stage.setMaximized(true);
         });
@@ -90,13 +75,10 @@ public class after_login {
         );
         applyHoverEffect(eventsButton, "#2E86DE", "#1B4F72");
 
-        // Hover effects for events buttonapplyHoverEffect(eventsButton, "#2E86DE", "#1B4F72");
         homeLayout.getChildren().addAll(dashboardBack, title, eventsButton);
         VBox.setVgrow(eventsButton, Priority.ALWAYS);
 
         Scene homeScene = new Scene(homeLayout, 1000, 700);
-
-        // EVENTS SCREEN setup
         Scene eventsScene = createEventsPage(homeScene);
 
         eventsButton.setOnAction(e -> {
@@ -128,7 +110,7 @@ public class after_login {
 
         Scene eventsScene = new Scene(eventRoot, 1000, 700);
 
-        // Top bar with back button and create new event button
+        // Top bar WITHOUT Create Event button
         HBox topBar = new HBox(20);
         topBar.setAlignment(Pos.CENTER_LEFT);
         topBar.setPadding(new Insets(0, 0, 10, 0));
@@ -141,41 +123,17 @@ public class after_login {
                         "-fx-background-radius: 10; " +
                         "-fx-padding: 8 20 8 20;"
         );
-        backButton.setOnAction(e -> stage.setScene(homeScene));
-
         applyHoverEffect(backButton, "#2E86DE", "#1B4F72");
 
-        // Create New Event Button
-        Button createEventButton = new Button("+ Create New Event");
-        createEventButton.setFont(Font.font("Poppins", FontWeight.BOLD, 14));
-        createEventButton.setStyle(
-                "-fx-background-color: #27AE60; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-background-radius: 10; " +
-                        "-fx-padding: 8 20 8 20;"
-        );
-        applyHoverEffect(createEventButton, "#27AE60", "#1E8449");
+        backButton.setOnAction(e -> stage.setScene(homeScene));
 
-        // Event create form (tomar EventController thakle)
-        createEventButton.setOnAction(e -> {
-            try {
-                EventController.openEventForm(stage);
-            } catch (Throwable ex) {
-                ex.printStackTrace();
-                new Alert(Alert.AlertType.ERROR,
-                        "Event form open korte gele error holo:\n" + ex.getMessage())
-                        .showAndWait();
-            }
-        });
-
-        topBar.getChildren().addAll(backButton, createEventButton);
+        topBar.getChildren().addAll(backButton);
         eventRoot.getChildren().add(0, topBar);
 
-        // Dummy event data (role mapping er jonno)
         String[][] eventData = {
-                {"Tech Conference", "Main Organizer"},
-                {"Cultural Fest", "Sub Organizer"},
-                {"Sports Meet", "Viewer"}
+                {"Event Creation Dashboard", "Main Organizer"},
+                {"Sub Organizer's Dashboard", "Sub Organizer"},
+                {"All Events", "Viewer"}
         };
 
         for (int i = 0; i < eventData.length; i++) {
@@ -186,7 +144,6 @@ public class after_login {
         return eventsScene;
     }
 
-    // ---------------- EVENT CARD ----------------
     private VBox createEventCard(String eventName, String role, Scene eventsScene) {
 
         VBox card = new VBox(10);
@@ -225,9 +182,7 @@ public class after_login {
 
         applyHoverEffect(openBtn, "#2E86DE", "#1B4F72");
 
-        // ✅ Use YOUR view classes with correct constructors
         openBtn.setOnAction(e -> {
-            System.out.println("Opening view for role: " + role);
             try {
                 switch (role) {
                     case "Main Organizer" -> {
@@ -235,15 +190,11 @@ public class after_login {
                         int mainId = Session.getUserId();
                         new MainOrganizerView(stage, eventsScene, mainName, mainId);
                     }
-
                     case "Sub Organizer" -> {
                         String subName = Session.getUserName();
                         new SubOrganizerView(stage, eventsScene, subName);
                     }
-
-                    default -> {
-                        new ViewerView(stage, eventsScene);
-                    }
+                    default -> new ViewerView(stage, eventsScene);
                 }
             } catch (Throwable ex) {
                 ex.printStackTrace();
