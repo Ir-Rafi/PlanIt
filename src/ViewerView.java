@@ -1,9 +1,6 @@
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -14,14 +11,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class ViewerView {
+public class ViewerView extends after_login {
 
     public ViewerView(Stage stage, Scene eventsScene) {
         VBox layout = new VBox(20);
@@ -70,7 +63,14 @@ public class ViewerView {
         backBtn.setStyle("-fx-background-color: #2E86DE; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 16px; -fx-padding: 8 20;");
         backBtn.setOnAction(e -> stage.setScene(eventsScene));
 
-        layout.getChildren().addAll(title, scrollPane, backBtn);
+        Button chatBtn = new Button("Chat with organizers");
+        applyHoverEffect(chatBtn,          "#7E57C2", "#5E35B1");
+        chatBtn.setOnAction(e -> {
+            // Sub organizer is a client
+            chatWindows.openClientChat("Viewer");
+        });
+
+        layout.getChildren().addAll(title, chatBtn, scrollPane, backBtn);
 
         Scene scene = new Scene(layout, 1200, 700);
         stage.setScene(scene);
@@ -171,7 +171,4 @@ if (event.organizers != null && !event.organizers.isEmpty()) {
         return card;
     }
 }
-
-
-
 

@@ -222,7 +222,7 @@
             </Pane>
             <Pane fx:id="rightpane1" layoutX="-676.0" layoutY="-14.0" prefHeight="768.0" prefWidth="683.0" style="-fx-background-color: #ffffff;">
                <children>
-                  <Label alignment="CENTER" layoutX="220.0" layoutY="156.0" text="Registration">
+                  <Label alignment="CENTER" layoutX="219.0" layoutY="34.0" prefHeight="37.0" prefWidth="229.0" text="Registration">
                      <font>
                         <Font name="Microsoft JhengHei Bold" size="40.0" />
                      </font>
@@ -248,17 +248,17 @@
                         </LinearGradient>
                      </textFill>
                   </Label>
-                  <Button fx:id="gotoLoginBtn" alignment="CENTER" layoutX="406.0" layoutY="539.0" mnemonicParsing="false" text="Sign in" textAlignment="JUSTIFY" textFill="WHITE">
+                  <Button fx:id="gotoLoginBtn" alignment="CENTER" layoutX="363.0" layoutY="692.0" mnemonicParsing="false" text="Sign in" textAlignment="JUSTIFY" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Label alignment="CENTER" layoutX="181.0" layoutY="539.0" mnemonicParsing="false" text="Have an account ?" textAlignment="JUSTIFY" textFill="#1f3ccc">
+                  <Label alignment="CENTER" layoutX="171.0" layoutY="698.0" mnemonicParsing="false" text="Have an account ?" textAlignment="JUSTIFY" textFill="#1f3ccc">
                      <font>
                         <Font name="SansSerif Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Button fx:id="regBtn" alignment="CENTER" layoutX="287.0" layoutY="480.0" mnemonicParsing="false" text="Register" textFill="WHITE">
+                  <Button fx:id="regBtn" alignment="CENTER" layoutX="288.0" layoutY="645.0" mnemonicParsing="false" text="Register" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Bold" size="18.0" />
                      </font>
@@ -268,7 +268,7 @@
                         <Font name="SansSerif Bold Italic" size="14.0" />
                      </font>
                   </Label>
-                  <CheckBox fx:id="termsCheck" layoutX="181.0" layoutY="445.0" mnemonicParsing="false" text="Agree to terms and conditions" textFill="#1f3ccc">
+                  <CheckBox fx:id="termsCheck" layoutX="189.0" layoutY="600.0" mnemonicParsing="false" text="Agree to terms and conditions" textFill="#1f3ccc">
                      <font>
                         <Font name="SansSerif Bold" size="18.0" />
                      </font>
@@ -278,7 +278,32 @@
                         <Font name="SansSerif Bold Italic" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="userReg" alignment="CENTER" layoutX="192.0" layoutY="238.0" prefWidth="300.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
+                   <TextField fx:id="firstNameReg" alignment="CENTER" layoutX="184.0" layoutY="119.0" prefWidth="300.0" promptText="First Name" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0;                   -fx-border-color: transparent transparent #1f3ccc transparent;                   -fx-text-fill: #1f3ccc;">
+                       <font>
+                           <Font name="SansSerif Regular" size="20.0" />
+                       </font>
+                   </TextField>
+
+                   <!-- Last Name -->
+                   <TextField fx:id="lastNameReg" alignment="CENTER" layoutX="184.0" layoutY="174.0" prefWidth="300.0" promptText="Last Name" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0;                   -fx-border-color: transparent transparent #1f3ccc transparent;                   -fx-text-fill: #1f3ccc;">
+                       <font>
+                           <Font name="SansSerif Regular" size="20.0" />
+                       </font>
+                   </TextField>
+                   <TextField fx:id="deptReg" alignment="CENTER" layoutX="186.0" layoutY="280.0" prefWidth="300.0" promptText="Department" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0;                   -fx-border-color: transparent transparent #1f3ccc transparent;                   -fx-text-fill: #1f3ccc;">
+                       <font>
+                           <Font name="SansSerif Regular" size="20.0" />
+                       </font>
+                   </TextField>
+
+                   <!-- Session -->
+                   <TextField fx:id="sessionReg" alignment="CENTER" layoutX="192.0" layoutY="333.0" prefWidth="300.0" promptText="Session" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0;                   -fx-border-color: transparent transparent #1f3ccc transparent;                   -fx-text-fill: #1f3ccc;">
+                       <font>
+                           <Font name="SansSerif Regular" size="20.0" />
+                       </font>
+                   </TextField>
+                   
+                  <TextField fx:id="userReg" alignment="CENTER" layoutX="194.0" layoutY="400.0" prefWidth="300.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
                      <font>
                         <Font name="SansSerif Regular" size="20.0" />
                      </font>
@@ -288,7 +313,7 @@
                         <Font name="SansSerif Bold Italic" size="14.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="passReg" alignment="CENTER" layoutX="184.0" layoutY="374.0" prefWidth="300.0" promptText="Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
+                  <PasswordField fx:id="passReg" alignment="CENTER" layoutX="192.0" layoutY="495.0" prefWidth="300.0" promptText="Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
                      <font>
                         <Font name="SansSerif Regular" size="20.0" />
                      </font>
@@ -298,7 +323,7 @@
                         <Font name="SansSerif Bold Italic" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="userMail" alignment="CENTER" layoutX="192.0" layoutY="302.0" prefWidth="300.0" promptText="Email" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
+                  <TextField fx:id="userMail" alignment="CENTER" layoutX="194.0" layoutY="233.0" prefWidth="300.0" promptText="Email" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
                      <font>
                         <Font name="SansSerif Regular" size="20.0" />
                      </font>

@@ -35,22 +35,29 @@ public class ChatController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            server = new Server(new ServerSocket(1234));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error creating server");
-        }
+
+        new Thread(() -> {
+            try{
+                server = new Server(new ServerSocket(1234));
+                server.receiveMessageFromClient(vbox_messages);
+            } catch (IOException e){
+                e.printStackTrace();
+                System.out.println("Error creating server");
+            }
+        }, "Char-server-thread").start();
 
         // Automatically scroll to the bottom when new messages arrive
         vbox_messages.heightProperty().addListener((observableValue, oldValue, newValue) -> {
             sp_main.setVvalue(1.0);
         });
 
-        server.receiveMessageFromClient(vbox_messages);
 
         button_send.setOnAction((ActionEvent event) -> {
             String messageToSend = tf_message.getText();
+            if(messageToSend.isEmpty() || server == null){
+                return;
+            }
+
             if (!messageToSend.isEmpty()) {
 
                 // Message container (right-aligned)

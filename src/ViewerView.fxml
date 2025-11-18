@@ -1,3 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.Text?>
+
 <BorderPane fx:id="root" xmlns:fx="http://javafx.com/fxml">
     
     <!-- Top Title -->

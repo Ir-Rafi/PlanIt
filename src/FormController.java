@@ -8,7 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class FormController {
+public class FormController extends Controller {
 
     @FXML
     private AnchorPane rootPane;
@@ -27,7 +27,7 @@ public class FormController {
         continue2.setOnAction(e -> showPage(3));
         continue3.setOnAction(e -> {
             Stage stage = (Stage) rootPane.getScene().getWindow();
-            Controller.loadLoginPage(stage);    
+            FormController.loadLoginPage(stage);
         });
     }
 
@@ -36,26 +36,5 @@ public class FormController {
         if (page == 1) rootPane.getChildren().add(page1);
         else if (page == 2) rootPane.getChildren().add(page2);
         else if (page == 3) rootPane.getChildren().add(page3);
-    }
-
-    private void goToLogin() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("button.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) rootPane.getScene().getWindow();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("login_style.css").toExternalForm());
-            stage.setScene(scene);
-            stage.setTitle("Login Page");
-            stage.show();
-
-            // Optional: if you want to call slideToLogin() after loading
-            login_controller controller = loader.getController();
-            controller.slideToLogin();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="rootPane"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="DashboardController"
+            stylesheets="@dashboard_style.css">
+
+    <!-- 🔹 Top Bar -->
+    <top>
+        <HBox spacing="6" alignment="CENTER_LEFT" styleClass="top-bar">
+            <children>
+                <Button text="☰" onAction="#toggleMenu" styleClass="menu-toggle"/>
+            </children>
+        </HBox>
+    </top>
+
+    <!-- 🔹 Left Profile Pane -->
+    <left>
+        <VBox fx:id="leftPane" spacing="12" styleClass="left-pane" prefWidth="260" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="20" right="10" bottom="20" left="10"/>
+            </padding>
+            <children>
+                <StackPane fx:id="profilePicStack" prefWidth="120" prefHeight="120" styleClass="profile-pic">
+                    <children>
+                        <Label text="R" styleClass="profile-initial"/>
+                    </children>
+                </StackPane>
+                <Label fx:id="nameLabel" text="Name" styleClass="name-label"/>
+                <Label fx:id="emailLabel" text="email@example.com" styleClass="email-label"/>
+
+                <Label text=" " />
+                <Label text="DEPARTMENT" styleClass="small-title"/>
+                <Label fx:id="deptLabel" text="🏫 CSE" styleClass="big-text"/>
+
+                <Label text=" " />
+                <Label text="SESSION" styleClass="small-title"/>
+                <Label fx:id="sessionLabel" text="📚 Session: 2023-24" styleClass="big-text"/>
+            </children>
+        </VBox>
+    </left>
+
+    <!-- 🔹 Center Content -->
+<center>
+    <VBox spacing="8" styleClass="right-pane" alignment="TOP_LEFT" 
+          maxWidth="Infinity" maxHeight="Infinity">
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15"/>
+        </padding>
+        <children>
+            <Label text="Your Events" styleClass="events-title"/>
+            <ScrollPane fx:id="eventsScroll" fitToWidth="true" fitToHeight="true" 
+                        VBox.vgrow="ALWAYS">
+                <content>
+                    <VBox fx:id="eventsListBox" spacing="10" 
+                          maxWidth="Infinity" maxHeight="Infinity">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </children>
+    </VBox>
+</center>
+
+
+    <!-- 🔹 Slide Menu Overlay -->
+    <StackPane fx:id="slideMenuPane" styleClass="slide-menu" BorderPane.alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+    </StackPane>
+
+</BorderPane>
+
+
+
+
+

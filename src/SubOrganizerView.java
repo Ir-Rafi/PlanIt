@@ -11,7 +11,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubOrganizerView {
+public class SubOrganizerView extends after_login {
 
     private final String subOrganizerName;
     private List<AssignRolesWindow.EventTask> tasks = new ArrayList<>();
@@ -46,8 +46,14 @@ public class SubOrganizerView {
             -fx-padding: 8 20 8 20;
         """);
         backBtn.setOnAction(e -> stage.setScene(eventsScene));
+        Button chatBtn = new Button("Open Chat");
+        applyHoverEffect(chatBtn,          "#7E57C2", "#5E35B1");
+        chatBtn.setOnAction(e -> {
+            // Sub organizer is a client
+            chatWindows.openClientChat(subOrganizerName);
+        });
 
-        layout.getChildren().addAll(title, scrollPane, backBtn);
+        layout.getChildren().addAll(title, scrollPane, chatBtn, backBtn);
 
         Scene scene = new Scene(layout, 800, 650);
         stage.setScene(scene);

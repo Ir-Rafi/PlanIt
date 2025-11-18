@@ -14,7 +14,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class login_controller {
 
@@ -89,6 +92,16 @@ public class login_controller {
     private PasswordField ConfiirmPass;  // Confirm Password field
     @FXML
     private Label passMismatch;          // error label for mismatch
+
+    @FXML private TextField firstNameReg;
+    @FXML private TextField lastNameReg;
+    @FXML private TextField departmentReg;
+    @FXML private TextField sessionReg;
+
+    @FXML private Label firstNameError;
+    @FXML private Label lastNameError;
+    @FXML private Label departmentError;
+    @FXML private Label sessionError;
 
     @FXML
     public void initialize() {
@@ -185,36 +198,92 @@ public class login_controller {
 
         if (!hasError) {
             // Assume login is successful, proceed to the next screen
-            if (DatabaseUtility.checkUserExists(username, password)) {
 
-                 int organizerId = DatabaseUtility.getUserId(username);
-
-    // ✅ Store in global session
-                 Session.setSession(organizerId, username);
-
-                // ✅ Save remember-me status
-                if (rememberMe)
-                    RememberMeUtility.saveUser(username);
-                else
-                    RememberMeUtility.clearRememberedUser();
-                showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome back, " + username + "!");
-                // Here, you can also implement 'Remember Me' logic
-                // E.g., store username/password/token in a file, or session cookie
-                try {
-                    // ✅ Get current stage
-                    Stage currentStage = (Stage) loginBtn.getScene().getWindow();
-
-                    // ✅ Launch the main App window
-                    after_login mainApp = new after_login();
-                    mainApp.start(currentStage);  // Calls the start() method from your App.java
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or password.");
+            if(progressIndicator != null){
+                progressIndicator.setVisible(true);
             }
+            loginBtn.setDisable(true);
 
+            final String[] dots = {"", ".", "..", "..."};
+            final int[] dotIndex = {0};
+
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), e -> {
+                dotIndex[0] = (dotIndex[0]+1) % dots.length;
+                loginBtn.setText("Logging in"+dots[dotIndex[0]]);
+            }));
+
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+
+            Task<Boolean> loginTask = new Task<Boolean>(){
+                @Override
+                protected Boolean call() throws Exception{
+                    return DatabaseUtility.checkUserExists(username, password);
+                }
+            };
+
+            loginTask.setOnSucceeded(event -> {
+                Boolean success = loginTask.getValue();
+
+                timeline.stop();
+                if(progressIndicator!=null){
+                    progressIndicator.setVisible(false);
+                }
+
+                loginBtn.setDisable(false);
+                loginBtn.setText("Login");
+
+                if(success) {
+                    int organizerID = DatabaseUtility.getUserId(username);
+                    Session.setSession(organizerID, username);
+
+                    if(rememberMe){
+                        RememberMeUtility.saveUser(username);
+                    }
+                    else{
+                        RememberMeUtility.clearRememberedUser();
+                    }
+
+                    showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome back, "+username+"!");
+
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+                        Parent root = loader.load();
+
+                        DashboardController controller = loader.getController();
+                        controller.setLoggedInUsername(username);  // << send username
+
+                        Stage stage = (Stage) loginBtn.getScene().getWindow();
+                        stage.setScene(new Scene(root));
+                        stage.setMaximized(true);
+                        stage.show();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid Username or password");
+                }
+            });
+
+            loginTask.setOnFailed(event -> {
+                // Stop the animation and hide progress indicator
+                timeline.stop();
+                if (progressIndicator != null) {
+                    progressIndicator.setVisible(false);
+                }
+                loginBtn.setDisable(false);
+                loginBtn.setText("Login");
+
+                showAlert(Alert.AlertType.ERROR, "Login Failed", "An error occurred. Please try again.");
+                loginTask.getException().printStackTrace();
+            });
+
+            // Start the background thread
+            Thread thread = new Thread(loginTask);
+            thread.setDaemon(true);
+            thread.start();
         }
     }
 
@@ -224,13 +293,40 @@ public class login_controller {
         String password = passReg.getText();
         boolean agreed = termsCheck.isSelected();
 
+        String firstName = firstNameReg.getText();
+        String lastName = lastNameReg.getText();
+        String department = departmentReg.getText();
+        String session = sessionReg.getText();
+
         // Reset error labels
         userRegError.setText("");
         emailRegError.setText("");
         passRegError.setText("");
         termsError.setText("");
 
+        firstNameError.setText("");
+        lastNameError.setText("");
+        departmentError.setText("");
+        sessionError.setText("");
+
         boolean hasError = false;
+
+        if (firstName.isEmpty()) {
+            firstNameError.setText("Please Enter your first name");
+            hasError = true;
+        }
+        if (lastName.isEmpty()) {
+            lastNameError.setText("Please Enter your last name");
+            hasError = true;
+        }
+        if (department.isEmpty()) {
+            departmentError.setText("Enter your department");
+            hasError = true;
+        }
+        if (session.isEmpty()) {
+            sessionError.setText("Enter your session");
+            hasError = true;
+        }
 
         if (username.isEmpty()) {
             userRegError.setText("Please enter username");

@@ -17,7 +17,6 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -650,6 +649,79 @@ private boolean isPlaceBookedByOrganizer(String placeName, LocalDate startDate, 
 
     return false;
 }
+
+public static List<EventData> loadUserEvents(String username) {
+    int organizerId = Session.getOrganizerId(); // get logged-in organizer ID
+    return loadUserEvents(username, organizerId);
+}
+
+public static List<EventData> loadUserEvents(String username, int organizerId) {
+    List<EventData> events = new ArrayList<>();
+
+    String sql = """
+        SELECT e.event_id, e.event_name, e.place_name, e.start_date, e.end_date,
+               e.start_time, e.end_time, e.Description, e.Color, e.ShowMe,
+               e.Visibility, e.AttachedFilePath, e.EventImagePath
+        FROM events e
+        JOIN organizers o ON e.event_id = o.event_id
+        WHERE o.organizer_name = ? AND o.organizer_id = ?
+        ORDER BY e.start_date ASC
+    """;
+
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://ununqd8usvy0wouy:GmDEehgTBjzyuPRuA8i8@b1gtvncwynmgz6qozokc-mysql.services.clever-cloud.com:3306/b1gtvncwynmgz6qozokc",
+            "ununqd8usvy0wouy", "GmDEehgTBjzyuPRuA8i8");
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, username);
+        ps.setInt(2, organizerId);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int eventId = rs.getInt("event_id");
+            String name = rs.getString("event_name");
+            String location = rs.getString("place_name");
+            LocalDate startDate = rs.getDate("start_date").toLocalDate();
+            LocalDate endDate = rs.getDate("end_date").toLocalDate();
+            String startTime = rs.getString("start_time");
+            String endTime = rs.getString("end_time");
+            String description = rs.getString("Description");
+            String color = rs.getString("Color");
+            String showMe = rs.getString("ShowMe");
+            String visibility = rs.getString("Visibility");
+            String attachedFilePath = rs.getString("AttachedFilePath");
+            String eventImagePath = rs.getString("EventImagePath");
+            long durationDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
+            // Load all organizers for this event
+            List<Organizer> organizers = new ArrayList<>();
+            try (PreparedStatement orgPs = conn.prepareStatement(
+                    "SELECT organizer_name, organizer_id FROM organizers WHERE event_id = ?")) {
+                orgPs.setInt(1, eventId);
+                ResultSet orgRs = orgPs.executeQuery();
+                while (orgRs.next()) {
+                    organizers.add(new Organizer(orgRs.getString("organizer_name"),
+                                                 orgRs.getInt("organizer_id")));
+                }
+            }
+
+            events.add(new EventData(
+                    name, startDate, endDate, startTime, endTime,
+                    location, description, organizers,
+                    color, showMe, visibility,
+                    attachedFilePath != null ? new File(attachedFilePath) : null,
+                    eventImagePath != null ? new File(eventImagePath) : null,
+                    durationDays
+            ));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return events;
+}
+
 
 
 

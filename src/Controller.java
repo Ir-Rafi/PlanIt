@@ -6,8 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
@@ -51,57 +49,18 @@ public class Controller {
         }
     }
 
-//     public static void loadLoginPage(Stage stage) {
-//     try {
-//         FXMLLoader loader = new FXMLLoader(Controller.class.getResource("button.fxml"));
-//         Parent root = loader.load();
-
-//         Scene scene = new Scene(root);
-//         scene.getStylesheets().add(Controller.class.getResource("login_style.css").toExternalForm());
-//         stage.setScene(scene);
-//         stage.setTitle("Login_page");
-//         stage.show();
-//     } catch (Exception e) {
-//         e.printStackTrace();
-//     }
-
-
-// }
-
-public static void loadLoginPage(Stage stage) {
+    public static void loadLoginPage(Stage stage) {
     try {
         FXMLLoader loader = new FXMLLoader(Controller.class.getResource("button.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(
-            Controller.class.getResource("login_style.css").toExternalForm()
-        );
-
+        scene.getStylesheets().add(Controller.class.getResource("login_style.css").toExternalForm());
         stage.setScene(scene);
-        stage.setTitle("login_page");
+        stage.setTitle("Login_page");
         stage.show();
-
     } catch (Exception e) {
-        // User-friendly alert
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Resource Error");
-        alert.setHeaderText("Login Page Load Failed");
-        alert.setContentText("Unable to load required UI files. Loading a fallback screen.");
-        alert.showAndWait();
-
-        e.printStackTrace(); // Developer debugging
-
-        // --- Fallback UI so application does NOT crash ---
-        VBox fallback = new VBox(10);
-        fallback.setAlignment(Pos.CENTER);
-        fallback.setPadding(new Insets(20));
-        fallback.getChildren().add(new Label("Failed to load login page resources."));
-
-        Scene fallbackScene = new Scene(fallback, 400, 200);
-        stage.setScene(fallbackScene);
-        stage.setTitle("Error");
-        stage.show();
+        e.printStackTrace();
     }
 }
 
