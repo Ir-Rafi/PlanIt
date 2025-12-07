@@ -1,0 +1,63 @@
+.root {
+    -fx-background-color: radial-gradient(
+        focus-angle 0deg,
+        focus-distance 0%,
+        center 50% 50%,
+        radius 80%,
+        #f8c8dc,   /* soft pink center */
+        #d1a6f5,   /* lavender middle */
+        #a8d8ff    /* light sky-blue edges */
+    ); /* soft pastel gradient */
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+/* Titles */
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e88e5; /* modern blue */
+}
+
+/* Subtitles */
+.subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+/* Toggle Buttons */
+.toggle-button {
+    -fx-translate-x: 0;
+    -fx-background-color: white;
+    -fx-border-color: #90caf9;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8 16;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-cursor: hand;
+}
+
+.toggle-button:hover{
+    -fx-background-color: #5798ce;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #90caf9;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Continue / Finish Buttons */
+.continue-btn {
+    -fx-background-color: #42a5f5;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-padding: 10 25;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.continue-btn:hover {
+    -fx-background-color: #1e88e5;
+}

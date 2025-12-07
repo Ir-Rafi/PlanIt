@@ -1,0 +1,8 @@
+.root {
+    -fx-font-family: "Poppins";
+    -fx-background-color: linear-gradient(to bottom right, #EAF2F8, #FDFEFE);
+}
+
+.button {
+    -fx-cursor: hand;
+}

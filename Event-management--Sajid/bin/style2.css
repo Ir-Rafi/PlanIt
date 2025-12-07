@@ -1,0 +1,57 @@
+/* ===== Root Background ===== */
+.root-box {
+    -fx-padding: 40;
+    -fx-background-color: radial-gradient(
+        focus-angle 0deg,
+        focus-distance 0%,
+        center 50% 50%,
+        radius 80%,
+        #ffe7f3,
+        #d8b7ff,
+        #b4d7ff
+    );
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== Soft Drop-Shadow for Main Text ===== */
+.text-glow {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0.2, 0, 2);
+}
+
+/* ===== Welcome Label ("Welcome to") ===== */
+.LeftWelcomeLabel {
+    -fx-font-family: "Segoe UI Light", "Arial", sans-serif;
+    -fx-text-fill: linear-gradient(to bottom, #4a425e, #7d6a8a);
+    -fx-font-size: 70px;
+    -fx-opacity: 0.9;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0.1, 0, 2);
+}
+
+/* ===== "PlanIt" Title Text ===== */
+.RightPlan-it {
+    -fx-font-family: "Segoe UI Semibold", "Arial", sans-serif;
+    -fx-font-size: 110px;
+    -fx-text-fill: linear-gradient(to bottom, #3d354f, #705b86);
+    -fx-opacity: 0.95;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.2, 0, 4);
+    -fx-letter-spacing: 1px;
+}
+
+/* ===== Continue Text (Press any key) ===== */
+.continue-text {
+    -fx-font-size: 22px;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-text-fill: linear-gradient(to right, #ff758c, #ffb37a);
+    -fx-effect: dropshadow(gaussian, rgba(255,180,100,0.6), 6,0.2,0,2);
+    -fx-opacity: 0.85;
+
+    /* soft glowing animation */
+    -fx-animation: pulse 2s infinite;
+}
+
+/* ===== Keyframe Animation (JavaFX CSS compatible) ===== */
+@keyframes pulse {
+    0%   { -fx-opacity: 0.6; }
+    50%  { -fx-opacity: 1.0; }
+    100% { -fx-opacity: 0.6; }
+}

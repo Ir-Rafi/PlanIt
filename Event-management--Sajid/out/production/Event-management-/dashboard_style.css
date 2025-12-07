@@ -1,0 +1,138 @@
+.root { -fx-font-family: "Arial"; }
+
+.top-bar {
+    -fx-padding: 8 12;
+    -fx-background-color: transparent;
+}
+
+.menu-toggle {
+    -fx-background-color: transparent;
+    -fx-font-size: 18;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.left-pane {
+    -fx-padding: 20;
+    -fx-background-color: rgba(255,255,255,0.6);
+    -fx-border-color: rgba(0,0,0,0.12);
+    -fx-border-width: 0 1 0 0;
+}
+
+.profile-pic {
+    -fx-background-color: transparent;
+    -fx-alignment: center-left;
+}
+
+.profile-initial {
+    -fx-font-size: 48;
+    -fx-text-fill: white;
+    -fx-background-color: #b9aaff;
+    -fx-min-width: 120px;
+    -fx-min-height: 120px;
+    -fx-alignment: center;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 10;
+}
+
+.name-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 18;
+}
+
+.email-label {
+    -fx-font-size: 12;
+    -fx-text-fill: #444;
+}
+
+.small-title {
+    -fx-text-fill: #666;
+    -fx-font-size: 11;
+}
+
+.big-text {
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+.right-pane {
+    -fx-padding: 20;
+    -fx-background-position: center bottom;
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-pref-width: Infinity;  /* allow it to grow */
+}
+
+
+.events-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 18;
+    -fx-padding: 6 0 12 0;
+}
+
+.event-item {
+    -fx-background-color: rgba(200,180,255,0.6);
+    -fx-padding: 12;
+    -fx-border-color: rgba(255,230,180,0.8);
+    -fx-border-width: 0 0 2 0;
+    -fx-background-radius: 2;
+}
+
+.slide-menu {
+    -fx-pref-width: 260;
+    -fx-background-color: rgba(245,245,245,0.95);
+    -fx-padding: 30 20;
+    -fx-border-color: transparent;
+    -fx-alignment: top-left;
+    -fx-translate-x: -260;
+    -fx-max-height: 9999;
+}
+
+.menu-button {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-padding: 8 10;
+    -fx-border-color: transparent;
+    -fx-alignment: center-left;
+}
+
+.slide-menu {
+    -fx-background-color: #2C2F33;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 2, 2);
+}
+
+.menu-item {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.menu-item:hover {
+    -fx-text-fill: #00BFFF;
+}
+
+#rootPane {
+    -fx-background-image: url("dashboard_bg.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-size: 99.5% 99.5%; /* 90% of width and height */
+}
+
+#eventsListBox {
+    -fx-background-color: transparent; /* fully transparent */
+}
+
+#eventsScroll {
+    -fx-background-color: transparent; /* scroll pane itself */
+}
+
+#eventsScroll .viewport {
+    -fx-background-color: transparent; /* viewport of scroll pane */
+}
+
+
+

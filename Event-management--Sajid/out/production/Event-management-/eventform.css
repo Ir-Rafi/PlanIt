@@ -1,0 +1,361 @@
+/* Root Container */
+.root-container {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 20, 0, 0, 5);
+}
+
+/* Header */
+.header {
+    -fx-background-color: white;
+    -fx-padding: 25 30 20 30;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 0 0 1 0;
+}
+
+.header-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1F2937;
+}
+
+.close-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6B7280;
+    -fx-font-size: 32px;
+    -fx-cursor: hand;
+    -fx-padding: 0;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-translate-x: 820;
+}
+
+.close-button:hover {
+    -fx-text-fill: #374151;
+    -fx-background-color: #F3F4F6;
+    -fx-background-radius: 5;
+}
+
+/* Content Container */
+.content-container {
+    -fx-padding: 30;
+    -fx-spacing: 40;
+}
+
+/* Left Section */
+.left-section {
+    -fx-pref-width: 500;
+    -fx-padding: 0 20 0 0;
+}
+
+/* Right Section */
+.right-section {
+    -fx-pref-width: 300;
+    -fx-padding: 0 0 0 20;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 0 0 0 1;
+}
+
+/* Section Labels */
+.section-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #6366F1;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #374151;
+}
+
+/* Input Containers */
+.input-container {
+    -fx-background-color: white;
+    -fx-border-color: #6366F1;
+    -fx-border-width: 0 0 2 0;
+    -fx-padding: 8 0;
+    -fx-spacing: 10;
+}
+
+.event-input {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-size: 15px;
+    -fx-text-fill: #6B7280;
+    -fx-prompt-text-fill: #9CA3AF;
+    -fx-pref-width: 450;
+}
+
+.event-input:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Dropdown Containers */
+.dropdown-container {
+    -fx-background-color: white;
+    -fx-border-color: #D1D5DB;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 0;
+    -fx-spacing: 10;
+}
+
+.date-picker,
+.combo-box {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-size: 14px;
+    -fx-text-fill: #6B7280;
+    -fx-prompt-text-fill: #9CA3AF;
+}
+
+.date-picker .text-field,
+.combo-box .text-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.date-picker:focused,
+.combo-box:focused {
+    -fx-border-width: 0;
+}
+
+/* Date Time Grid */
+.date-time-grid {
+    -fx-hgap: 15;
+    -fx-vgap: 15;
+}
+
+/* Attach Buttons */
+.attach-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6366F1;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-padding: 8 15;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+.attach-button:hover {
+    -fx-background-color: #EEF2FF;
+    -fx-background-radius: 5;
+}
+
+/* Color Picker */
+.color-container {
+    -fx-spacing: 12;
+}
+
+.color-circle {
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+
+.color-circle:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0, 0, 3);
+}
+
+/* Radio Buttons */
+.radio-option {
+    -fx-font-size: 14px;
+    -fx-text-fill: #374151;
+}
+
+.radio-option .radio {
+    -fx-background-color: white;
+    -fx-border-color: #D1D5DB;
+    -fx-border-radius: 50%;
+}
+
+.radio-option:selected .radio {
+    -fx-background-color: #6366F1;
+    -fx-border-color: #6366F1;
+}
+
+.radio-option .dot {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+}
+
+/* Description Area */
+.description-area {
+    -fx-background-color: #F9FAFB;
+    -fx-border-color: #E5E7EB;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 12;
+    -fx-font-size: 14px;
+    -fx-text-fill: #374151;
+    -fx-prompt-text-fill: #9CA3AF;
+}
+
+.description-area:focused {
+    -fx-border-color: #6366F1;
+    -fx-border-width: 2;
+}
+
+/* Info Icon */
+.info-icon {
+    -fx-fill: #D1D5DB;
+}
+
+/* Organizers Section */
+.organizers-scroll {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.organizers-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+.organizers-list {
+    -fx-padding: 5;
+}
+
+.organizer-card {
+    -fx-background-color: #F9FAFB;
+    -fx-border-color: #E5E7EB;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 3, 0, 0, 2);
+}
+
+.organizer-field-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #6B7280;
+}
+
+.organizer-field {
+    -fx-background-color: white;
+    -fx-border-color: #D1D5DB;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8 10;
+    -fx-font-size: 13px;
+    -fx-text-fill: #374151;
+    -fx-prompt-text-fill: #9CA3AF;
+}
+
+.organizer-field:focused {
+    -fx-border-color: #6366F1;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.2), 5, 0, 0, 0);
+}
+
+.add-organizer-button {
+    -fx-background-color: #EEF2FF;
+    -fx-text-fill: #6366F1;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-padding: 10 20;
+    -fx-border-color: #6366F1;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.add-organizer-button:hover {
+    -fx-background-color: #6366F1;
+    -fx-text-fill: white;
+}
+
+.remove-organizer-btn {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #DC2626;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-padding: 6 12;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-border-width: 0;
+}
+
+.remove-organizer-btn:hover {
+    -fx-background-color: #DC2626;
+    -fx-text-fill: white;
+}
+
+/* Footer */
+.footer {
+    -fx-padding: 20 30;
+    -fx-border-color: #E5E7EB;
+    -fx-border-width: 1 0 0 0;
+    -fx-background-color: white;
+}
+
+/* Buttons */
+.cancel-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #F97316;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-padding: 12 30;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #FFF7ED;
+    -fx-background-radius: 8;
+}
+
+.create-button {
+    -fx-background-color: #6366F1;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-padding: 12 40;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.create-button:hover {
+    -fx-background-color: #4F46E5;
+}
+
+.create-button:pressed {
+    -fx-background-color: #4338CA;
+}
+
+/* Scrollbars */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 6;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #D1D5DB;
+    -fx-background-radius: 3;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #9CA3AF;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+/* Focus Effects */
+TextField:focused,
+TextArea:focused,
+ComboBox:focused,
+DatePicker:focused {
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.3), 5, 0, 0, 0);
+}
