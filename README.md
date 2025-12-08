@@ -29,3 +29,15 @@ javac --module-path "C:/Java/javafx-sdk-25/lib" --add-modules javafx.controls,ja
 # Run
 java --module-path "C:/Java/javafx-sdk-25/lib" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics -cp "bin;lib/mysql-connector-j-9.5.0.jar;lib/jbcrypt-0.4.jar" App
 
+
+
+# Event Management
+
+## Authors
+1. Md. Irfan Iqbal  
+2. Shadman Zaman Sajid  
+3. Maheru Tafannum  
+4. Rubaiya Srishti  
+
+## Language
+- Java
