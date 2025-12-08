@@ -1,0 +1,139 @@
+.root { 
+    -fx-font-family: "Arial"; 
+}
+
+.top-bar {
+    -fx-padding: 8 12;
+    -fx-background-color: transparent;
+}
+
+.menu-toggle {
+    -fx-background-color: transparent;
+    -fx-font-size: 20px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.menu-toggle:hover {
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+
+.left-pane {
+    -fx-padding: 20;
+    -fx-background-color: transparent;
+}
+
+.profile-pic {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+    -fx-cursor: hand;
+}
+
+.profile-initial {
+    -fx-font-size: 48px;
+    -fx-text-fill: white;
+    -fx-background-color: #b9aaff;
+    -fx-min-width: 120px;
+    -fx-min-height: 120px;
+    -fx-alignment: center;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10;
+}
+
+.name-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+}
+
+.email-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(255,255,255,0.8);
+}
+
+.small-title {
+    -fx-text-fill: rgba(255,255,255,0.6);
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.big-text {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.right-pane {
+    -fx-padding: 20;
+    -fx-background-color: transparent;
+}
+
+.events-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+    -fx-text-fill: white;
+    -fx-padding: 6 0 12 0;
+}
+
+.event-item {
+    -fx-background-color: rgba(200,180,255,0.6);
+    -fx-padding: 12;
+    -fx-border-color: rgba(255,230,180,0.8);
+    -fx-border-width: 0 0 2 0;
+    -fx-background-radius: 2;
+}
+
+.slide-menu {
+    -fx-background-color: #1a1a2e;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 2, 2);
+}
+
+.menu-item {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.menu-item:hover {
+    -fx-text-fill: #00BFFF;
+}
+
+/* Main background gradient */
+#rootPane {
+    -fx-background-color: linear-gradient(
+        to bottom,
+        #3a1d54 0%,
+        #2b1a45 40%,
+        #1b162c 100%
+    );
+}
+
+#eventsListBox {
+    -fx-background-color: transparent;
+}
+
+#eventsScroll {
+    -fx-background-color: transparent;
+}
+
+#eventsScroll .viewport {
+    -fx-background-color: transparent;
+}
+
+#eventsScroll .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+#eventsScroll .scroll-bar .thumb {
+    -fx-background-color: rgba(255,255,255,0.3);
+    -fx-background-radius: 5px;
+}
+
+#eventsScroll .scroll-bar .thumb:hover {
+    -fx-background-color: rgba(255,255,255,0.5);
+}

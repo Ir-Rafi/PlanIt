@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="DashboardController"
+           stylesheets="dashboard_style.css"
+           prefWidth="1920"
+           prefHeight="1080"
+           style="-fx-background-color: linear-gradient(to bottom, #3a1d54 0%, #2b1a45 40%, #1b162c 100%);">
+
+    <!-- Main content -->
+    <BorderPane fx:id="rootPane" style="-fx-background-color: transparent;">
+
+        <!-- LEFT SIDEBAR (PERSONAL INFO) -->
+        <left>
+            <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 25;" prefWidth="260">
+
+                <StackPane fx:id="profilePicStack" styleClass="profile-pic" alignment="CENTER"/>
+
+                <Label fx:id="nameLabel" styleClass="name-label" text="User Name"
+                       style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+                <Label fx:id="emailLabel" styleClass="email-label" text="user@email.com"
+                       style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+
+                <Separator style="-fx-background-color: rgba(255,255,255,0.2);"/>
+
+                <Label styleClass="small-title" text="DEPARTMENT"
+                       style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+
+                <Label fx:id="deptLabel" styleClass="big-text" text="🏫 Computer Science"
+                       style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+
+                <Label styleClass="small-title" text="SESSION"
+                       style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+
+                <Label fx:id="sessionLabel" styleClass="big-text" text="📚 2023-24"
+                       style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+
+            </VBox>
+        </left>
+
+        <!-- TOP BAR -->
+        <top>
+            <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="20">
+                <padding><Insets top="15" bottom="15" left="20" right="20"/></padding>
+
+                <Button text="☰" onAction="#toggleMenu" styleClass="menu-toggle"/>
+
+                <Label text="Dashboard"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </top>
+
+        <!-- CENTER CONTENT -->
+        <center>
+            <VBox fx:id="rightPane" styleClass="right-pane" spacing="15" style="-fx-padding: 30;" VBox.vgrow="ALWAYS">
+
+                <!-- Breadcrumb -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="DASHBOARD"
+                           style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                    <Label text="/"
+                           style="-fx-text-fill: rgba(255,255,255,0.5);"/>
+                    <Label text="HOME"
+                           style="-fx-text-fill: rgba(255,255,255,0.9); -fx-font-size: 13px; -fx-font-weight: bold;"/>
+                </HBox>
+
+                <!-- Events Section Title -->
+                <Label text="My Events" styleClass="events-title"
+                       style="-fx-text-fill: white; -fx-font-size: 22px;"/>
+
+                <!-- Scrollable Events List -->
+                <ScrollPane fx:id="eventsScroll" fitToWidth="true" VBox.vgrow="ALWAYS"
+                            style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                    <TilePane fx:id="eventsListBox"
+                              prefColumns="3"
+                              hgap="15"
+                              vgap="15"
+                              style="-fx-background-color: transparent;">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+                    </TilePane>
+                </ScrollPane>
+            </VBox>
+        </center>
+
+    </BorderPane>
+
+    <!-- SLIDING MENU OVERLAY -->
+    <StackPane fx:id="slideMenuPane" visible="false" mouseTransparent="true" managed="true">
+
+        <!-- Dim Background -->
+        <Region fx:id="menuOverlay"
+                style="-fx-background-color: rgba(0,0,0,0.4);" />
+
+        <!-- Sliding Menu -->
+        <VBox fx:id="slideMenuBox" spacing="15" alignment="TOP_LEFT"
+              style="-fx-background-color: #1a1a2e; -fx-padding: 30;"
+              translateX="-280">
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+        </VBox>
+
+    </StackPane>
+
+</StackPane>

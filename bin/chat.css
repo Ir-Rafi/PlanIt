@@ -1,0 +1,52 @@
+/* Root container background */
+.root {
+    -fx-background-color: linear-gradient(to bottom right, #f1f5f9, #e0e7ff);
+    -fx-font-family: "Arial Rounded MT Bold";
+}
+
+/* Title label */
+.title-label {
+    -fx-text-fill: #334155;
+}
+
+/* ScrollPane styling */
+.chat-scroll {
+    -fx-background: transparent;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/* Chat box container (VBox) */
+.chat-box {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+/* Message input field */
+#tf_message {
+    -fx-background-color: white;
+    -fx-border-color: #a5b4fc;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 14px;
+    -fx-prompt-text-fill: #94a3b8;
+}
+
+/* Send button */
+#button_send {
+    -fx-background-color: linear-gradient(to right, #3b82f6, #2563eb);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+#button_send:hover {
+    -fx-background-color: linear-gradient(to right, #2563eb, #1d4ed8);
+}
+
+/* ScrollPane content (messages) */
+#vbox_messages {
+    -fx-background-color: transparent;
+}

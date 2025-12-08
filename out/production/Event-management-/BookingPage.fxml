@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="yourpackage.BookingPageController"
+      spacing="15"
+      alignment="CENTER"
+      padding="20">
+
+    <Label text="Choose a Place to Book" fx:id="titleLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10">
+        <Button text="TSC" fx:id="place1Btn"/>
+        <Button text="Curzon Hall" fx:id="place2Btn"/>
+        <Button text="Senate" fx:id="place3Btn"/>
+    </HBox>
+
+    <Label text="Start Date:"/>
+    <DatePicker fx:id="startDatePicker"/>
+
+    <Label text="End Date:"/>
+    <DatePicker fx:id="endDatePicker"/>
+
+    <Label text="Start Time (HH:mm):"/>
+    <TextField fx:id="startTimeField" promptText="HH:mm"/>
+
+    <Label text="End Time (HH:mm):"/>
+    <TextField fx:id="endTimeField" promptText="HH:mm"/>
+
+    <Button text="Check Availability" fx:id="checkBtn"/>
+    <Label fx:id="resultLabel"/>
+    <Button text="⬅ Back" fx:id="backBtn"/>
+
+</VBox>

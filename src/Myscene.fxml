@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.Circle?>
+
+<?import java.awt.Image?>
+<?import javafx.scene.image.ImageView?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller"
+      alignment="CENTER" spacing="20"
+      styleClass="root-box"
+      stylesheets="@style2.css">
+
+
+    <!-- Main Welcome Card -->
+    <VBox styleClass="welcome-card" alignment="CENTER" spacing="30">
+
+        <!-- Icon Circle -->
+        <StackPane alignment="CENTER" styleClass="inner-circle-container">
+            <Circle radius="60" styleClass="inner-circle"/>
+            <ImageView fx:id="calendarIcon"
+                       fitWidth="120" fitHeight="120"
+                       preserveRatio="true"/>
+        </StackPane>
+
+        <!-- Title Section -->
+        <VBox alignment="CENTER" spacing="5">
+            <Label text="Welcome to" styleClass="welcome-title"/>
+            <Label text="PlanIt!" styleClass="welcome-highlight"/>
+        </VBox>
+
+        <!-- Subtitle -->
+        <Label text="Manage your events, coordinate with sub-organizers, or browse upcoming activities."
+               styleClass="welcome-subtitle" wrapText="true"/>
+
+        <!-- CTA Button -->
+        <Button fx:id="buttonYourEvents" text="Continue →"
+                styleClass="button-primary" />
+
+    </VBox>
+
+</VBox>
