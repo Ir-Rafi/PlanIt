@@ -11,17 +11,20 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubOrganizerView {
-
+public class SubOrganizerView extends after_login implements OrganizerPanel {
+    protected Stage stage;
+    protected Scene eventsScene;
     private final String subOrganizerName;
     private List<AssignRolesWindow.EventTask> tasks = new ArrayList<>();
     private VBox tasksBox;
 
     public SubOrganizerView(Stage stage, Scene eventsScene, String subOrganizerName) {
+        this.stage = stage;
+        this.eventsScene = eventsScene;
         this.subOrganizerName = subOrganizerName;
         loadTasks();
 
-        VBox layout = new VBox(25);
+        VBox layout = new VBox(30);
         layout.setPadding(new Insets(30));
         layout.setAlignment(Pos.TOP_CENTER);
         layout.setStyle("-fx-background-color: linear-gradient(to bottom, #1E1E2F, #2C2C3E);");
@@ -45,13 +48,24 @@ public class SubOrganizerView {
             -fx-background-radius: 8;
             -fx-padding: 8 20 8 20;
         """);
-        backBtn.setOnAction(e -> stage.setScene(eventsScene));
+        backBtn.setOnAction(e -> {
+            stage.setScene(eventsScene);
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+        });
 
-        layout.getChildren().addAll(title, scrollPane, backBtn);
+        Button chatBtn = new Button("Open Chat");
+        applyHoverEffect(chatBtn, "#7E57C2", "#5E35B1");
+        chatBtn.setOnAction(e -> {
+            chatWindows.openClientChat(subOrganizerName);
+        });
 
-        Scene scene = new Scene(layout, 800, 650);
+        layout.getChildren().addAll(title, scrollPane, chatBtn, backBtn);
+
+        Scene scene = new Scene(layout, 1920, 1080);
         stage.setScene(scene);
-        stage.setMaximized(true);
+        stage.setFullScreen(true);
+        stage.setFullScreenExitHint("");
     }
 
     private void refreshTasks() {
@@ -132,4 +146,54 @@ public class SubOrganizerView {
             e.printStackTrace();
         }
     }
+
+    // ============================================================
+    // INTERFACE IMPLEMENTATIONS
+    // ============================================================
+    @Override
+    public void initialize() {
+        // Initialization logic if needed
+    }
+
+    @Override
+    public String getOrganizerType() {
+        return "Sub Organizer";
+    }
+
+    @Override
+    public int getOrganizerId() {
+        return 0;  // Sub organizer doesn't have ID in original
+    }
+
+    @Override
+    public String getOrganizerName() {
+        return subOrganizerName;
+    }
 }
+
+
+
+// ============================================================
+// 6. USAGE EXAMPLE
+// ============================================================
+/*
+ * USAGE IN YOUR CODE:
+ *
+ * // Option 1: Direct instantiation (original way)
+ * new MainOrganizerView(stage, eventScene, organizerName, organizerId);
+ * new SubOrganizerView(stage, eventScene, organizerName);
+ *
+ * // Option 2: Using Factory with OrganizerPanel interface
+ * OrganizerPanel panel = OrganizerViewFactory.openOrganizerView(
+ *     stage,
+ *     eventScene,
+ *     organizerName,
+ *     organizerId,
+ *     isMainOrganizer  // boolean
+ * );
+ *
+ * // Access panel information
+ * String type = panel.getOrganizerType();
+ * String name = panel.getOrganizerName();
+ * int id = panel.getOrganizerId();
+ */

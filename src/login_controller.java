@@ -16,8 +16,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.util.Duration;
-
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.input.MouseEvent;
 import java.io.IOException;
+
+
 
 public class login_controller {
 
@@ -80,6 +84,8 @@ public class login_controller {
     @FXML
     private Label termsError;
 
+    
+    private boolean dialogShown = false;
     @FXML
     private Button changePass;
     @FXML
@@ -121,6 +127,9 @@ public class login_controller {
         forgotPassBtn.setOnAction(e -> showForgotPane());
         changePass.setOnAction(e -> handleChangePassword());
         Goback.setOnAction(e -> hideForgotPane());
+
+                termsCheck.setOnMouseClicked(this::showTermsDialog); // Show terms on hover
+        
     }
 
     private void slideToRegister() {
@@ -172,110 +181,171 @@ public class login_controller {
         String username = user.getText();
         String password = pass.getText();
         boolean rememberMe = rememberMeCheck.isSelected();
+
         // Reset errors
         userError.setText("");
         passError.setText("");
 
-        boolean hasError = false;
-        if (username.isEmpty()) {
-            userError.setText("Please enter username");
-            hasError = true;
-        }
-        if (password.isEmpty()) {
-            passError.setText("Please enter password");
-            hasError = true;
-        }
+        try {
+            // Validate FIRST (synchronous, on UI thread) - quick checks only
+            if (username.isEmpty()) throw new InvalidInputException("Username cannot be empty.");
+            if (password.isEmpty()) throw new InvalidInputException("Password cannot be empty");
 
-        if (!hasError) {
-            // Assume login is successful, proceed to the next screen
-
+            // NOW start animation (before any database calls)
             if(progressIndicator != null){
                 progressIndicator.setVisible(true);
             }
             loginBtn.setDisable(true);
 
-            final String[] dots = {"", ".", "..", "..."};
+            loginBtn.setText("Logging in.");
+
+            final String[] dots = {".", "..", "...", ""};
             final int[] dotIndex = {0};
 
-            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), e -> {
-                dotIndex[0] = (dotIndex[0]+1) % dots.length;
-                loginBtn.setText("Logging in"+dots[dotIndex[0]]);
-            }));
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.millis(500), e -> {
+                        dotIndex[0] = (dotIndex[0] + 1) % dots.length;
+                        loginBtn.setText("Logging in" + dots[dotIndex[0]]);
+                    })
+            );
 
             timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.play();
 
-            Task<Boolean> loginTask = new Task<Boolean>(){
+
+            // Background task for all database operations
+            Task<Void> loginTask = new Task<Void>() {
                 @Override
-                protected Boolean call() throws Exception{
-                    return DatabaseUtility.checkUserExists(username, password);
+                protected Void call() throws Exception {
+                    // Check credentials in background
+                    if (!DatabaseUtility.checkUserExists(username, password)) {
+                        throw new InvalidInputException("Invalid username or password");
+                    }
+
+                    int organizerId = DatabaseUtility.getUserId(username);
+                    Session.setSession(organizerId, username);
+
+                    if (rememberMe) RememberMeUtility.saveUser(username);
+                    else RememberMeUtility.clearRememberedUser();
+
+                    return null;
                 }
             };
 
             loginTask.setOnSucceeded(event -> {
-                Boolean success = loginTask.getValue();
-
                 timeline.stop();
-                if(progressIndicator!=null){
-                    progressIndicator.setVisible(false);
-                }
-
-                loginBtn.setDisable(false);
                 loginBtn.setText("Login");
+                loginBtn.setDisable(false);
+                if (progressIndicator != null) progressIndicator.setVisible(false);
 
-                if(success) {
-                    int organizerID = DatabaseUtility.getUserId(username);
-                    Session.setSession(organizerID, username);
+                showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome back, " + username + "!");
 
-                    if(rememberMe){
-                        RememberMeUtility.saveUser(username);
-                    }
-                    else{
-                        RememberMeUtility.clearRememberedUser();
-                    }
+                // Show loading window
+                Stage loadingStage = new Stage();
+                loadingStage.setTitle("Loading Dashboard");
+                loadingStage.setWidth(500);
+                loadingStage.setHeight(300);
+                loadingStage.setResizable(false);
+                loadingStage.centerOnScreen();
 
-                    showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome back, "+username+"!");
+                // Create loading screen UI
+                VBox loadingPane = new VBox(15);
+                loadingPane.setAlignment(Pos.CENTER);
+                loadingPane.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 30;");
 
+                ProgressIndicator spinner = new ProgressIndicator();
+                spinner.setPrefSize(80, 80);
+                spinner.setStyle("-fx-progress-color: #2E86DE;");
+
+                Label loadingLabel = new Label("Loading Dashboard...");
+                loadingLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: #333; -fx-font-weight: bold;");
+
+                Label statusLabel = new Label("Fetching your data...");
+                statusLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
+
+                loadingPane.getChildren().addAll(spinner, loadingLabel, statusLabel);
+
+                Scene loadingScene = new Scene(loadingPane);
+                loadingStage.setScene(loadingScene);
+                loadingStage.show();
+
+                // Load dashboard in background thread
+                Thread dashboardThread = new Thread(() -> {
                     try {
+                        // Update status
+                        Platform.runLater(() -> statusLabel.setText("Loading dashboard interface..."));
+
+                        // Load FXML in background
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
                         Parent root = loader.load();
-
                         DashboardController controller = loader.getController();
-                        controller.setLoggedInUsername(username);  // << send username
 
-                        Stage stage = (Stage) loginBtn.getScene().getWindow();
-                        stage.setScene(new Scene(root));
-                        stage.setMaximized(true);
-                        stage.show();
+                        // Update status
+                        Platform.runLater(() -> statusLabel.setText("Initializing your profile..."));
+
+                        // Switch to UI thread for scene creation and display
+                        Platform.runLater(() -> {
+                            try {
+                                // Set username on controller (triggers async data loading)
+                                controller.setLoggedInUsername(username);
+
+                                // Create scene
+                                Scene scene = new Scene(root);
+
+                                // Get current stage (login stage)
+                                Stage stage = (Stage) loginBtn.getScene().getWindow();
+                                stage.setScene(scene);
+                                //stage.setMaximized(true);
+                                stage.setFullScreen(true);
+stage.setFullScreenExitHint("");
+
+                                stage.show();
+
+                                // Close loading window
+                                loadingStage.close();
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                showAlert(Alert.AlertType.ERROR, "Error", "Failed to load dashboard: " + e.getMessage());
+                                loadingStage.close();
+                            }
+                        });
 
                     } catch (Exception e) {
+                        Platform.runLater(() -> {
+                            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load dashboard: " + e.getMessage());
+                            loadingStage.close();
+                        });
                         e.printStackTrace();
                     }
-                }
-                else{
-                    showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid Username or password");
-                }
+                });
+
+                dashboardThread.setDaemon(true);
+                dashboardThread.start();
             });
 
             loginTask.setOnFailed(event -> {
-                // Stop the animation and hide progress indicator
                 timeline.stop();
-                if (progressIndicator != null) {
-                    progressIndicator.setVisible(false);
-                }
                 loginBtn.setDisable(false);
                 loginBtn.setText("Login");
+                if (progressIndicator != null) progressIndicator.setVisible(false);
 
-                showAlert(Alert.AlertType.ERROR, "Login Failed", "An error occurred. Please try again.");
+                showAlert(Alert.AlertType.ERROR, "Login Error", loginTask.getException().getMessage());
                 loginTask.getException().printStackTrace();
             });
 
-            // Start the background thread
             Thread thread = new Thread(loginTask);
             thread.setDaemon(true);
             thread.start();
+
+        } catch (InvalidInputException e) {
+            showAlert(Alert.AlertType.WARNING, "Login Error", e.getMessage());
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Unexpected Error", "Something went wrong during login");
+            e.printStackTrace();
         }
     }
+
 
     private void handleRegister() {
         String username = userReg.getText();
@@ -439,24 +509,24 @@ public class login_controller {
 
     private void handleChangePassword() {
         String username = forgotUser.getText();
-        String newPassword = forgotPass.getText();
-        String confirmPassword = ConfiirmPass.getText();
+        String usermail = forgotPass.getText();
+        String newPassword = ConfiirmPass.getText();
 
         passMismatch.setText("");
-        if (username.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+        if (username.isEmpty() || newPassword.isEmpty() || usermail.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
             return;
         }
 
-        if (!DatabaseUtility.userExists(username)) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Username not found.");
+        if (!DatabaseUtility.userExists(username,usermail)) {
+            showAlert(Alert.AlertType.ERROR, "Error", "No user with this username and email.");
             return;
         }
 
-        if (!newPassword.equals(confirmPassword)) {
-            passMismatch.setText("Passwords do not match!");
-            return;
-        }
+        // if (!newPassword.equals(confirmPassword)) {
+        //     passMismatch.setText("Passwords do not match!");
+        //     return;
+        // }
 
         if (DatabaseUtility.updatePassword(username, newPassword)) {
             showAlert(Alert.AlertType.INFORMATION, "Success", "Password updated successfully!");
@@ -469,5 +539,28 @@ public class login_controller {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to update password.");
         }
     }
-}
 
+        private void showTermsDialog(MouseEvent event) {
+        // Check if the checkbox is not already checked
+        if (!dialogShown && !termsCheck.isSelected()) {
+            // Create and display the Terms and Conditions dialog
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Terms and Conditions");
+            alert.setHeaderText("Please read the Terms and Conditions");
+            alert.setContentText("Here are the terms and conditions...\n\n" +
+                    "By using this application, you agree to these terms:\n" +
+                    "- Term 1: You agree to provide accurate,complete info .\n" +
+                    "- Term 2: You agree not to violate any local laws, regulations, or community standards.\n" +
+                    "- Term 3: You agree not to use the app for any unlawful or unethical purposes");
+
+            alert.show();
+             // Set the flag to true after the dialog has been shown
+            dialogShown = true;
+
+            // Add an event handler to reset the flag when the dialog is closed
+            alert.setOnHidden(e -> dialogShown = false);  // Reset the flag when the dialog is closed
+        }
+    }
+
+  
+}

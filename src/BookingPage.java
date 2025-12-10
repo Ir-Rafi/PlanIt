@@ -53,7 +53,9 @@ public class BookingPage {
 
         layout.getChildren().addAll(title, cardContainer, back);
 
-        stage.setScene(new Scene(layout, 950, 650));
+        stage.setScene(new Scene(layout, 1920, 1080));
+         stage.setFullScreen(true);
+stage.setFullScreenExitHint("");
     }
 
     // --- Create each place card ---

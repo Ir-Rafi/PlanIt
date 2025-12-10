@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="jbcrypt-0.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jbcrypt-0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mysql-connector-j-9.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

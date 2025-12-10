@@ -1,7 +1,7 @@
 /* ======= Global Styles ======= */
-.root {
-    -fx-background-color: #0f2027; /* Deep dark background */
-    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+. root {
+    -fx-background-color: linear-gradient(to bottom, #0f172a, #1e293b);
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
     -fx-text-fill: #f4f4f4;
 }
 
@@ -12,51 +12,72 @@
 }
 
 .title-label {
-    -fx-font-size: 26px;
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFD700; /* Gold title */
+    -fx-text-fill: white;
+}
+
+.subtitle-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #94a3b8;
 }
 
 /* ======= Buttons ======= */
 .button {
-    -fx-background-radius: 15;
-    -fx-padding: 10 25 10 25;
+    -fx-background-radius: 12;
+    -fx-padding: 15 25 15 25;
     -fx-font-size: 15px;
     -fx-font-weight: 600;
     -fx-cursor: hand;
     -fx-text-fill: white;
-    -fx-background-color: linear-gradient(to right, #141E30, #243B55);
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 3);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 4);
 }
 
 .button:hover {
-    -fx-background-color: linear-gradient(to right, #243B55, #141E30);
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0. 4), 15, 0, 0, 6);
 }
 
-/* ======= Card Style ======= */
+/* ======= Dashboard Card ======= */
 .card {
-    -fx-background-color: #1c1c1e;
+    -fx-background-color: #1e293b;
     -fx-background-radius: 20;
-    -fx-padding: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0, 0, 4);
+    -fx-border-color: #334155;
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0, 0, 8);
 }
 
 /* ======= Back Button ======= */
 .back-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #FFD700;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
 }
 
 .back-button:hover {
-    -fx-text-fill: #ffb400;
+    -fx-text-fill: #e2e8f0;
 }
 
-/* ======= ScrollPane (for event lists) ======= */
+/* ======= Icon Container ======= */
+.icon-container {
+    -fx-background-color: #1e3a5f;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+/* ======= Separator ======= */
+.separator {
+    -fx-background-color: #334155;
+}
+
+/* ======= ScrollPane ======= */
 .scroll-pane {
     -fx-background: transparent;
     -fx-border-color: transparent;
+}
+
+. scroll-pane > .viewport {
+    -fx-background-color: transparent;
 }

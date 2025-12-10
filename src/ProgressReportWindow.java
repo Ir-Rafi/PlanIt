@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.util.Objects;
 
+
 public class ProgressReportWindow {
 
     private static final String REPORTS_DIR = "reports";
@@ -35,7 +36,10 @@ public class ProgressReportWindow {
         Scene scene = new Scene(layout, 600, 500);
         scene.getStylesheets().add(getClass().getResource("cssforreport.css").toExternalForm());
         window.setScene(scene);
-        window.setMaximized(true);
+       // window.setMaximized(true);
+       window.setFullScreen(true);
+window.setFullScreenExitHint("");
+
         window.show();
     }
 
@@ -79,7 +83,10 @@ public class ProgressReportWindow {
         Scene scene = new Scene(layout, 800, 600);
         scene.getStylesheets().add(getClass().getResource("cssforreport.css").toExternalForm());
         editorStage.setScene(scene);
-        editorStage.setMaximized(true);
+        //editorStage.setMaximized(true);
+        editorStage.setFullScreen(true);
+editorStage.setFullScreenExitHint("");
+
         editorStage.show();
     }
 

@@ -27,7 +27,7 @@ public class FormController extends Controller {
         continue2.setOnAction(e -> showPage(3));
         continue3.setOnAction(e -> {
             Stage stage = (Stage) rootPane.getScene().getWindow();
-            FormController.loadLoginPage(stage);
+            FormController.loadingLoginPage(stage);
         });
     }
 

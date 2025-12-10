@@ -1,104 +1,233 @@
-.check-box:selected .mark {
-
-    -fx-background-color: #1f3ccc;
+/* Parent container */
+.parent {
+    -fx-background-color: #0a0a0a;
 }
 
-#gotoRegBtn {
+/* Left pane with background */
+.left-pane {
+    -fx-background-color: transparent;
+}
+
+/* Right pane - dark background */
+.right-pane {
+    -fx-background-color: #121212;
+}
+
+/* Welcome card with glassmorphism effect */
+.welcome-card {
+    -fx-background-color: rgba(30, 30, 30, 0.6);
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 30, 0, 0, 10);
+    -fx-border-radius: 20;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 1;
+}
+
+/* Modern input fields */
+.modern-input {
+    -fx-background-color: #1e1e1e;
+    -fx-background-radius: 8;
+    -fx-text-fill: #ffffff;
+    -fx-prompt-text-fill: #666666;
+    -fx-border-color: #2a2a2a;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 12 15 12 15;
+}
+
+.modern-input:focused {
+    -fx-border-color: #9b7edb;
+    -fx-border-width: 2;
+    -fx-background-color: #252525;
+}
+
+/* Primary button - gradient style */
+.primary-button {
     -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
     -fx-text-fill: white;
-    -fx-background-radius: 15;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(155, 126, 219, 0.3), 10, 0, 0, 2);
 }
 
-/* When hovered — lighter color */
-#gotoRegBtn:hover {
--fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
-     -fx-cursor: hand;
+.primary-button:hover {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
+    -fx-effect: dropshadow(gaussian, rgba(155, 126, 219, 0.5), 15, 0, 0, 3);
 }
 
-/* When pressed — darker again */
-#gotoRegBtn:pressed {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+.primary-button:pressed {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #4a2360 0%, #2d7a9e 50%, #2a9b90 100%);
+    -fx-translate-y: 1;
 }
-#changePass {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+
+/* Secondary button (Back button) */
+.secondary-button {
+    -fx-background-color: #2a2a2a;
     -fx-text-fill: white;
-    -fx-background-radius: 15;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-border-color: #404040;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
 }
 
-/* When hovered — lighter color */
-#changePass:hover {
--fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
-     -fx-cursor: hand;
+.secondary-button:hover {
+    -fx-background-color: #353535;
+    -fx-border-color: #505050;
 }
 
-/* When pressed — darker again */
-#changePass:pressed {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+.secondary-button:pressed {
+    -fx-background-color: #1f1f1f;
+    -fx-translate-y: 1;
 }
 
+/* Link buttons */
+.link-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9b7edb;
+    -fx-cursor: hand;
+    -fx-underline: false;
+}
+
+.link-button:hover {
+    -fx-text-fill: #b89ef0;
+    -fx-underline: true;
+}
+
+.link-button-accent {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9b7edb;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.link-button-accent:hover {
+    -fx-text-fill: #b89ef0;
+    -fx-underline: true;
+}
+
+/* Modern checkbox */
+.modern-checkbox {
+    -fx-text-fill: #b0b0b0;
+}
+
+.modern-checkbox .box {
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #404040;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.modern-checkbox:selected .box {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #56317a, #3d99be);
+    -fx-border-color: #9b7edb;
+}
+
+.modern-checkbox:selected .mark {
+    -fx-background-color: white;
+}
+
+.modern-checkbox:hover .box {
+    -fx-border-color: #9b7edb;
+}
+
+/* Individual button IDs for compatibility */
 #loginBtn {
     -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
     -fx-text-fill: white;
-    -fx-background-radius: 15;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
 }
 
-/* When hovered — lighter color */
 #loginBtn:hover {
--fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
-     -fx-cursor: hand;
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
 }
 
-/* When pressed — darker again */
 #loginBtn:pressed {
     -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
 }
-#gotoLoginBtn {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
-    -fx-text-fill: white;
-    -fx-background-radius: 15;
-}
-
-/* When hovered — lighter color */
-#gotoLoginBtn:hover {
--fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
-     -fx-cursor: hand;
-}
-
-/* When pressed — darker again */
-#gotoLoginBtn:pressed {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
-}
-
 
 #regBtn {
     -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
     -fx-text-fill: white;
-    -fx-background-radius: 15;
-}
-
-/* When hovered — lighter color */
-#regBtn:hover {
--fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
-     -fx-cursor: hand;
-}
-
-/* When pressed — darker again */
-#regBtn:pressed {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
-}
-#Goback {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
-    -fx-text-fill: white;
-    -fx-background-radius: 15;
-}
-
-/* Hover effect — lighter gradient */
-#Goback:hover {
-    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
+    -fx-background-radius: 8;
     -fx-cursor: hand;
 }
 
-/* Pressed — darker again */
-#Goback:pressed {
+#regBtn:hover {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
+}
+
+#regBtn:pressed {
     -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+}
+
+#changePass {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+#changePass:hover {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #6a44a3 0%, #5db3d8 50%, #4dd3cf 100%);
+}
+
+#changePass:pressed {
+    -fx-background-color: linear-gradient(from 100% 100% to 0% 0%, #56317a 0%, #3d99be 50%, #3ab5b0 100%);
+}
+
+#Goback {
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-border-color: #404040;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+}
+
+#Goback:hover {
+    -fx-background-color: #353535;
+}
+
+#Goback:pressed {
+    -fx-background-color: #1f1f1f;
+}
+
+#gotoRegBtn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9b7edb;
+    -fx-cursor: hand;
+}
+
+#gotoRegBtn:hover {
+    -fx-text-fill: #b89ef0;
+}
+
+#gotoLoginBtn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9b7edb;
+    -fx-cursor: hand;
+}
+
+#gotoLoginBtn:hover {
+    -fx-text-fill: #b89ef0;
+}
+
+#forgotPassBtn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9b7edb;
+    -fx-cursor: hand;
+    -fx-underline: false;
+}
+
+#forgotPassBtn:hover {
+    -fx-text-fill: #b89ef0;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
 }

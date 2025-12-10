@@ -32,55 +32,57 @@ public class ChatController implements Initializable {
     private ScrollPane sp_main;
 
     private Server server;
+    private String serverName;
+    private String loggedInUserName;
+
+    public void setLoggedInUsername(String username) {
+        this.loggedInUserName = username;  // Set the logged-in username
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            server = new Server(new ServerSocket(1234));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error creating server");
-        }
+        vbox_messages.heightProperty().addListener((obs, oldVal, newVal) -> sp_main.setVvalue(1.0));
+        button_send.setOnAction(this::sendMessage);
+    }
 
-        // Automatically scroll to the bottom when new messages arrive
-        vbox_messages.heightProperty().addListener((observableValue, oldValue, newValue) -> {
-            sp_main.setVvalue(1.0);
-        });
-
-        server.receiveMessageFromClient(vbox_messages);
-
-        button_send.setOnAction((ActionEvent event) -> {
-            String messageToSend = tf_message.getText();
-            if (!messageToSend.isEmpty()) {
-
-                // Message container (right-aligned)
-                HBox hbox = new HBox();
-                hbox.setAlignment(Pos.CENTER_RIGHT);
-                hbox.setPadding(new Insets(5, 5, 5, 18));
-
-                // Message text
-                Text text = new Text(messageToSend);
-                TextFlow textFlow = new TextFlow(text);
-
-                // ✅ FIXED: Added missing semicolon between properties
-                textFlow.setStyle(
-                        "-fx-background-color: rgb(15,125,242); " +
-                                "-fx-background-radius: 20px;"
+    public void startServer() {
+        new Thread(() -> {
+            try {
+               server = new Server(new ServerSocket(
+        1234,
+        50,
+        java.net.InetAddress.getByName("0.0.0.0")
+));
+                server.receiveMessageFromClient(vbox_messages);
+                Platform.runLater(() ->
+                        addLabel("Server logged in as: " + loggedInUserName, vbox_messages)
                 );
 
-                textFlow.setPadding(new Insets(5, 10, 5, 10));
-                text.setFill(Color.color(0.934, 0.945, 0.996));
-
-                hbox.getChildren().add(textFlow);
-                vbox_messages.getChildren().add(hbox);
-
-                // Send to client
-                server.sendMessageToClient(messageToSend);
-
-                // Clear input
-                tf_message.clear();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+        }).start();
+    }
+
+    private void sendMessage(ActionEvent event) {
+        String msg = tf_message.getText();
+        if (msg.isEmpty() || server == null) return;
+
+        HBox hbox = new HBox();
+        hbox.setAlignment(Pos.CENTER_RIGHT);
+        hbox.setPadding(new Insets(5, 5, 5, 18));
+
+        Text text = new Text("" + msg);
+        TextFlow tf = new TextFlow(text);
+        tf.setStyle("-fx-background-color: rgb(15,125,242); -fx-background-radius: 20px;");
+        tf.setPadding(new Insets(5, 10, 5, 10));
+        text.setFill(Color.WHITE);
+
+        hbox.getChildren().add(tf);
+        vbox_messages.getChildren().add(hbox);
+
+        server.sendMessageToClient("" + msg);
+        tf_message.clear();
     }
 
     // Message from client (left-aligned)

@@ -1,84 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<BorderPane fx:id="rootPane"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="DashboardController"
-            stylesheets="@dashboard_style.css">
+<HBox xmlns="http://javafx.com/javafx/24.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="DashboardController"
+      stylesheets="@dashboard_style.css"
+      prefWidth="1920"
+      prefHeight="1080"
+      styleClass="root-container">
 
-    <!-- 🔹 Top Bar -->
-    <top>
-        <HBox spacing="6" alignment="CENTER_LEFT" styleClass="top-bar">
-            <children>
-                <Button text="☰" onAction="#toggleMenu" styleClass="menu-toggle"/>
-            </children>
+    <!-- LEFT SIDEBAR -->
+    <VBox fx:id="sidebarPane" styleClass="sidebar" prefWidth="280" spacing="0">
+        
+        <!-- Logo -->
+        <Label text="PlanIt!" styleClass="logo-text">
+            <padding><Insets top="25" left="25" bottom="25"/></padding>
+        </Label>
+        
+        <!-- Profile Section -->
+        <HBox alignment="CENTER_LEFT" spacing="12" styleClass="profile-section">
+            <padding><Insets top="10" bottom="20" left="25" right="25"/></padding>
+            <StackPane fx:id="profilePicStack" styleClass="profile-pic" prefWidth="45" prefHeight="45"/>
+            <VBox spacing="2">
+                <Label fx:id="nameLabel" text="User Name" styleClass="profile-name"/>
+                <Label fx:id="emailLabel" text="user@email.com" styleClass="profile-email"/>
+            </VBox>
         </HBox>
-    </top>
-
-    <!-- 🔹 Left Profile Pane -->
-    <left>
-        <VBox fx:id="leftPane" spacing="12" styleClass="left-pane" prefWidth="260" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets top="20" right="10" bottom="20" left="10"/>
-            </padding>
-            <children>
-                <StackPane fx:id="profilePicStack" prefWidth="120" prefHeight="120" styleClass="profile-pic">
-                    <children>
-                        <Label text="R" styleClass="profile-initial"/>
-                    </children>
-                </StackPane>
-                <Label fx:id="nameLabel" text="Name" styleClass="name-label"/>
-                <Label fx:id="emailLabel" text="email@example.com" styleClass="email-label"/>
-
-                <Label text=" " />
-                <Label text="DEPARTMENT" styleClass="small-title"/>
-                <Label fx:id="deptLabel" text="🏫 CSE" styleClass="big-text"/>
-
-                <Label text=" " />
-                <Label text="SESSION" styleClass="small-title"/>
-                <Label fx:id="sessionLabel" text="📚 Session: 2023-24" styleClass="big-text"/>
-            </children>
+        
+        <!-- Department & Session -->
+        <VBox spacing="4" styleClass="info-section">
+            <padding><Insets left="25" right="25" bottom="20"/></padding>
+            <Label text="DEPARTMENT" styleClass="info-label"/>
+            <Label fx:id="deptLabel" text="CSE" styleClass="info-value"/>
+            <Region prefHeight="10"/>
+            <Label text="SESSION" styleClass="info-label"/>
+            <Label fx:id="sessionLabel" text="2021-22" styleClass="info-value"/>
         </VBox>
-    </left>
-
-    <!-- 🔹 Center Content -->
-<center>
-    <VBox spacing="8" styleClass="right-pane" alignment="TOP_LEFT" 
-          maxWidth="Infinity" maxHeight="Infinity">
-        <padding>
-            <Insets top="15" right="15" bottom="15" left="15"/>
-        </padding>
-        <children>
-            <Label text="Your Events" styleClass="events-title"/>
-            <ScrollPane fx:id="eventsScroll" fitToWidth="true" fitToHeight="true" 
-                        VBox.vgrow="ALWAYS">
-                <content>
-                    <VBox fx:id="eventsListBox" spacing="10" 
-                          maxWidth="Infinity" maxHeight="Infinity">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
-                    </VBox>
-                </content>
-            </ScrollPane>
-        </children>
+        
+        <!-- Navigation Menu -->
+        <VBox fx:id="navMenu" spacing="0" styleClass="nav-menu">
+            <Button fx:id="dashboardBtn" text="Dashboard" styleClass="nav-button" onAction="#onDashboardClick" maxWidth="Infinity">
+                <graphic>
+                    <Label text="⊞" styleClass="nav-icon"/>
+                </graphic>
+            </Button>
+            <Button fx:id="editProfileBtn" text="Edit Profile" styleClass="nav-button" onAction="#onEditProfileClick" maxWidth="Infinity">
+                <graphic>
+                    <Label text="👤" styleClass="nav-icon"/>
+                </graphic>
+            </Button>
+            <Button fx:id="eventPortalBtn" text="Event Portal" styleClass="nav-button" onAction="#onEventPortalClick" maxWidth="Infinity">
+                <graphic>
+                    <Label text="📅" styleClass="nav-icon"/>
+                </graphic>
+            </Button>
+            <Button fx:id="changePasswordBtn" text="Change Password" styleClass="nav-button" onAction="#onChangePasswordClick" maxWidth="Infinity">
+                <graphic>
+                    <Label text="⚙" styleClass="nav-icon"/>
+                </graphic>
+            </Button>
+        </VBox>
+        
+        <Region VBox.vgrow="ALWAYS"/>
+        
+        <!-- Sign Out -->
+        <Button fx:id="signOutBtn" text="Sign Out" styleClass="nav-button,sign-out-button" onAction="#onSignOutClick" maxWidth="Infinity">
+            <graphic>
+                <Label text="↪" styleClass="nav-icon,sign-out-icon"/>
+            </graphic>
+        </Button>
+        <Region prefHeight="20"/>
+        
     </VBox>
-</center>
 
+    <!-- MAIN CONTENT -->
+    <VBox fx:id="mainContent" HBox.hgrow="ALWAYS" styleClass="main-content">
+        
+        <!-- Top Bar -->
+        <HBox styleClass="top-bar" alignment="CENTER_LEFT">
+            <padding><Insets top="20" bottom="20" left="30" right="30"/></padding>
+            <Label text="Dashboard" styleClass="breadcrumb-inactive"/>
+            <Label text=" / " styleClass="breadcrumb-separator"/>
+            <Label text="Home" styleClass="breadcrumb-active"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="🔔" styleClass="notification-btn"/>
+        </HBox>
+        
+        <!-- Content Area -->
+        <VBox fx:id="rightPane" VBox.vgrow="ALWAYS" styleClass="content-area">
+            <padding><Insets top="20" left="30" right="30" bottom="30"/></padding>
+            
+            <!-- Header with Title and New Event Button -->
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="My Events" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="newEventBtn" text="+ New Event" styleClass="new-event-btn" onAction="#onNewEventClick"/>
+            </HBox>
+            
+            <Region prefHeight="25"/>
+            
+            <!-- Events Grid -->
+            <ScrollPane fx:id="eventsScroll" fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="events-scroll">
+                <FlowPane fx:id="eventsListBox" hgap="20" vgap="20" styleClass="events-grid">
+                    <padding><Insets top="5" right="5" bottom="5" left="5"/></padding>
+                </FlowPane>
+            </ScrollPane>
+            
+        </VBox>
+    </VBox>
 
-    <!-- 🔹 Slide Menu Overlay -->
-    <StackPane fx:id="slideMenuPane" styleClass="slide-menu" BorderPane.alignment="CENTER_LEFT">
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
-        </padding>
-    </StackPane>
-
-</BorderPane>
-
-
-
-
-
+</HBox>

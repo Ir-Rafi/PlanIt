@@ -20,7 +20,7 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="EventController"
       styleClass="root-container"
-      prefWidth="900" prefHeight="650"
+      prefWidth="1920" prefHeight="1080"
       stylesheets="@eventform.css">
     
     <!-- Header -->

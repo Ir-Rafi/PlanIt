@@ -71,6 +71,23 @@ public class DatabaseUtility {
         return false;
     }
 
+    // Check if a user exists with both username and email
+public static boolean userExists(String username, String email) {
+    String query = "SELECT 1 FROM users WHERE username = ? AND email = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, username);
+        stmt.setString(2, email);
+        ResultSet rs = stmt.executeQuery();
+        return rs.next();  // Returns true if such a user exists
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return false;
+}
+
+
     // Check if an email already exists in the DB
     public static boolean emailExists(String email) {
         String query = "SELECT 1 FROM users WHERE email = ?";
@@ -117,25 +134,79 @@ public class DatabaseUtility {
     return -1;
 }
 
+    public static String[] getServerAndClientNames(String username) {
+        // Just return the username as both server and client name
+        return new String[]{username, username};
+    }
+
+
     public static String[] getUserDetails(String username) {
-        String query = "SELECT username, email FROM users WHERE username = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+    String query = "SELECT username, email, department, session FROM users WHERE username = ?";
 
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            if (rs.next()) {
-                String uname = rs.getString("username");
-                String email = rs.getString("email");
-                return new String[]{uname, email};
-            }
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            String uname = rs.getString("username");
+            String email = rs.getString("email");
+            String dept = rs.getString("department");
+            String session = rs.getString("session");
+
+            return new String[]{ uname, email, dept, session };
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
+
+public static boolean updateUserProfile(String oldUsername, String newUsername,
+                                        String newEmail, String department, String session) {
+
+    String updateUser = "UPDATE users SET username = ?, email = ?, department = ?, session = ? WHERE username = ?";
+    String updateOrganizer = "UPDATE organizers SET organizer_name = ? WHERE organizer_name = ?";
+
+    try (Connection conn = getConnection()) {
+
+        conn.setAutoCommit(false); // Start transaction
+
+        try (PreparedStatement stmt1 = conn.prepareStatement(updateUser);
+             PreparedStatement stmt2 = conn.prepareStatement(updateOrganizer)) {
+
+            // Update users table
+            stmt1.setString(1, newUsername);
+            stmt1.setString(2, newEmail);
+            stmt1.setString(3, department);
+            stmt1.setString(4, session);
+            stmt1.setString(5, oldUsername);
+            stmt1.executeUpdate();
+
+            // Update organizers table
+            stmt2.setString(1, newUsername);
+            stmt2.setString(2, oldUsername);
+            stmt2.executeUpdate();
+
+            conn.commit();
+            return true;
 
         } catch (SQLException e) {
+            conn.rollback();
             e.printStackTrace();
         }
-        return null;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return false;
+}
+
+
 
 
 }

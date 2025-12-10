@@ -1,12 +1,15 @@
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import java.time.temporal.ChronoUnit;
@@ -17,7 +20,6 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -271,6 +273,7 @@ for (OrganizerData orgData : organizersList) {
 
         // Create event
         EventData event = new EventData(
+            0,
             eventNameField.getText().trim(),
             startDate,endDate,
             startTimeCombo.getValue(),
@@ -326,21 +329,34 @@ insertEventIntoDatabase(event);
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }
-    
+
     public static void openEventForm(Stage parentStage) {
         try {
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-                EventController.class.getResource("CreateEventForm.fxml")
+            FXMLLoader loader = new FXMLLoader(
+                    EventController.class.getResource("CreateEventForm.fxml")
             );
             VBox root = loader.load();
-            
+
             Stage formStage = new Stage();
             formStage.setTitle("Create New Event");
-            formStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            formStage.initModality(Modality.APPLICATION_MODAL);
             formStage.initOwner(parentStage);
-            formStage.setScene(new javafx.scene.Scene(root));
-            formStage.setResizable(false);
+
+            // Same as your main stage
+            Scene scene = new Scene(root, 1366, 768);
+            formStage.setScene(scene);
+
+            // Optional: add stylesheet if needed
+            // scene.getStylesheets().add(
+            //         EventController.class.getResource("style2.css").toExternalForm()
+            // );
+
+            // Match your main stage behavior
+            formStage.setFullScreen(true);
+            formStage.setFullScreenExitHint("");
+
             formStage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
             showStaticAlert("Error", "Could not load event form: " + e.getMessage(), Alert.AlertType.ERROR);
@@ -386,16 +402,18 @@ insertEventIntoDatabase(event);
     }
 
     // Event data holder
-     static class EventData implements Serializable {
+     public static class EventData implements Serializable {
+        int id;
         String name, startTime, endTime, location, description, color, showMe, visibility;
         LocalDate date;
             LocalDate endDate;       // calculated end date
     long durationDays;       // calculated duration
         List<Organizer> organizers;
         File attachedFilePath, eventImagePath;
-        public EventData(String name, LocalDate date, LocalDate enDate, String startTime, String endTime, 
+        public EventData(int id, String name, LocalDate date, LocalDate enDate, String startTime, String endTime, 
                  String location, String description, List<Organizer> organizers,
                  String color, String showMe, String visibility, File attachedFile, File eventImage, long durationDays) {
+    this.id = id;
     this.name = name;
     this.date = date;
     this.endDate = enDate;  // fixed
@@ -430,7 +448,7 @@ private Connection getConnection() throws Exception {
     return DriverManager.getConnection(url, user, password);
 }
 
-private boolean isValidOrganizer(String username, int registrationCode) {
+ boolean isValidOrganizer(String username, int registrationCode) {
     // Allow the logged-in organizer
     if (Session.getUsername() != null &&
         Session.getUsername().equalsIgnoreCase(username) &&
@@ -579,6 +597,7 @@ public static List<EventData> loadEventsFromDB() {
             }
 
             events.add(new EventData(
+                    eventId,
                     name,
                     startDate,
                     endDate,
@@ -603,7 +622,7 @@ public static List<EventData> loadEventsFromDB() {
 }
 
 
-private void insertOrganizers(Connection conn, int eventId, List<Organizer> organizers) throws SQLException {
+ void insertOrganizers(Connection conn, int eventId, List<Organizer> organizers) throws SQLException {
     String sql = "INSERT INTO organizers (event_id, organizer_name, organizer_id) VALUES (?, ?, ?)";
     try (PreparedStatement ps = conn.prepareStatement(sql)) {
         for (Organizer org : organizers) {
@@ -651,9 +670,95 @@ private boolean isPlaceBookedByOrganizer(String placeName, LocalDate startDate, 
     return false;
 }
 
+public static List<EventData> loadUserEvents(String username) {
+    int organizerId = Session.getOrganizerId(); // get logged-in organizer ID
+    return loadUserEvents(username, organizerId);
+}
 
+public static List<EventData> loadUserEvents(String username, int organizerId) {
+    List<EventData> events = new ArrayList<>();
 
+    String sql = """
+        SELECT e.event_id, e.event_name, e.place_name, e.start_date, e.end_date,
+               e.start_time, e.end_time, e.Description, e.Color, e.ShowMe,
+               e.Visibility, e.AttachedFilePath, e.EventImagePath
+        FROM events e
+        JOIN organizers o ON e.event_id = o.event_id
+        WHERE o.organizer_name = ? AND o.organizer_id = ?
+        ORDER BY e.start_date ASC
+    """;
 
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://ununqd8usvy0wouy:GmDEehgTBjzyuPRuA8i8@b1gtvncwynmgz6qozokc-mysql.services.clever-cloud.com:3306/b1gtvncwynmgz6qozokc",
+            "ununqd8usvy0wouy", "GmDEehgTBjzyuPRuA8i8");
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, username);
+        ps.setInt(2, organizerId);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int eventId = rs.getInt("event_id");
+            String name = rs.getString("event_name");
+            String location = rs.getString("place_name");
+            LocalDate startDate = rs.getDate("start_date").toLocalDate();
+            LocalDate endDate = rs.getDate("end_date").toLocalDate();
+            String startTime = rs.getString("start_time");
+            String endTime = rs.getString("end_time");
+            String description = rs.getString("Description");
+            String color = rs.getString("Color");
+            String showMe = rs.getString("ShowMe");
+            String visibility = rs.getString("Visibility");
+            String attachedFilePath = rs.getString("AttachedFilePath");
+            String eventImagePath = rs.getString("EventImagePath");
+            long durationDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+
+            // Load all organizers for this event
+            List<Organizer> organizers = new ArrayList<>();
+            try (PreparedStatement orgPs = conn.prepareStatement(
+                    "SELECT organizer_name, organizer_id FROM organizers WHERE event_id = ?")) {
+                orgPs.setInt(1, eventId);
+                ResultSet orgRs = orgPs.executeQuery();
+                while (orgRs.next()) {
+                    organizers.add(new Organizer(orgRs.getString("organizer_name"),
+                                                 orgRs.getInt("organizer_id")));
+                }
+            }
+
+            events.add(new EventData(
+                    eventId, name, startDate, endDate, startTime, endTime,
+                    location, description, organizers,
+                    color, showMe, visibility,
+                    attachedFilePath != null ? new File(attachedFilePath) : null,
+                    eventImagePath != null ? new File(eventImagePath) : null,
+                    durationDays
+            ));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return events;
+}
+
+public static boolean deleteEvent(int eventId) {
+    String sql = "DELETE FROM events WHERE event_id = ?";
+    
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://ununqd8usvy0wouy:GmDEehgTBjzyuPRuA8i8@b1gtvncwynmgz6qozokc-mysql.services.clever-cloud.com:3306/b1gtvncwynmgz6qozokc",
+            "ununqd8usvy0wouy", "GmDEehgTBjzyuPRuA8i8");
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        
+        ps.setInt(1, eventId);
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected > 0;
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
 
 
 }

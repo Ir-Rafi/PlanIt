@@ -5,372 +5,323 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="Container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" styleClass="parent" stylesheets="@login_style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login_controller">
-   <children>
-      <Pane fx:id="rightpane" layoutX="683.0" prefHeight="768.0" prefWidth="683.0" style="-fx-background-color: #ffffff; -fx-border-radius: 20;">
-         <children>
-            <Label alignment="CENTER" layoutX="296.0" layoutY="89.0" text="Login">
-               <font>
-                  <Font name="Microsoft JhengHei Bold" size="40.0" />
-               </font>
-               <textFill>
-                  <LinearGradient endX="0.503787945617329" endY="0.8825757657036637" startX="0.5227273093028503" startY="0.1818182251670144">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.07058823853731155" green="0.95686274766922" blue="0.545098066329956" />
-                           </color>
-                        </Stop>
-                        <Stop offset="0.423956931359354">
-                           <color>
-                              <Color red="0.09803921729326248" green="0.7764706015586853" blue="0.9254902005195618" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.13333334028720856" green="0.0784313753247261" blue="0.8941176533699036" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
-            </Label>
-            <Label fx:id="userError" layoutX="50.0" layoutY="185.0" prefHeight="34.0" prefWidth="293.0" textAlignment="JUSTIFY" textFill="RED">
-               <font>
-                  <Font name="SansSerif Bold Italic" size="14.0" />
-               </font></Label>
-            <TextField fx:id="user" alignment="CENTER" layoutX="195.0" layoutY="202.0" prefHeight="42.0" prefWidth="307.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
-               <font>
-                  <Font name="SansSerif Regular" size="20.0" />
-               </font>
-            </TextField>
-            <Label fx:id="passError" layoutX="48.0" layoutY="263.0" prefHeight="24.0" prefWidth="300.0" textFill="RED">
-               <font>
-                  <Font name="SansSerif Bold Italic" size="14.0" />
-               </font></Label>
-            <PasswordField fx:id="pass" alignment="CENTER" layoutX="199.0" layoutY="287.0" prefWidth="300.0" promptText="Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
-               <font>
-                  <Font name="SansSerif Regular" size="20.0" />
-               </font>
-            </PasswordField>
-            <Button fx:id="loginBtn" alignment="CENTER" layoutX="306.0" layoutY="436.0" mnemonicParsing="false" text="Login" textFill="WHITE">
-               <font>
-                  <Font name="SansSerif Bold" size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="gotoRegBtn" alignment="CENTER" layoutX="473.0" layoutY="495.0" mnemonicParsing="false" text="Register" textAlignment="JUSTIFY" textFill="WHITE">
-               <font>
-                  <Font name="SansSerif Bold" size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="forgotPassBtn" alignment="CENTER" layoutX="463.0" layoutY="372.0" mnemonicParsing="false" style="-fx-background-color: white;" text="Forgot password ?" textAlignment="JUSTIFY" textFill="#1f3ccc">
-               <font>
-                  <Font name="SansSerif Bold" size="18.0" />
-               </font>
-            </Button>
-            <CheckBox fx:id="rememberMeCheck" layoutX="41.0" layoutY="384.0" mnemonicParsing="false" style="-fx-background-color: #ffffff;" styleClass="checkbox" text="Remember me " textFill="#1f3ccc">
-               <font>
-                  <Font name="SansSerif Bold" size="18.0" />
-               </font>
-               <effect>
-                  <ColorAdjust />
-               </effect>
-            </CheckBox>
-            <Label alignment="CENTER" layoutX="236.0" layoutY="501.0" text="Don't have an account ?" textFill="#1f3ccc">
-               <font>
-                  <Font name="SansSerif Bold" size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-      <Pane fx:id="leftpane1" layoutX="1366.0" prefHeight="768.0" prefWidth="683.0" style="-fx-background-color: linear-gradient(from 00% 00% to 00% 100%, #3ab5b0 0%, #3d99be 31%, #56317a 75%);">
-         <children>
-            <Label layoutX="171.0" layoutY="384.0" text="Register to continue">
-               <font>
-                  <Font name="SansSerif Regular" size="36.0" />
-               </font>
-               <textFill>
-                  <RadialGradient centerX="0.39823008005597954" centerY="0.5151515007019043" radius="0.5">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.4431372582912445" green="0.7803921699523926" blue="0.9254902005195618" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </RadialGradient>
-               </textFill>
-            </Label>
-            <Label layoutX="245.0" layoutY="140.0" text="Hello ">
-               <font>
-                  <Font name="SansSerif Regular" size="72.0" />
-               </font>
-               <textFill>
-                  <RadialGradient centerX="0.5221238938053098" centerY="0.4621212121212121" radius="0.5">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.4431372582912445" green="0.7803921699523926" blue="0.9254902005195618" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </RadialGradient>
-               </textFill>
-            </Label>
-            <Label layoutX="215.0" layoutY="242.0" text="Friend !">
-               <font>
-                  <Font name="SansSerif Regular" size="72.0" />
-               </font>
-               <textFill>
-                  <RadialGradient centerX="0.5221238938053098" centerY="0.4621212121212121" radius="0.5">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.4431372582912445" green="0.7803921699523926" blue="0.9254902005195618" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </RadialGradient>
-               </textFill>
-            </Label>
-         </children>
-      </Pane>
-      <Pane fx:id="leftpane" prefHeight="768.0" prefWidth="683.0" style="-fx-background-color: linear-gradient(from 100% 100% to 00% 0%, #3ab5b0 0%, #3d99be 31%, #56317a 75%);">
-         <children>
-            <Label layoutX="193.0" layoutY="476.0" text="Login to continue" textFill="#ffffffb3">
-               <font>
-                  <Font name="SansSerif Regular" size="36.0" />
-               </font>
-            </Label>
-            <Label layoutX="200.0" layoutY="259.0" text="Welcome">
-               <font>
-                  <Font name="SansSerif Regular" size="72.0" />
-               </font>
-               <textFill>
-                  <RadialGradient centerX="0.5221238938053098" centerY="0.4621212121212121" radius="0.5">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.4431372582912445" green="0.7803921699523926" blue="0.9254902005195618" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </RadialGradient>
-               </textFill>
-            </Label>
-            <Label layoutX="257.0" layoutY="361.0" text="Back !">
-               <font>
-                  <Font name="SansSerif Regular" size="72.0" />
-               </font>
-               <textFill>
-                  <RadialGradient centerX="0.2831858575871561" centerY="0.6515151515151515" radius="0.5">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                        <Stop offset="0.14535666218034937">
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                        <Stop offset="0.8411843876177655">
-                           <color>
-                              <Color red="0.4431372582912445" green="0.7803921699523926" blue="0.9254902005195618" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.4431372582912445" green="0.7803921699523926" blue="0.9254902005195618" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </RadialGradient>
-               </textFill>
-            </Label>
+    <children>
+        <!-- LOGIN SCREEN -->
+        <Pane fx:id="leftpane" prefHeight="768.0" prefWidth="683.0" styleClass="left-pane">
+            <children>
+                <ImageView fitHeight="768.0" fitWidth="683.0" pickOnBounds="true" preserveRatio="false">
+                    <image>
+                        <Image url="@welcome_bg.png" />
+                    </image>
+                </ImageView>
+                <Pane layoutX="75.0" layoutY="200.0" prefHeight="368.0" prefWidth="533.0" styleClass="welcome-card">
+                    <children>
+                        <Label layoutX="139.0" layoutY="81.0" text="Welcome" textFill="WHITE">
+                            <font>
+                                <Font name="SansSerif Bold" size="56.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="191.0" layoutY="153.0" text="Back!" textFill="#B8A4FF">
+                            <font>
+                                <Font name="SansSerif Bold" size="56.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="117.0" layoutY="247.0" text="Login to access your personalized event" textFill="#E0E0E0">
+                            <font>
+                                <Font name="SansSerif Regular" size="16.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="129.0" layoutY="280.0" text="dashboard and start planning today." textFill="#E0E0E0">
+                            <font>
+                                <Font name="SansSerif Regular" size="16.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
             </children>
-            </Pane>
-            <Pane fx:id="rightpane1" layoutX="-676.0" layoutY="-14.0" prefHeight="768.0" prefWidth="683.0" style="-fx-background-color: #ffffff;">
-               <children>
-                  <Label alignment="CENTER" layoutX="220.0" layoutY="156.0" text="Registration">
-                     <font>
-                        <Font name="Microsoft JhengHei Bold" size="40.0" />
-                     </font>
-                     <textFill>
-                        <LinearGradient endX="0.503787945617329" endY="0.8825757657036637" startX="0.5113637018384356" startY="0.12878793658632223">
-                           <stops>
-                              <Stop>
-                                 <color>
-                                    <Color red="0.07058823853731155" green="0.95686274766922" blue="0.545098066329956" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="0.423956931359354">
-                                 <color>
-                                    <Color red="0.09803921729326248" green="0.7764706015586853" blue="0.9254902005195618" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="1.0">
-                                 <color>
-                                    <Color red="0.21176470816135406" green="0.027450980618596077" blue="0.8823529481887817" />
-                                 </color>
-                              </Stop>
-                           </stops>
-                        </LinearGradient>
-                     </textFill>
-                  </Label>
-                  <Button fx:id="gotoLoginBtn" alignment="CENTER" layoutX="406.0" layoutY="539.0" mnemonicParsing="false" text="Sign in" textAlignment="JUSTIFY" textFill="WHITE">
-                     <font>
+        </Pane>
+
+        <Pane fx:id="rightpane" layoutX="683.0" prefHeight="768.0" prefWidth="683.0" styleClass="right-pane">
+            <children>
+                <Label layoutX="220.0" layoutY="100.0" text="Login to your account" textAlignment="CENTER" textFill="WHITE">
+                    <font>
+                        <Font name="SansSerif Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Label layoutX="250.0" layoutY="150.0" text="Enter your details below" textFill="#A0A0A0">
+                    <font>
+                        <Font name="SansSerif Regular" size="16.0" />
+                    </font>
+                </Label>
+
+                <Label fx:id="userError" layoutX="192.0" layoutY="210.0" prefHeight="25.0" prefWidth="300.0" textFill="#FF6B6B">
+                    <font>
+                        <Font name="SansSerif Italic" size="13.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="192.0" layoutY="230.0" text="Email" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="user" layoutX="192.0" layoutY="255.0" prefHeight="45.0" prefWidth="300.0" promptText="m@example.com" styleClass="modern-input">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </TextField>
+
+                <Label fx:id="passError" layoutX="192.0" layoutY="320.0" prefHeight="25.0" prefWidth="250.0" textFill="#FF6B6B">
+                    <font>
+                        <Font name="SansSerif Italic" size="13.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="192.0" layoutY="340.0" text="Password" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </Label>
+                <Button fx:id="forgotPassBtn" layoutX="420.0" layoutY="340.0" styleClass="link-button" text="Forgot password?">
+                    <font>
+                        <Font name="SansSerif Regular" size="13.0" />
+                    </font>
+                </Button>
+
+                <PasswordField fx:id="pass" layoutX="192.0" layoutY="365.0" prefHeight="45.0" prefWidth="300.0" promptText="••••••••" styleClass="modern-input">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </PasswordField>
+
+                <CheckBox fx:id="rememberMeCheck" layoutX="192.0" layoutY="430.0" styleClass="modern-checkbox" text="Remember me" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </CheckBox>
+
+                <Button fx:id="loginBtn" layoutX="192.0" layoutY="480.0" prefHeight="50.0" prefWidth="300.0" styleClass="primary-button" text="Login">
+                    <font>
                         <Font name="SansSerif Bold" size="18.0" />
-                     </font>
-                  </Button>
-                  <Label alignment="CENTER" layoutX="181.0" layoutY="539.0" mnemonicParsing="false" text="Have an account ?" textAlignment="JUSTIFY" textFill="#1f3ccc">
-                     <font>
+                    </font>
+                </Button>
+
+                <Label layoutX="230.0" layoutY="570.0" text="Don't have an account?" textFill="#A0A0A0">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </Label>
+                <Button fx:id="gotoRegBtn" layoutX="410.0" layoutY="568.0" styleClass="link-button-accent" text="Register">
+                    <font>
+                        <Font name="SansSerif Bold" size="15.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+
+        <!-- REGISTRATION SCREEN -->
+        <Pane fx:id="rightpane1" layoutX="-676.0" prefHeight="768.0" prefWidth="683.0" styleClass="right-pane">
+            <children>
+                <Label layoutX="195.0" layoutY="85.0" text="Create an account" textFill="WHITE">
+                    <font>
+                        <Font name="SansSerif Bold" size="32.0" />
+                    </font>
+                </Label>
+                <Label layoutX="251.0" layoutY="142.0" text="Enter your details below" textFill="#A0A0A0">
+                    <font>
+                        <Font name="SansSerif Regular" size="16.0" />
+                    </font>
+                </Label>
+
+                <Label fx:id="userRegError" layoutX="192.0" layoutY="175.0" prefHeight="25.0" prefWidth="300.0" textFill="#FF6B6B">
+                    <font>
+                        <Font name="SansSerif Italic" size="13.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="192.0" layoutY="195.0" text="Username" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="userReg" layoutX="192.0" layoutY="220.0" prefHeight="45.0" prefWidth="300.0" promptText="johndoe" styleClass="modern-input">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </TextField>
+
+                <Label fx:id="emailRegError" layoutX="192.0" layoutY="280.0" prefHeight="25.0" prefWidth="300.0" textFill="#FF6B6B">
+                    <font>
+                        <Font name="SansSerif Italic" size="13.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="192.0" layoutY="300.0" text="Email" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="userMail" layoutX="192.0" layoutY="325.0" prefHeight="45.0" prefWidth="300.0" promptText="m@example.com" styleClass="modern-input">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </TextField>
+
+                <Label fx:id="passRegError" layoutX="192.0" layoutY="385.0" prefHeight="25.0" prefWidth="300.0" textFill="#FF6B6B">
+                    <font>
+                        <Font name="SansSerif Italic" size="13.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="192.0" layoutY="405.0" text="Password" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="passReg" layoutX="192.0" layoutY="430.0" prefHeight="45.0" prefWidth="300.0" promptText="••••••••" styleClass="modern-input">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </PasswordField>
+
+                <Label fx:id="termsError" layoutX="192.0" layoutY="490.0" prefHeight="25.0" prefWidth="300.0" textFill="#FF6B6B">
+                    <font>
+                        <Font name="SansSerif Italic" size="13.0" />
+                    </font>
+                </Label>
+
+                <CheckBox fx:id="termsCheck" layoutX="192.0" layoutY="510.0" styleClass="modern-checkbox" text="Agree to terms and conditions" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </CheckBox>
+
+                <Button fx:id="regBtn" layoutX="192.0" layoutY="555.0" prefHeight="50.0" prefWidth="300.0" styleClass="primary-button" text="Register">
+                    <font>
                         <Font name="SansSerif Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="regBtn" alignment="CENTER" layoutX="287.0" layoutY="480.0" mnemonicParsing="false" text="Register" textFill="WHITE">
-                     <font>
+                    </font>
+                </Button>
+
+                <Label layoutX="250.0" layoutY="640.0" text="Have an account?" textFill="#A0A0A0">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </Label>
+                <Button fx:id="gotoLoginBtn" layoutX="390.0" layoutY="638.0" styleClass="link-button-accent" text="Sign in">
+                    <font>
+                        <Font name="SansSerif Bold" size="15.0" />
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+
+        <Pane fx:id="leftpane1" layoutX="1366.0" prefHeight="768.0" prefWidth="683.0" styleClass="left-pane">
+            <children>
+                <ImageView fitHeight="768.0" fitWidth="683.0" pickOnBounds="true" preserveRatio="false">
+                    <image>
+                        <Image url="@welcome_bg.png" />
+                    </image>
+                </ImageView>
+                <Pane layoutX="75.0" layoutY="200.0" prefHeight="368.0" prefWidth="533.0" styleClass="welcome-card">
+                    <children>
+                        <Label layoutX="194.0" layoutY="90.0" text="Hello" textFill="WHITE">
+                            <font>
+                                <Font name="SansSerif Bold" size="56.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="169.0" layoutY="170.0" text="Friend!" textFill="#B8A4FF">
+                            <font>
+                                <Font name="SansSerif Bold" size="56.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="162.0" layoutY="270.0" text="Register to continue" textFill="#E0E0E0">
+                            <font>
+                                <Font name="SansSerif Regular" size="22.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+            </children>
+        </Pane>
+
+        <!-- FORGOT PASSWORD SCREEN -->
+        <Pane fx:id="forgotPane" layoutX="683.0" prefHeight="768.0" prefWidth="683.0" styleClass="right-pane">
+            <children>
+                <Label layoutX="202.0" layoutY="103.0" text="Forgot Password" textFill="WHITE">
+                    <font>
+                        <Font name="SansSerif Bold" size="36.0" />
+                    </font>
+                </Label>
+                <Label layoutX="225.0" layoutY="165.0" text="Enter your details to reset password" textFill="#A0A0A0">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </Label>
+
+                <Label fx:id="userError1" layoutX="142.0" layoutY="210.0" prefHeight="25.0" prefWidth="400.0" textFill="#FF6B6B">
+                    <font>
+                        <Font name="SansSerif Italic" size="13.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="142.0" layoutY="230.0" text="Username" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="forgotUser" layoutX="142.0" layoutY="255.0" prefHeight="45.0" prefWidth="400.0" promptText="Enter your username" styleClass="modern-input">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </TextField>
+
+                <Label layoutX="142.0" layoutY="320.0" text="Email" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="forgotPass" layoutX="142.0" layoutY="345.0" prefHeight="45.0" prefWidth="400.0" promptText="Enter your email" styleClass="modern-input">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </PasswordField>
+
+                <Label fx:id="passMismatch" layoutX="142.0" layoutY="410.0" prefHeight="25.0" prefWidth="400.0" textFill="#FF6B6B">
+                    <font>
+                        <Font name="SansSerif Italic" size="13.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="142.0" layoutY="430.0" text="New Password" textFill="#B0B0B0">
+                    <font>
+                        <Font name="SansSerif Regular" size="14.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="ConfiirmPass" layoutX="142.0" layoutY="455.0" prefHeight="45.0" prefWidth="400.0" promptText="Enter new password" styleClass="modern-input">
+                    <font>
+                        <Font name="SansSerif Regular" size="15.0" />
+                    </font>
+                </PasswordField>
+
+                <Button fx:id="changePass" layoutX="142.0" layoutY="535.0" prefHeight="50.0" prefWidth="190.0" styleClass="primary-button" text="Change">
+                    <font>
                         <Font name="SansSerif Bold" size="18.0" />
-                     </font>
-                  </Button>
-                  <Label fx:id="termsError" layoutX="55.0" layoutY="355.0" prefHeight="34.0" prefWidth="565.0" textFill="RED">
-                     <font>
-                        <Font name="SansSerif Bold Italic" size="14.0" />
-                     </font>
-                  </Label>
-                  <CheckBox fx:id="termsCheck" layoutX="181.0" layoutY="445.0" mnemonicParsing="false" text="Agree to terms and conditions" textFill="#1f3ccc">
-                     <font>
+                    </font>
+                </Button>
+
+                <Button fx:id="Goback" layoutX="352.0" layoutY="535.0" prefHeight="50.0" prefWidth="190.0" styleClass="secondary-button" text="Back">
+                    <font>
                         <Font name="SansSerif Bold" size="18.0" />
-                     </font>
-                  </CheckBox>
-                  <Label fx:id="userRegError" layoutX="55.0" layoutY="174.0" textFill="RED">
-                     <font>
-                        <Font name="SansSerif Bold Italic" size="14.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="userReg" alignment="CENTER" layoutX="192.0" layoutY="238.0" prefWidth="300.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
-                     <font>
-                        <Font name="SansSerif Regular" size="20.0" />
-                     </font>
-                  </TextField>
-                  <Label fx:id="passRegError" layoutX="53.0" layoutY="292.0" textFill="RED">
-                     <font>
-                        <Font name="SansSerif Bold Italic" size="14.0" />
-                     </font>
-                  </Label>
-                  <PasswordField fx:id="passReg" alignment="CENTER" layoutX="184.0" layoutY="374.0" prefWidth="300.0" promptText="Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
-                     <font>
-                        <Font name="SansSerif Regular" size="20.0" />
-                     </font>
-                  </PasswordField>
-                  <Label fx:id="emailRegError" layoutX="53.0" layoutY="228.0" prefHeight="27.0" prefWidth="504.0" textFill="RED">
-                     <font>
-                        <Font name="SansSerif Bold Italic" size="14.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="userMail" alignment="CENTER" layoutX="192.0" layoutY="302.0" prefWidth="300.0" promptText="Email" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
-                     <font>
-                        <Font name="SansSerif Regular" size="20.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </Pane>
-      <Pane fx:id="forgotPane" layoutX="683.0" layoutY="0.0" prefHeight="768.0" prefWidth="683.0" style="-fx-background-color: #ffffff; -fx-border-radius: 20;">
-         <children>
-            <Label alignment="CENTER" layoutX="116.0" layoutY="65.0" prefHeight="71.0" prefWidth="452.0" text="Forgot Password" textAlignment="CENTER">
-               <font>
-                  <Font size="40.0" />
-               </font>
-               <textFill>
-                  <LinearGradient endX="0.503787945617329" endY="0.8825757657036637" startX="0.5227273093028503" startY="0.1818182251670144">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.07058823853731155" green="0.95686274766922" blue="0.545098066329956" />
-                           </color>
-                        </Stop>
-                        <Stop offset="0.423956931359354">
-                           <color>
-                              <Color red="0.09803921729326248" green="0.7764706015586853" blue="0.9254902005195618" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.13333334028720856" green="0.0784313753247261" blue="0.8941176533699036" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </textFill>
-            </Label>
-            <Label fx:id="userError1" layoutX="98.0" layoutY="223.0" prefHeight="34.0" prefWidth="502.0" textAlignment="JUSTIFY" textFill="RED">
-               <font>
-                  <Font name="SansSerif Bold Italic" size="19.0" />
-               </font>
-            </Label>
-             <TextField fx:id="forgotUser" alignment="CENTER" layoutX="67.0" layoutY="223.0" prefHeight="63.0" prefWidth="553.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent; -fx-text-fill: #1f3ccc;">
-                 <font>
-                     <Font name="SansSerif Regular" size="20.0" />
-                 </font>
-             </TextField>
-             <Label fx:id="passMismatch" layoutX="106.0" layoutY="536.0" prefHeight="50.0" prefWidth="566.0" textFill="RED">
-               <font>
-                  <Font name="SansSerif Bold Italic" size="19.0" />
-               </font>
-            </Label>
-             <PasswordField fx:id="forgotPass" alignment="CENTER" layoutX="76.0" layoutY="339.0" prefHeight="27.0" prefWidth="534.0" promptText="New Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
-               <font>
-                  <Font name="SansSerif Regular" size="20.0" />
-               </font>
-            </PasswordField>
-             <Button fx:id="changePass" alignment="CENTER" layoutX="127.0" layoutY="560.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="142.0" text="Change" textFill="WHITE">
-                 <font>
-                     <Font name="SansSerif Bold" size="24.0" />
-                 </font>
-             </Button>
-             <PasswordField fx:id="ConfiirmPass" alignment="CENTER" layoutX="77.0" layoutY="436.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="534.0" promptText="Confirm New Password" style="-fx-background-color: transparent; -fx-text-fill: #1f3ccc; -fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent #1f3ccc transparent;">
-                 <font>
-                     <Font name="SansSerif Regular" size="20.0" />
-                 </font>
-             </PasswordField>
-             <Button fx:id="Goback" alignment="CENTER" layoutX="439.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="105.0" text="Back" textFill="WHITE">
-                 <font>
-                     <Font name="SansSerif Bold" size="24.0" />
-                 </font>
-             </Button>
-         </children>
-      </Pane>
-        
-      
-   </children>
+                    </font>
+                </Button>
+            </children>
+        </Pane>
+    </children>
 </AnchorPane>
