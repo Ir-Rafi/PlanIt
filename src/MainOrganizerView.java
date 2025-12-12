@@ -65,6 +65,7 @@ public class MainOrganizerView extends after_login implements OrganizerPanel {
 
         Button assignRolesBtn = createStyledButton("Assign Roles to Members", "#7c3aed", "#8b5cf6", "👥");
         Button todoBtn = createStyledButton("Create To-Do List", "#3b82f6", "#60a5fa", "📋");
+        Button createNewEventBtn = createStyledButton("Create New Event", "#22c55e", "#4ade80", "➕");
         Button bookPlacesBtn = createStyledButton("Book Event Places", "#06b6d4", "#22d3ee", "📍");
         Button progressReportBtn = createStyledButton("Manage Progress Reports", "#10b981", "#34d399", "📊");
         Button chatBtn = createStyledButton("Open Chat", "#8b5cf6", "#a78bfa", "💬");
@@ -100,10 +101,19 @@ public class MainOrganizerView extends after_login implements OrganizerPanel {
             stage.setFullScreenExitHint("");
         });
 
+        createNewEventBtn.setOnAction(e -> {
+            try {
+                EventController.openEventForm(stage);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
         if (context.shouldShowButton("assignRoles")) card.getChildren().add(assignRolesBtn);
         if (context.shouldShowButton("todo")) card.getChildren().add(todoBtn);
         if (context.shouldShowButton("bookPlaces")) card.getChildren().add(bookPlacesBtn);
         if (context.shouldShowButton("progressReport")) card.getChildren().add(progressReportBtn);
+        if (context.shouldShowButton("createEvent")) card.getChildren().add(createNewEventBtn);
         if (context.shouldShowButton("chat")) card.getChildren().add(chatBtn);
 
         card.getChildren().addAll(

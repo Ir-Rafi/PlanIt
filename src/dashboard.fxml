@@ -100,7 +100,6 @@
             <HBox alignment="CENTER_LEFT" spacing="20">
                 <Label text="My Events" styleClass="section-title"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button fx:id="newEventBtn" text="+ New Event" styleClass="new-event-btn" onAction="#onNewEventClick"/>
             </HBox>
             
             <Region prefHeight="25"/>

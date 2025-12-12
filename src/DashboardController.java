@@ -41,7 +41,7 @@ public class DashboardController extends Controller {
     private ScrollPane eventsScroll;
 
     @FXML
-    private Button dashboardBtn, editProfileBtn, eventPortalBtn, changePasswordBtn, signOutBtn, newEventBtn;
+    private Button dashboardBtn, editProfileBtn, eventPortalBtn, changePasswordBtn, signOutBtn;
 
     private String loggedInUsername;
     private boolean editingProfile = false;
@@ -197,16 +197,6 @@ public class DashboardController extends Controller {
     @FXML
     private void onSignOutClick() {
         DashboardController.loadingLoginPage(getStage());
-    }
-
-    @FXML
-    private void onNewEventClick() {
-        // Open new event creation dialog or navigate to event creation page
-        try {
-            EventController.openEventForm(getStage());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     private void setActiveNavButton(Button activeBtn) {
