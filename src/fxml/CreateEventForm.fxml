@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Circle?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="EventController"
+      styleClass="root-container"
+      prefWidth="1920" prefHeight="1080"
+      stylesheets="@eventform.css">
+    
+    <!-- Header -->
+    <HBox styleClass="header" alignment="CENTER_LEFT">
+        <Label text="Create New Event" styleClass="header-title"/>
+        <Button fx:id="closeButton" text="×" styleClass="close-button" onAction="#handleClose"/>
+    </HBox>
+    
+    <!-- Scrollable Main Content -->
+    <ScrollPane styleClass="main-scroll-pane" fitToWidth="true" VBox.vgrow="ALWAYS">
+        <HBox styleClass="content-container">
+            
+            <!-- Left Section -->
+            <VBox styleClass="left-section" spacing="20" HBox.hgrow="ALWAYS">
+                
+                <!-- Event Name -->
+                <VBox spacing="8">
+                    <Label text="Name Your Event" styleClass="section-label"/>
+                    <HBox styleClass="input-container" alignment="CENTER_LEFT">
+                        <ImageView styleClass="input-icon" fitWidth="20" fitHeight="20"/>
+                        <TextField fx:id="eventNameField" promptText="Event name goes here" styleClass="event-input"/>
+                    </HBox>
+                </VBox>
+                
+                <!-- Date and Time Row -->
+                <GridPane hgap="15" vgap="15" styleClass="date-time-grid">
+                    <!-- Event Date -->
+                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <HBox styleClass="dropdown-container" alignment="CENTER_LEFT">
+                            <ImageView styleClass="dropdown-icon" fitWidth="18" fitHeight="18"/>
+                            <DatePicker fx:id="eventDatePicker" promptText="Event Date" styleClass="date-picker"/>
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Ends After -->
+                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <HBox styleClass="dropdown-container" alignment="CENTER_LEFT">
+                            <ImageView styleClass="dropdown-icon" fitWidth="18" fitHeight="18"/>
+                            <ComboBox fx:id="endsAfterCombo" promptText="Ends After" styleClass="combo-box" prefWidth="200"/>
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Start Time -->
+                    <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <HBox styleClass="dropdown-container" alignment="CENTER_LEFT">
+                            <ImageView styleClass="dropdown-icon" fitWidth="18" fitHeight="18"/>
+                            <ComboBox fx:id="startTimeCombo" promptText="Start Time" styleClass="combo-box" prefWidth="200"/>
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- End Time -->
+                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <HBox styleClass="dropdown-container" alignment="CENTER_LEFT">
+                            <ImageView styleClass="dropdown-icon" fitWidth="18" fitHeight="18"/>
+                            <ComboBox fx:id="endTimeCombo" promptText="End Time" styleClass="combo-box" prefWidth="200"/>
+                        </HBox>
+                    </VBox>
+                </GridPane>
+                
+                <!-- Location Dropdown -->
+                <VBox spacing="8">
+                    <HBox styleClass="dropdown-container" alignment="CENTER_LEFT">
+                        <ImageView styleClass="dropdown-icon" fitWidth="18" fitHeight="18"/>
+                        <ComboBox fx:id="locationCombo" promptText="Location" styleClass="combo-box" prefWidth="450"/>
+                    </HBox>
+                </VBox>
+                
+                <!-- Attach File / Add Image -->
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Button fx:id="attachFileButton" text="📎 Attach File" styleClass="attach-button" onAction="#handleAttachFile"/>
+                    <Button fx:id="addImageButton" text="🖼 Add Event Image" styleClass="attach-button" onAction="#handleAddImage"/>
+                </HBox>
+                
+                <!-- Choose Event Color -->
+                <VBox spacing="12">
+                    <Label text="Choose Event Color" styleClass="section-label"/>
+                    <HBox spacing="12" fx:id="colorContainer" styleClass="color-container"/>
+                </VBox>
+                
+                <!-- Show Me -->
+                <VBox spacing="10">
+                    <Label text="Show Me:" styleClass="section-label"/>
+                    <HBox spacing="25">
+                        <fx:define>
+                            <ToggleGroup fx:id="showMeGroup"/>
+                        </fx:define>
+                        <RadioButton text="Busy" toggleGroup="$showMeGroup" selected="true" styleClass="radio-option"/>
+                        <RadioButton text="Available" toggleGroup="$showMeGroup" styleClass="radio-option"/>
+                    </HBox>
+                </VBox>
+                
+                <!-- Event Visibility -->
+                <VBox spacing="10">
+                    <Label text="Event Visibility:" styleClass="section-label"/>
+                    <HBox spacing="25">
+                        <fx:define>
+                            <ToggleGroup fx:id="visibilityGroup"/>
+                        </fx:define>
+                        <RadioButton text="Public" toggleGroup="$visibilityGroup" selected="true" styleClass="radio-option"/>
+                        <RadioButton text="Private" toggleGroup="$visibilityGroup" styleClass="radio-option"/>
+                    </HBox>
+                </VBox>
+                
+            </VBox>
+            
+            <!-- Right Section -->
+            <VBox styleClass="right-section" spacing="20">
+                
+                <!-- About Event -->
+                <VBox spacing="10">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Circle radius="10" styleClass="info-icon"/>
+                        <Label text="About Event" styleClass="section-title"/>
+                    </HBox>
+                    <TextArea fx:id="eventDescriptionArea" promptText="Describe your event..." styleClass="description-area" prefHeight="120" wrapText="true"/>
+                </VBox>
+                
+                <!-- Organizers Section -->
+                <VBox spacing="12" VBox.vgrow="ALWAYS">
+                    <Label text="Organizers" styleClass="section-title"/>
+                    
+                    <ScrollPane styleClass="organizers-scroll" fitToWidth="true" prefHeight="280" VBox.vgrow="ALWAYS">
+                        <VBox fx:id="organizersContainer" spacing="10" styleClass="organizers-list"/>
+                    </ScrollPane>
+                    
+                    <Button fx:id="addOrganizerButton" text="+ Add Organizer" styleClass="add-organizer-button" onAction="#handleAddOrganizer"/>
+                </VBox>
+                
+            </VBox>
+            
+        </HBox>
+    </ScrollPane>
+    
+    <!-- Footer Buttons -->
+    <HBox styleClass="footer" alignment="CENTER_RIGHT" spacing="15">
+        <Button fx:id="cancelButton" text="Cancel" styleClass="cancel-button" onAction="#handleCancel"/>
+        <Button fx:id="createButton" text="Create" styleClass="create-button" onAction="#handleCreate"/>
+    </HBox>
+    
+</VBox>

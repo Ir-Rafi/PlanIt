@@ -1,0 +1,129 @@
+/* ======= Global Styles for Viewer ======= */
+. root {
+    -fx-background-color: linear-gradient(to bottom, #0f172a, #1e293b);
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+}
+
+/* ======= Title ======= */
+.title {
+    -fx-font-size: 36px;
+    -fx-text-fill: #a78bfa;
+    -fx-font-weight: bold;
+}
+
+/* ======= Chat Button ======= */
+.chat-button {
+    -fx-background-color: #1e293b;
+    -fx-text-fill: #22d3ee;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 25;
+    -fx-border-color: #334155;
+    -fx-border-radius: 25;
+    -fx-padding: 10 25;
+    -fx-cursor: hand;
+}
+
+. chat-button:hover {
+    -fx-background-color: #334155;
+    -fx-border-color: #22d3ee;
+}
+
+/* ======= Event Card ======= */
+.event-card {
+    -fx-background-color: #1e293b;
+    -fx-background-radius: 16;
+    -fx-border-color: #334155;
+    -fx-border-radius: 16;
+    -fx-border-width: 1;
+}
+
+.event-card:hover {
+    -fx-border-color: #6366f1;
+    -fx-effect: dropshadow(gaussian, rgba(99, 102, 241, 0.4), 20, 0, 0, 5);
+}
+
+/* ======= Card Header ======= */
+.card-header {
+    -fx-background-radius: 16 16 0 0;
+}
+
+/* ======= Name Badge ======= */
+.name-badge {
+    -fx-background-color: #1e293b;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 20;
+}
+
+/* ======= Status Badges ======= */
+.status-upcoming {
+    -fx-text-fill: #22c55e;
+    -fx-background-color: rgba(34, 197, 94, 0. 15);
+    -fx-padding: 5 15;
+    -fx-background-radius: 15;
+    -fx-border-color: #22c55e;
+    -fx-border-radius: 15;
+}
+
+.status-ended {
+    -fx-text-fill: #f87171;
+    -fx-background-color: rgba(248, 113, 113, 0.15);
+    -fx-padding: 5 15;
+    -fx-background-radius: 15;
+    -fx-border-color: #f87171;
+    -fx-border-radius: 15;
+}
+
+. status-ongoing {
+    -fx-text-fill: #3b82f6;
+    -fx-background-color: rgba(59, 130, 246, 0.15);
+    -fx-padding: 5 15;
+    -fx-background-radius: 15;
+    -fx-border-color: #3b82f6;
+    -fx-border-radius: 15;
+}
+
+/* ======= Organizers Box ======= */
+.organizers-box {
+    -fx-background-color: #0f172a;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+/* ======= Back Button ======= */
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.back-button:hover {
+    -fx-text-fill: #e2e8f0;
+}
+
+/* ======= ScrollPane ======= */
+.scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > . scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > . scroll-bar:vertical . thumb {
+    -fx-background-color: #334155;
+    -fx-background-radius: 5;
+}
+
+.scroll-pane > . scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #475569;
+}

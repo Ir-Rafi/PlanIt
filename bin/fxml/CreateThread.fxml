@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="CreateThreadController"
+      spacing="15" style="-fx-background-color: linear-gradient(to bottom, #0f172a, #1e293b);">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Create New Discussion Thread"
+           style="-fx-font-size: 20px; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
+    <Label text="Title:"
+           style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;"/>
+    
+    <TextField fx:id="titleField" promptText="Enter thread title"
+               style="-fx-background-color: #1e293b; -fx-text-fill: white; 
+                      -fx-prompt-text-fill: #64748b; -fx-background-radius: 8;
+                      -fx-border-color: #334155; -fx-border-radius: 8;"/>
+
+    <Label text="Content:"
+           style="-fx-text-fill: #94a3b8; -fx-font-size: 14px;"/>
+    
+    <TextArea fx:id="contentArea" promptText="Write your message here..." wrapText="true"
+              prefRowCount="6"
+              style="-fx-background-color: #1e293b; -fx-text-fill: white;
+                     -fx-prompt-text-fill: #64748b; -fx-background-radius: 8;
+                     -fx-border-color: #334155; -fx-border-radius: 8;
+                     -fx-control-inner-background: #1e293b;"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="✓ Post Thread" onAction="#handlePost"
+                style="-fx-background-color: #22c55e; -fx-text-fill: white;
+                       -fx-font-size: 14px; -fx-font-weight: 600;
+                       -fx-background-radius: 8; -fx-cursor: hand;
+                       -fx-padding: 10 20;"/>
+        
+        <Button text="✗ Cancel" onAction="#handleCancel"
+                style="-fx-background-color: #6b7280; -fx-text-fill: white;
+                       -fx-font-size: 14px; -fx-font-weight: 600;
+                       -fx-background-radius: 8; -fx-cursor: hand;
+                       -fx-padding: 10 20;"/>
+    </HBox>
+
+</VBox>

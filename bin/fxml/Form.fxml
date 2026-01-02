@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" fx:controller="FormController">
+
+    <children>
+    <!-- PAGE 1 -->
+    <VBox fx:id="page1" alignment="TOP_CENTER" spacing="20"
+          AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" 
+          AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="100">
+
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+
+        <Label text="What do you want to use PlanIt! for?" styleClass="title"/>
+        <Label text="Used to personalize your PlanIt! experience." styleClass="subtitle"/>
+        <Label text="          Choose one or more" styleClass ="subtitle"/>
+
+        <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER" spacing="16" fillWidth="false">
+
+            <ToggleButton text="Communication strategy planning" />
+            <ToggleButton text="Event Planning"/>
+            <ToggleButton text="Institutional Program"/>
+            <ToggleButton text="Seminar"/>
+            <ToggleButton text="Competition Arrangement"/>
+            <ToggleButton text="Arranging Family Program"/>
+            <ToggleButton text="Business Program"/>
+            <ToggleButton text="Other"/>   
+        </VBox>
+
+
+        <Button fx:id="continue1" text="Continue" styleClass="continue-btn"/>
+        <Label text = "page 1 of 3" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="15"/>
+    </VBox>
+
+    <!-- PAGE 2 -->
+    <VBox fx:id="page2" alignment="TOP_CENTER" spacing="20"
+          AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" 
+          AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="100">
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+        <Label text="What function best describes your work?" styleClass="title"/>
+        <Label text="Choose one or more" styleClass="subtitle"/>
+
+        <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER" spacing="16" fillWidth="false">
+            <ToggleButton text="Administrative Assistant"/>
+            <ToggleButton text="Communications"/>
+            <ToggleButton text="Customer Experience"/>
+            <ToggleButton text="Data or Analytics"/>
+            <ToggleButton text="Management"/>
+            <ToggleButton text="Event Planning"/>
+            <ToggleButton text="Just Exploring"/>
+            <ToggleButton text="Other"/>
+        </VBox>
+
+
+        <Button fx:id="continue2" text="Continue" styleClass="continue-btn"/>
+        <Label text = "page 2 of 3" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="15"/>
+    </VBox>
+
+    <!-- PAGE 3 -->
+    <VBox fx:id="page3" alignment="TOP_CENTER" spacing="20"
+          AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" 
+          AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="100">
+
+        <padding>
+            <Insets top="30" right="30" bottom="30" left="30"/>
+        </padding>
+        <Label text="What's your primary role?" styleClass="title"/>
+        <Label text="Choose one or more" styleClass="subtitle"/>
+
+        <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      alignment="CENTER" spacing="16" fillWidth="false">
+            <ToggleButton text="Team member / Individual contributor"/>
+            <ToggleButton text="Manager"/>
+            <ToggleButton text="Director"/>
+            <ToggleButton text="Student"/>
+            <ToggleButton text="Executive"/>
+            <ToggleButton text="Teacher"/>
+            <ToggleButton text="Government Employee"/>
+            <ToggleButton text="Other"/>
+        </VBox>
+
+        <Button fx:id="continue3" text="Finish" styleClass="continue-btn"/>
+        <Label text = "page 3 of 3" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="15"/>
+    </VBox>
+    </children>
+
+</AnchorPane>

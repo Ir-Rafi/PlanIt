@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="DiscussionForumController"
+      spacing="10" style="-fx-padding: 20;">
+
+    <Label text="Discussion Forum" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10">
+        <Button text="← Back" onAction="#handleBack"/>
+        <Button text="Create Thread" onAction="#handleCreateThread" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <VBox fx:id="discussionThreadsContainer" spacing="10" style="-fx-padding: 10;"/>
+    </ScrollPane>
+
+</VBox>
