@@ -80,7 +80,7 @@ public class MainOrganizerView extends BaseOrganizerView implements OrganizerPan
         Button createNewEventBtn = createStyledButton("Create New Event", "#22c55e", "#4ade80", "➕");
         Button bookPlacesBtn = createStyledButton("Book Event Places", "#06b6d4", "#22d3ee", "📍");
         Button progressReportBtn = createStyledButton("Manage Progress Reports", "#10b981", "#34d399", "📊");
-        Button chatBtn = createStyledButton("Open Chat", "#8b5cf6", "#a78bfa", "💬");
+        Button chatBtn = createStyledButton("Open Chat", "#2b165aff", "#413661ff", "💬");
         Button deleteBtn = createStyledButton("Delete Event", "#ef4444", "#f87171", "🗑️");
 
         Region separator = new Region();

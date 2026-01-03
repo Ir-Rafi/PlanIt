@@ -722,25 +722,29 @@ public class EventController implements Initializable {
 
     private boolean isPlaceBookedByOrganizer(String placeName, LocalDate startDate, LocalDate endDate,
             String startTime, String endTime, int organizerId) {
-        // If event spans multiple days, only check date overlap (ignore times)
+        // Check if the organizer has a booking that covers the entire event period
         boolean isMultiDay = !startDate.equals(endDate);
         
         String sql;
         if (isMultiDay) {
+            // For multi-day events: booking must cover the entire date range
             sql = """
                     SELECT COUNT(*) FROM bookings
                     WHERE place_name = ?
                       AND organizer_id = ?
-                      AND NOT (end_date < ? OR start_date > ?)
+                      AND start_date <= ?
+                      AND end_date >= ?
                 """;
         } else {
-            // Single day event - check both date and time overlap
+            // For single day events: booking must cover both the date and time range
             sql = """
                     SELECT COUNT(*) FROM bookings
                     WHERE place_name = ?
                       AND organizer_id = ?
-                      AND NOT (end_date < ? OR start_date > ?)
-                      AND NOT (end_time <= ? OR start_time >= ?)
+                      AND start_date <= ?
+                      AND end_date >= ?
+                      AND start_time <= ?
+                      AND end_time >= ?
                 """;
         }
 

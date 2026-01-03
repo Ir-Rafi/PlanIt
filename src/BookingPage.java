@@ -1,6 +1,7 @@
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -183,7 +184,7 @@ stage.setFullScreenExitHint("");
 
         layout.getChildren().add(bookingCard);
 
-        // Check availability logic with animated "Checking" effect
+        // Check availability logic
         checkBtn.setOnAction(e -> {
             LocalDate startDate = startDatePicker.getValue();
             LocalDate endDate = endDatePicker.getValue();
@@ -194,59 +195,89 @@ stage.setFullScreenExitHint("");
                 resultLabel.setText("❌ Please select start and end dates.");
                 return;
             }
-            if (endDate.isBefore(startDate)) {
-                resultLabel.setText("❌ End date cannot be before start date.");
-                return;
-            }
             if (startTime == null || endTime == null) {
                 resultLabel.setText("❌ Please select start and end times.");
                 return;
             }
+            
+            // Validate date range
+            if (startDate.isAfter(endDate)) {
+                resultLabel.setText("❌ Start date cannot be after end date.");
+                return;
+            }
+            
+            // Only validate time if it's the same day
             if (startDate.isEqual(endDate) && !isValidTimeRange(startTime, endTime)) {
                 resultLabel.setText("❌ End time must be after start time on the same day.");
                 return;
             }
 
-            // Disable button during checking
+            // Disable button during check
             checkBtn.setDisable(true);
             
-            // Create animated "Checking" effect using Timeline
-            final String[] dots = {".", "..", "..."};
-            final int[] dotIndex = {0};
+            // Create animated "creating..." text
+            final int[] dotCount = {0};
+            Timeline loadingAnimation = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+                dotCount[0] = (dotCount[0] % 3) + 1;
+                String dots = ".".repeat(dotCount[0]);
+                resultLabel.setText("Checking" + dots);
+            }));
+            loadingAnimation.setCycleCount(Timeline.INDEFINITE);
+            loadingAnimation.play();
             
-            Timeline checkingAnimation = new Timeline(
-                new KeyFrame(Duration.millis(500), event -> {
-                    resultLabel.setText("Checking" + dots[dotIndex[0]]);
-                    resultLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px; -fx-font-weight: bold;");
-                    dotIndex[0] = (dotIndex[0] + 1) % dots.length;
-                })
-            );
-            checkingAnimation.setCycleCount(Timeline.INDEFINITE);
-            checkingAnimation.play();
-
-            // Run database check in a separate thread
-            new Thread(() -> {
-                try {
-                    // Simulate processing time (optional - remove if you want instant check)
-                    Thread.sleep(1500);
+            // Create background task for availability check
+            Task<Boolean> checkAvailabilityTask = new Task<Boolean>() {
+                private Connection taskConn;
+                private boolean needsBooking = false;
+                
+                @Override
+                protected Boolean call() throws Exception {
+                    taskConn = connect();
                     
-                    Connection conn = connect();
-                    // Check for overlapping bookings
-                    // Two bookings overlap if: NOT (booking1 ends before booking2 starts OR booking1 starts after booking2 ends)
-                    PreparedStatement ps = conn.prepareStatement("""
+                    // Proper overlap detection logic:
+                    // Two bookings overlap if:
+                    // 1. Their date ranges overlap: (start1 < end2) AND (end1 > start2)
+                    // 2. Their time ranges overlap: (startTime1 < endTime2) AND (endTime1 > startTime2)
+                    //
+                    // Examples of CONFLICTS (should be detected):
+                    // - Existing: 2026-01-10 09:00 to 2026-01-10 12:00
+                    //   New:      2026-01-10 11:00 to 2026-01-10 14:00  ❌ OVERLAPS (11:00 < 12:00)
+                    //
+                    // - Existing: 2026-01-10 09:00 to 2026-01-12 17:00
+                    //   New:      2026-01-11 10:00 to 2026-01-11 15:00  ❌ OVERLAPS (multi-day)
+                    //
+                    // - Existing: 2026-01-10 14:00 to 2026-01-10 18:00
+                    //   New:      2026-01-10 12:00 to 2026-01-10 15:00  ❌ OVERLAPS (12:00-15:00 conflicts with 14:00-18:00)
+                    //
+                    // Examples of NO CONFLICT (should be allowed):
+                    // - Existing: 2026-01-10 09:00 to 2026-01-10 12:00
+                    //   New:      2026-01-10 12:00 to 2026-01-10 15:00  ✅ NO OVERLAP (end time = start time is OK)
+                    //
+                    // - Existing: 2026-01-10 09:00 to 2026-01-10 12:00
+                    //   New:      2026-01-11 09:00 to 2026-01-11 12:00  ✅ NO OVERLAP (different dates)
+                    //
+                    // - Existing: 2026-01-10 14:00 to 2026-01-10 18:00
+                    //   New:      2026-01-10 10:00 to 2026-01-10 14:00  ✅ NO OVERLAP (end time = start time)
+                    
+                    // Fixed overlap detection logic:
+                    // No overlap if: existing ends before new starts OR existing starts after new ends
+                    // For dates and times combined:
+                    // No overlap if: (existing_end_date, existing_end_time) <= (new_start_date, new_start_time)
+                    //            OR: (existing_start_date, existing_start_time) >= (new_end_date, new_end_time)
+                    PreparedStatement ps = taskConn.prepareStatement("""
                         SELECT COUNT(*) FROM bookings
                         WHERE place_name = ?
                           AND NOT (
                                 (end_date < ? OR (end_date = ? AND end_time <= ?))
-                                OR (start_date > ? OR (start_date = ? AND start_time >= ?))
+                             OR (start_date > ? OR (start_date = ? AND start_time >= ?))
                           )
                     """);
                     ps.setString(1, placeName);
-                    // Booking ends before requested start
+                    // existing ends before new starts: end_date < new_start_date OR (end_date = new_start_date AND end_time <= new_start_time)
                     ps.setDate(2, Date.valueOf(startDate));
                     ps.setDate(3, Date.valueOf(startDate));
                     ps.setTime(4, Time.valueOf(startTime + ":00"));
-                    // Booking starts after requested end
+                    // existing starts after new ends: start_date > new_end_date OR (start_date = new_end_date AND start_time >= new_end_time)
                     ps.setDate(5, Date.valueOf(endDate));
                     ps.setDate(6, Date.valueOf(endDate));
                     ps.setTime(7, Time.valueOf(endTime + ":00"));
@@ -254,36 +285,55 @@ stage.setFullScreenExitHint("");
                     ResultSet rs = ps.executeQuery();
                     rs.next();
                     boolean isFree = rs.getInt(1) == 0;
-
-                    // Update UI on JavaFX Application Thread
-                    Platform.runLater(() -> {
-                        checkingAnimation.stop();
+                    
+                    if (isFree) {
+                        needsBooking = true;
+                        bookPlace(taskConn, placeName, organizerId, startDate, endDate, startTime, endTime);
+                    }
+                    
+                    return isFree;
+                }
+                
+                @Override
+                protected void succeeded() {
+                    loadingAnimation.stop();
+                    checkBtn.setDisable(false);
+                    
+                    try {
+                        boolean isFree = getValue();
                         if (isFree) {
                             resultLabel.setText("✅ Place available! Booking confirmed.");
-                            resultLabel.setStyle("-fx-text-fill: #27AE60; -fx-font-size: 18px; -fx-font-weight: bold;");
-                            try {
-                                bookPlace(conn, placeName, organizerId, startDate, endDate, startTime, endTime);
-                            } catch (SQLException sqlEx) {
-                                resultLabel.setText("Error booking: " + sqlEx.getMessage());
-                                resultLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 16px;");
-                            }
                         } else {
                             resultLabel.setText("❌ Already booked for that time slot.");
-                            resultLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 18px; -fx-font-weight: bold;");
                         }
-                        checkBtn.setDisable(false);
-                    });
-                    
-                    conn.close();
-                } catch (Exception ex) {
-                    Platform.runLater(() -> {
-                        checkingAnimation.stop();
-                        resultLabel.setText("Error: " + ex.getMessage());
-                        resultLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 16px;");
-                        checkBtn.setDisable(false);
-                    });
+                    } finally {
+                        closeConnection();
+                    }
                 }
-            }).start();
+                
+                @Override
+                protected void failed() {
+                    loadingAnimation.stop();
+                    checkBtn.setDisable(false);
+                    resultLabel.setText("Error: " + getException().getMessage());
+                    closeConnection();
+                }
+                
+                private void closeConnection() {
+                    if (taskConn != null) {
+                        try {
+                            taskConn.close();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            };
+            
+            // Start the task in a new thread
+            Thread thread = new Thread(checkAvailabilityTask);
+            thread.setDaemon(true);
+            thread.start();
         });
 
         stage.setScene(new Scene(layout, previousScene.getWidth(), previousScene.getHeight()));
