@@ -5,7 +5,7 @@
 ### *Plan it.  Execute it. Perfect it.*
 
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.java.com/)
-[![JavaFX](https://img.shields.io/badge/JavaFX-007396?style=for-the-badge&logo=java&logoColor=white)](https://openjfx.io/)
+[![JavaFX](https://img.shields.io/badge/JavaFX-007396? style=for-the-badge&logo=java&logoColor=white)](https://openjfx.io/)
 [![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
@@ -13,6 +13,8 @@
   <strong>A comprehensive JavaFX-based Event Management System</strong><br>
   <em>Developed by Team Abstrax for CSE 2104 - Object Oriented Design and Programming Lab</em>
 </p>
+
+**Team Members:** Kazi Maheru Tafannum • Rubaiya Sultana • Shadman Zaman Sajid • Md. Irfan Iqbal
 
 [Features](#-key-features) •
 [Architecture](#-system-architecture) •
@@ -241,12 +243,12 @@ mindmap
 <div align="center">
 
 | Category | Technologies |
-|: --------:|: ------------|
-| **Language** | ![Java](https://img.shields.io/badge/Java_8+-ED8B00? style=flat-square&logo=openjdk&logoColor=white) |
-| **Frontend** | ![JavaFX](https://img.shields.io/badge/JavaFX-007396?style=flat-square&logo=java&logoColor=white) ![FXML](https://img.shields.io/badge/FXML-FF6F00?style=flat-square) ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![Scene Builder](https://img.shields.io/badge/Scene_Builder-43853D?style=flat-square) |
-| **Backend** | ![Socket](https://img.shields.io/badge/Socket_Programming-4B8BBE?style=flat-square) ![Multithreading](https://img.shields.io/badge/Multi--threading-FF4081?style=flat-square) |
-| **Database** | ![MySQL](https://img.shields.io/badge/MySQL-005C84? style=flat-square&logo=mysql&logoColor=white) ![JDBC](https://img.shields.io/badge/JDBC-007396?style=flat-square) |
-| **Tools** | ![IntelliJ](https://img.shields.io/badge/IntelliJ_IDEA-000000? style=flat-square&logo=intellij-idea&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white) |
+|: --------:|:-------------|
+| **Language** | Java 8+ |
+| **Frontend** | JavaFX, FXML, CSS, Scene Builder |
+| **Backend** | Java Socket Programming, Multi-threading |
+| **Database** | MySQL (Hosted on Clever-cloud), JDBC |
+| **Tools** | IntelliJ IDEA, Git |
 
 </div>
 
@@ -256,26 +258,6 @@ mindmap
 - 💾 **Persistence**:  Hybrid storage using remote MySQL database (Clever-cloud) and local serialized `.dat` files
 - 🎨 **UI/UX**: Modern dark theme with responsive layouts and animated loading states
 - 🔐 **Security**: Password hashing with BCrypt
-
----
-
-## 📸 Screenshots
-
-<div align="center">
-
-| Login Screen | Main Dashboard |
-|:------------:|:--------------:|
-| ![Login](img/login.png) | ![Dashboard](img/dashboard.png) |
-| *Secure entry point with Remember Me* | *Event overview and navigation* |
-
-| Venue Booking | Discussion Forum |
-|: -------------:|: ----------------:|
-| ![Booking](img/booking.png) | ![Forum](img/forum.png) |
-| *Interactive availability check* | *Real-time collaboration* |
-
-</div>
-
-> 📝 **Note**: Add your screenshots to the `img/` folder and update the paths above.
 
 ---
 
@@ -323,7 +305,7 @@ cd PlanIt
 ```
 PlanIt/
 ├── 📂 src/
-│   ├── 📄 Main. java                    # Application entry point
+│   ├── 📄 Main.java                    # Application entry point
 │   ├── 📄 Dashboard.java               # Main dashboard controller
 │   ├── 📄 AdvancedTodoListApp.java     # Task management
 │   ├── 📄 EventController.java         # Event handling
@@ -344,10 +326,17 @@ PlanIt/
 
 <div align="center">
 
-*30th Batch, Department of Computer Science & Engineering, University of Dhaka*
+### 🎓 30th Batch, Department of Computer Science & Engineering
+### 🏛️ University of Dhaka
+
+---
+
+**Kazi Maheru Tafannum** • **Rubaiya Sultana** • **Shadman Zaman Sajid** • **Md. Irfan Iqbal**
+
+---
 
 | Roll | Name | Role | Responsibilities |
-|: ----:|:-----|:----:|:-----------------|
+|: ----:|:-----|: ----:|:-----------------|
 | 03 | **Kazi Maheru Tafannum** | 🔧 Backend Dev | Backend Design, DBMS |
 | 05 | **Rubaiya Sultana** | 🎨 UI Designer | UI Design, Conceptualist |
 | 14 | **Shadman Zaman Sajid** | 🧪 Tester | Testing, System Programming |
@@ -369,18 +358,18 @@ timeline
                : Event reminders
     
     section Phase 2
-        Q2 2026 :  📱 Mobile Application
+        Q2 2026 : 📱 Mobile Application
                : Android & iOS versions
                : Cross-platform sync
     
     section Phase 3
-        Q3 2026 : 🤖 AI Integration
-               : ML-based event recommendations
+        Q3 2026 :  🤖 AI Integration
+               :  ML-based event recommendations
                : Smart scheduling
     
     section Phase 4
         Q4 2026 : 📹 Video Conferencing
-               :  Remote meeting integration
+               : Remote meeting integration
                : 🌍 Multi-language Support
 ```
 
@@ -398,7 +387,7 @@ timeline
 
 <div align="center">
 
-[![GitHub](https://img.shields.io/badge/Source_Code-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ir-Rafi/PlanIt)
+[![GitHub](https://img.shields.io/badge/Source_Code-181717? style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ir-Rafi/PlanIt)
 [![Demo](https://img.shields.io/badge/Watch_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=your-demo-link)
 
 </div>
