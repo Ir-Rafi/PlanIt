@@ -1,78 +1,179 @@
-PlanIt - Event Management System
-Planit. Execute it. Perfect it. 
+<div align="center">
 
-📖 Introduction
+# 🗓️ PlanIt
 
-PlanIt is a comprehensive JavaFX-based Event Management System developed by Team Abstrax for the CSE 2104 Object Oriented Design and Programming Lab.
+### *Plan it.  Execute it. Perfect it.*
 
+[![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.java.com/)
+[![JavaFX](https://img.shields.io/badge/JavaFX-007396?style=for-the-badge&logo=java&logoColor=white)](https://openjfx.io/)
+[![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
+<p align="center">
+  <strong>A comprehensive JavaFX-based Event Management System</strong><br>
+  <em>Developed by Team Abstrax for CSE 2104 - Object Oriented Design and Programming Lab</em>
+</p>
 
-Traditional event management often suffers from scattered communication and overlapping venue registrations . PlanIt addresses these challenges by providing a centralized platform for event coordination, task management, and stakeholder communication.
+[Features](#-key-features) •
+[Architecture](#-system-architecture) •
+[Installation](#-installation--setup) •
+[Tech Stack](#-tech-stack) •
+[Team](#-team-abstrax)
 
+---
 
+</div>
 
-Key Objectives:
+## 📖 Introduction
 
-Streamline event planning workflows.
+Traditional event management often suffers from **scattered communication** and **overlapping venue registrations**. **PlanIt** addresses these challenges by providing a centralized platform for event coordination, task management, and stakeholder communication.
 
-Enable role-based task delegation.
+### 🎯 Key Objectives
 
-Provide real-time collaboration and centralized venue booking.
+| Objective | Description |
+|-----------|-------------|
+| 🔄 **Streamline Workflows** | Simplify event planning with intuitive dashboards |
+| 👥 **Role-Based Delegation** | Enable efficient task assignment and tracking |
+| 🏢 **Venue Management** | Prevent scheduling conflicts with centralized booking |
+| 💬 **Real-Time Collaboration** | Foster team communication through discussion forums |
 
-🚀 Key Features
-👤 User Management
+---
 
-Role-Based Access Control: Distinct dashboards for Main Organizers, Sub Organizers, and Viewers.
+## 🚀 Key Features
 
+<table>
+<tr>
+<td width="50%">
 
-Secure Authentication: Secure login system with "Remember Me" functionality and session persistence.
+### 👤 User Management
+- **Role-Based Access Control**
+  - Main Organizers
+  - Sub Organizers  
+  - Viewers
+- **Secure Authentication**
+  - "Remember Me" functionality
+  - Session persistence
 
+</td>
+<td width="50%">
 
-📅 Event Coordination
+### 📅 Event Coordination
+- **Context-Aware Dashboards**
+  - Global dashboard view
+  - Specific Event Portals
+- **Advanced Task Management**
+  - Priority levels (High/Medium/Low)
+  - Categorization & completion tracking
 
-Context-Aware Dashboards: Switch between a global dashboard and specific Event Portals.
+</td>
+</tr>
+<tr>
+<td width="50%">
 
+### 🏢 Venue Booking
+- Interactive booking system
+- Database integration
+- Overlap prevention
+- Real-time availability check
 
-Task Management: Advanced To-Do lists with priority levels (High, Medium, Low), categorization, and completion tracking .
+</td>
+<td width="50%">
 
+### 💬 Collaboration Tools
+- **Discussion Forum**
+  - Thread-based discussions
+  - 50+ concurrent clients support
+  - Multi-threaded server
+- **Progress Reports**
+  - Create & save detailed reports
+  - Split-pane interface
 
+</td>
+</tr>
+</table>
 
-Venue Booking: Interactive booking system with database integration to prevent overlapping schedules.
+---
 
+## 🏗 System Architecture
 
-💬 Collaboration Tools
+### High-Level Architecture Diagram
 
-Discussion Forum: Thread-based discussions (similar to Reddit/Stack Overflow) supporting 50+ concurrent clients via a multi-threaded server.
+```mermaid
+flowchart TB
+    subgraph Client["🖥️ Client Layer"]
+        UI[JavaFX UI]
+        FXML[FXML Views]
+        CSS[CSS Styling]
+    end
+    
+    subgraph Application["⚙️ Application Layer"]
+        Controllers[Controllers]
+        Session[Session Manager]
+        Serialization[Object Serialization]
+    end
+    
+    subgraph Network["🌐 Network Layer"]
+        Socket[Socket Programming]
+        TCP[TCP/IP Protocol]
+        MultiThread[Multi-threaded Server]
+    end
+    
+    subgraph Data["💾 Data Layer"]
+        MySQL[(MySQL Database)]
+        DAT[(. dat Files)]
+    end
+    
+    UI --> Controllers
+    FXML --> UI
+    CSS --> UI
+    Controllers --> Session
+    Controllers --> Socket
+    Session --> Serialization
+    Socket --> TCP
+    TCP --> MultiThread
+    MultiThread --> MySQL
+    Serialization --> DAT
+```
 
+### Application Flow Diagram
 
+```mermaid
+flowchart LR
+    A[🔐 Login] --> B{Authentication}
+    B -->|Success| C[📊 Dashboard]
+    B -->|Failure| A
+    
+    C --> D[📅 Event Portal]
+    C --> E[📋 Task Manager]
+    C --> F[🏢 Venue Booking]
+    C --> G[💬 Discussion Forum]
+    
+    D --> H[Create Event]
+    D --> I[Manage Organizers]
+    
+    E --> J[Add Tasks]
+    E --> K[Set Priority]
+    E --> L[Track Progress]
+    
+    F --> M[Check Availability]
+    F --> N[Book Venue]
+    
+    G --> O[Create Thread]
+    G --> P[Reply to Posts]
+```
 
-Progress Reports: Create, save, and view detailed progress reports in a split-pane interface .
+### Database Schema (ER Diagram)
 
-🛠 Technical Highlights
-
-Networking: Socket-based client-server architecture using TCP/IP and object serialization .
-
-
-Persistence: Hybrid storage using a remote MySQL database (clever-cloud.com) and local serialized .dat files.
-
-
-
-UI/UX: Modern dark theme, responsive layouts, and animated loading states .
-
-🏗 System Architecture & Design
-Database Schema Diagram
-The system utilizes a relational schema to manage Users, Events, Bookings, and Organizers .
-
-Code snippet
-
+```mermaid
 erDiagram
     USERS ||--o{ ORGANIZERS : "managed by"
     EVENTS ||--|{ BOOKINGS : "has"
     EVENTS ||--|{ ORGANIZERS : "coordinated by"
+    USERS ||--o{ EVENTS : "creates"
     
     USERS {
         int id PK
-        string username
+        string username UK
         string password_hashed
         string email
         string department
@@ -96,133 +197,226 @@ erDiagram
         int organizer_id FK
         time start_time
         time end_time
+        date booking_date
     }
 
     ORGANIZERS {
         int organizer_id PK
         string organizer_name
+        string phone
+        string code
         int event_id FK
     }
-Design Patterns Implemented
-To ensure modularity and scalability, the following OOP design patterns were applied :
+```
 
-Singleton: Used for session management.
+### Design Patterns Implemented
 
-Factory: OrganizerViewFactory for creating role-specific views.
+```mermaid
+mindmap
+  root((PlanIt<br>Design Patterns))
+    Creational
+      Singleton
+        Session Management
+        Database Connection
+      Factory
+        OrganizerViewFactory
+        Role-specific Views
+    Behavioral
+      Command
+        Client-Server Communication
+        Request Handling
+      Observer
+        UI Updates
+        Data Change Notifications
+    Structural
+      Context
+        Dashboard State
+        Event Portal State
+```
 
-Command: Handles client-server communication logic.
+---
 
-Observer: Updates UI elements upon data changes.
+## 💻 Tech Stack
 
-Context: Manages switching between Event Portal and Dashboard states.
+<div align="center">
 
-💻 Tech Stack
-Category	Technology Used
-Language	
-Java (JDK 8 or higher) 
+| Category | Technologies |
+|: --------:|: ------------|
+| **Language** | ![Java](https://img.shields.io/badge/Java_8+-ED8B00? style=flat-square&logo=openjdk&logoColor=white) |
+| **Frontend** | ![JavaFX](https://img.shields.io/badge/JavaFX-007396?style=flat-square&logo=java&logoColor=white) ![FXML](https://img.shields.io/badge/FXML-FF6F00?style=flat-square) ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![Scene Builder](https://img.shields.io/badge/Scene_Builder-43853D?style=flat-square) |
+| **Backend** | ![Socket](https://img.shields.io/badge/Socket_Programming-4B8BBE?style=flat-square) ![Multithreading](https://img.shields.io/badge/Multi--threading-FF4081?style=flat-square) |
+| **Database** | ![MySQL](https://img.shields.io/badge/MySQL-005C84? style=flat-square&logo=mysql&logoColor=white) ![JDBC](https://img.shields.io/badge/JDBC-007396?style=flat-square) |
+| **Tools** | ![IntelliJ](https://img.shields.io/badge/IntelliJ_IDEA-000000? style=flat-square&logo=intellij-idea&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white) |
 
-Frontend	
-JavaFX, FXML, CSS, Scene Builder 
+</div>
 
-Backend	
-Java Socket Programming, Multi-threading 
+### Technical Highlights
 
+- 🌐 **Networking**: Socket-based client-server architecture using TCP/IP and object serialization
+- 💾 **Persistence**:  Hybrid storage using remote MySQL database (Clever-cloud) and local serialized `.dat` files
+- 🎨 **UI/UX**: Modern dark theme with responsive layouts and animated loading states
+- 🔐 **Security**: Password hashing with BCrypt
 
-Database	
-MySQL (Hosted on Clever-cloud), JDBC 
+---
 
-Tools	
-IntelliJ IDEA, Git 
+## 📸 Screenshots
 
+<div align="center">
 
-Export to Sheets
+| Login Screen | Main Dashboard |
+|:------------:|:--------------:|
+| ![Login](img/login.png) | ![Dashboard](img/dashboard.png) |
+| *Secure entry point with Remember Me* | *Event overview and navigation* |
 
-📸 Screenshots
-(Note: Add the images from the report folder to your repo and link them here)
+| Venue Booking | Discussion Forum |
+|: -------------:|: ----------------:|
+| ![Booking](img/booking.png) | ![Forum](img/forum.png) |
+| *Interactive availability check* | *Real-time collaboration* |
 
-Login Screen	Main Dashboard
-Secure entry point 
+</div>
 
-Event overview 
+> 📝 **Note**: Add your screenshots to the `img/` folder and update the paths above.
 
+---
 
-Export to Sheets
+## 📥 Installation & Setup
 
-Venue Booking	Discussion Forum
-Interactive availability check 
+### Prerequisites
 
-Real-time collaboration 
+- ☕ **JDK 8** or higher
+- 🌐 Active internet connection (for remote database)
+- 💻 IntelliJ IDEA or VS Code (recommended)
 
+### Quick Start
 
-Export to Sheets
+```bash
+# 1. Clone the repository
+git clone https://github.com/Ir-Rafi/PlanIt. git
 
-📥 Installation & Setup
-Clone the repository:
+# 2. Navigate to project directory
+cd PlanIt
 
-Bash
+# 3. Open in your IDE and build the project
 
-git clone https://github.com/Ir-Rafi/Planlt.git
+# 4. Run the Main class
+```
 
+### Configuration
 
+```properties
+# Database is pre-configured to use Clever-cloud MySQL
+# No additional setup required for database connection
+```
 
-Database Configuration:
+### Running the Application
 
-The project is configured to use a remote MySQL database on clever-cloud.com.
+1. **Import** the project into IntelliJ IDEA or VS Code
+2. **Ensure** JDK 8+ is configured
+3. **Add** JavaFX libraries to your classpath if needed
+4. **Locate** and run the `Main` class
+5. **Start** the Server module first if testing network features locally
 
-Ensure your internet connection is active to connect to the DB.
+---
 
-Build the Project:
+## 📁 Project Structure
 
-Open the project in IntelliJ IDEA or VS Code.
+```
+PlanIt/
+├── 📂 src/
+│   ├── 📄 Main. java                    # Application entry point
+│   ├── 📄 Dashboard.java               # Main dashboard controller
+│   ├── 📄 AdvancedTodoListApp.java     # Task management
+│   ├── 📄 EventController.java         # Event handling
+│   ├── 📄 DatabaseUtility.java         # Database operations
+│   ├── 📄 Session.java                 # Session management
+│   ├── 📂 fxml/                        # FXML view files
+│   └── 📂 css/                         # Stylesheets
+├── 📂 Chat/                            # Discussion forum module
+├── 📂 img/                             # Images and assets
+├── 📂 lib/                             # External libraries
+├── 📂 reports/                         # Generated reports
+└── 📄 README.md
+```
 
-Ensure JDK 8 or higher is installed.
+---
 
-Reload Maven/Gradle dependencies (if applicable) or add JavaFX libraries to your classpath.
+## 👥 Team Abstrax
 
-Run the Application:
+<div align="center">
 
-Locate the Main class and run.
+*30th Batch, Department of Computer Science & Engineering, University of Dhaka*
 
-Note: Ensure the Server module is running if testing network features locally.
+| Roll | Name | Role | Responsibilities |
+|: ----:|:-----|:----:|:-----------------|
+| 03 | **Kazi Maheru Tafannum** | 🔧 Backend Dev | Backend Design, DBMS |
+| 05 | **Rubaiya Sultana** | 🎨 UI Designer | UI Design, Conceptualist |
+| 14 | **Shadman Zaman Sajid** | 🧪 Tester | Testing, System Programming |
+| 35 | **Md.  Irfan Iqbal** | 🏗️ Lead Dev | Backend Architecture, UI Design, Integration |
 
-👥 Team Abstrax
-This project was created by the 30th Batch, Department of Computer Science & Engineering, University of Dhaka.
+</div>
 
-Roll No.	Name	Role
-03	Kazi Maheru Tafannum	
-Backend Design, DBMS 
+---
 
-14	Shadman Zaman Sajid	
-Testing, System Programmer 
+## 🔮 Future Roadmap
 
-05	Rubaiya Sultana	
-UI Designer, Conceptualist 
+```mermaid
+timeline
+    title PlanIt Development Roadmap
+    
+    section Phase 1
+        Q1 2026 :  📧 Email Notifications
+               :  Push notifications for task updates
+               : Event reminders
+    
+    section Phase 2
+        Q2 2026 :  📱 Mobile Application
+               : Android & iOS versions
+               : Cross-platform sync
+    
+    section Phase 3
+        Q3 2026 : 🤖 AI Integration
+               : ML-based event recommendations
+               : Smart scheduling
+    
+    section Phase 4
+        Q4 2026 : 📹 Video Conferencing
+               :  Remote meeting integration
+               : 🌍 Multi-language Support
+```
 
-35	Md. Irfan Iqbal	
-Backend Arch, UI Design, Integration 
+### Planned Features
 
+- [ ] 📱 **Mobile Application** - Android/iOS native apps
+- [ ] 📧 **Email Notifications** - Task updates and reminders
+- [ ] 🤖 **Machine Learning** - Smart event recommendations
+- [ ] 📹 **Video Conferencing** - Remote meeting integration
+- [ ] 🌍 **Multi-language Support** - Internationalization
 
-Export to Sheets
+---
 
-🔮 Future Roadmap
-We plan to scale PlanIt into a robust system with the following enhancements :
+## 🔗 Links & Resources
 
-📱 Mobile Application (Android/iOS).
+<div align="center">
 
-📧 Email Notifications for task updates.
+[![GitHub](https://img.shields.io/badge/Source_Code-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ir-Rafi/PlanIt)
+[![Demo](https://img.shields.io/badge/Watch_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=your-demo-link)
 
-🤖 Machine Learning for event recommendations.
+</div>
 
-📹 Video Conferencing integration for remote meetings.
+---
 
-🌍 Multi-language Support for international events.
+## 📄 License
 
-🔗 Links & Resources
+This project was created for academic purposes as part of the CSE 2104 course at the University of Dhaka.
 
-Source Code: GitHub Repository 
+---
 
+<div align="center">
 
-Demo Video: Watch Demonstration 
+**⭐ Star this repository if you found it helpful!**
 
+Made with ❤️ by **Team Abstrax**
 
-Submitted on January 03, 2026
+*Submitted on January 03, 2026*
+
+</div>
