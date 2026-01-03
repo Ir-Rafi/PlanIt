@@ -299,145 +299,145 @@ public class DashboardController extends Controller {
     // ==========================================================
 // EDIT PROFILE
 // ==========================================================
-private void enableProfileEditing() {
-    showEditProfileDialog();
-}
+    private void enableProfileEditing() {
+        showEditProfileDialog();
+    }
 
-private void showEditProfileDialog() {
-    Dialog<ButtonType> dlg = new Dialog<>();
-    dlg.initOwner(rightPane.getScene().getWindow());
-    dlg.setTitle("Edit Profile");
+    private void showEditProfileDialog() {
+        Dialog<ButtonType> dlg = new Dialog<>();
+        dlg.initOwner(rightPane.getScene().getWindow());
+        dlg.setTitle("Edit Profile");
 
-    DialogPane dialogPane = dlg.getDialogPane();
-    dialogPane.setStyle("-fx-background-color: #1A1A2E;");
+        DialogPane dialogPane = dlg.getDialogPane();
+        dialogPane.setStyle("-fx-background-color: #1A1A2E;");
 
-    GridPane gp = new GridPane();
-    gp.setHgap(12);
-    gp.setVgap(12);
-    gp.setStyle("-fx-padding: 20;");
+        GridPane gp = new GridPane();
+        gp.setHgap(12);
+        gp.setVgap(12);
+        gp.setStyle("-fx-padding: 20;");
 
-    // Create text fields with existing data
-    TextField nameField = new TextField(nameLabel != null ? nameLabel.getText() : "");
-    TextField emailField = new TextField(emailLabel != null ? emailLabel.getText() : "");
-    TextField deptField = new TextField(deptLabel != null ? deptLabel.getText() : "");
-    TextField sessionField = new TextField(sessionLabel != null ? sessionLabel.getText() : "");
+        // Create text fields with existing data
+        TextField nameField = new TextField(nameLabel != null ? nameLabel.getText() : "");
+        TextField emailField = new TextField(emailLabel != null ? emailLabel.getText() : "");
+        TextField deptField = new TextField(deptLabel != null ? deptLabel.getText() : "");
+        TextField sessionField = new TextField(sessionLabel != null ? sessionLabel.getText() : "");
 
-    String fieldStyle = "-fx-background-color: #2D2D3A; -fx-text-fill: white; -fx-border-color: #3D3D4A; -fx-border-radius: 5; -fx-background-radius: 5;";
-    nameField.setStyle(fieldStyle);
-    emailField.setStyle(fieldStyle);
-    deptField.setStyle(fieldStyle);
-    sessionField.setStyle(fieldStyle);
+        String fieldStyle = "-fx-background-color: #2D2D3A; -fx-text-fill: white; -fx-border-color: #3D3D4A; -fx-border-radius: 5; -fx-background-radius: 5;";
+        nameField.setStyle(fieldStyle);
+        emailField.setStyle(fieldStyle);
+        deptField.setStyle(fieldStyle);
+        sessionField.setStyle(fieldStyle);
 
-    Label nameLabel = new Label("Full Name:");
-    Label emailLabel = new Label("Email:");
-    Label deptLabel = new Label("Department:");
-    Label sessionLabel = new Label("Session:");
-    
-    nameLabel.setStyle("-fx-text-fill: white;");
-    emailLabel.setStyle("-fx-text-fill: white;");
-    deptLabel.setStyle("-fx-text-fill: white;");
-    sessionLabel.setStyle("-fx-text-fill: white;");
+        Label nameLabel = new Label("Full Name:");
+        Label emailLabel = new Label("Email:");
+        Label deptLabel = new Label("Department:");
+        Label sessionLabel = new Label("Session:");
 
-    gp.addRow(0, nameLabel, nameField);
-    gp.addRow(1, emailLabel, emailField);
-    gp.addRow(2, deptLabel, deptField);
-    gp.addRow(3, sessionLabel, sessionField);
+        nameLabel.setStyle("-fx-text-fill: white;");
+        emailLabel.setStyle("-fx-text-fill: white;");
+        deptLabel.setStyle("-fx-text-fill: white;");
+        sessionLabel.setStyle("-fx-text-fill: white;");
 
-    dialogPane.setContent(gp);
-    dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        gp.addRow(0, nameLabel, nameField);
+        gp.addRow(1, emailLabel, emailField);
+        gp.addRow(2, deptLabel, deptField);
+        gp.addRow(3, sessionLabel, sessionField);
 
-    Optional<ButtonType> result = dlg.showAndWait();
-    result.ifPresent(res -> {
-        if (res == ButtonType.OK) {
-            String name = nameField.getText().trim();
-            String email = emailField.getText().trim();
-            String dept = deptField.getText().trim();
-            String session = sessionField.getText().trim();
+        dialogPane.setContent(gp);
+        dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-            if (name.isEmpty() || email.isEmpty()) {
-                showAlert("Name and Email are required!");
-                return;
+        Optional<ButtonType> result = dlg.showAndWait();
+        result.ifPresent(res -> {
+            if (res == ButtonType.OK) {
+                String name = nameField.getText().trim();
+                String email = emailField.getText().trim();
+                String dept = deptField.getText().trim();
+                String session = sessionField.getText().trim();
+
+                if (name.isEmpty() || email.isEmpty()) {
+                    showAlert("Name and Email are required!");
+                    return;
+                }
+
+                saveProfileAsync(name, email, dept, session);
+            }
+        });
+    }
+
+    private void saveProfileAsync(String name, String email, String dept, String session) {
+        // Create loading overlay
+        StackPane loadingOverlay = new StackPane();
+        loadingOverlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
+
+        VBox loadingBox = new VBox(20);
+        loadingBox.setAlignment(Pos.CENTER);
+        loadingBox.setStyle("-fx-background-color: #1A1A2E; -fx-background-radius: 15; -fx-padding: 40; " +
+                "-fx-border-color: #8B5CF6; -fx-border-width: 2; -fx-border-radius: 15;");
+
+        ProgressIndicator progress = new ProgressIndicator();
+        progress.setPrefSize(60, 60);
+        progress.setStyle("-fx-progress-color: #8B5CF6;");
+
+        Label loadingLabel = new Label("Updating Profile...");
+        loadingLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
+
+        Label statusLabel = new Label("Please wait");
+        statusLabel.setStyle("-fx-text-fill: #AAAAAA; -fx-font-size: 12px;");
+
+        loadingBox.getChildren().addAll(progress, loadingLabel, statusLabel);
+        loadingOverlay.getChildren().add(loadingBox);
+
+        // Add overlay to main content
+        if (mainContent != null) {
+            mainContent.getChildren().add(loadingOverlay);
+        }
+
+        Task<Boolean> task = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                updateMessage("Validating data...");
+                Thread.sleep(300); // Simulate validation
+
+                updateMessage("Updating database...");
+                boolean result = DatabaseUtility.updateUserProfile(loggedInUsername, name, email, dept, session);
+                Thread.sleep(400); // Simulate database operation
+
+                updateMessage("Finalizing...");
+                Thread.sleep(200);
+
+                return result;
+            }
+        };
+
+        // Bind status label to task message
+        statusLabel.textProperty().bind(task.messageProperty());
+
+        task.setOnSucceeded(e -> {
+            // Remove loading overlay
+            if (mainContent != null) {
+                mainContent.getChildren().remove(loadingOverlay);
             }
 
-            saveProfileAsync(name, email, dept, session);
-        }
-    });
-}
+            if (task.getValue()) {
+                setProfile(name, email, dept, session);
+                showAlert("Profile updated successfully!");
+            } else {
+                showAlert("Update failed!");
+            }
+        });
 
-private void saveProfileAsync(String name, String email, String dept, String session) {
-    // Create loading overlay
-    StackPane loadingOverlay = new StackPane();
-    loadingOverlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7);");
-    
-    VBox loadingBox = new VBox(20);
-    loadingBox.setAlignment(Pos.CENTER);
-    loadingBox.setStyle("-fx-background-color: #1A1A2E; -fx-background-radius: 15; -fx-padding: 40; " +
-                       "-fx-border-color: #8B5CF6; -fx-border-width: 2; -fx-border-radius: 15;");
-    
-    ProgressIndicator progress = new ProgressIndicator();
-    progress.setPrefSize(60, 60);
-    progress.setStyle("-fx-progress-color: #8B5CF6;");
-    
-    Label loadingLabel = new Label("Updating Profile...");
-    loadingLabel.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;");
-    
-    Label statusLabel = new Label("Please wait");
-    statusLabel.setStyle("-fx-text-fill: #AAAAAA; -fx-font-size: 12px;");
-    
-    loadingBox.getChildren().addAll(progress, loadingLabel, statusLabel);
-    loadingOverlay.getChildren().add(loadingBox);
-    
-    // Add overlay to main content
-    if (mainContent != null) {
-        mainContent.getChildren().add(loadingOverlay);
-    }
-    
-    Task<Boolean> task = new Task<Boolean>() {
-        @Override
-        protected Boolean call() throws Exception {
-            updateMessage("Validating data...");
-            Thread.sleep(300); // Simulate validation
-            
-            updateMessage("Updating database...");
-            boolean result = DatabaseUtility.updateUserProfile(loggedInUsername, name, email, dept, session);
-            Thread.sleep(400); // Simulate database operation
-            
-            updateMessage("Finalizing...");
-            Thread.sleep(200);
-            
-            return result;
-        }
-    };
-    
-    // Bind status label to task message
-    statusLabel.textProperty().bind(task.messageProperty());
+        task.setOnFailed(e -> {
+            // Remove loading overlay
+            if (mainContent != null) {
+                mainContent.getChildren().remove(loadingOverlay);
+            }
 
-    task.setOnSucceeded(e -> {
-        // Remove loading overlay
-        if (mainContent != null) {
-            mainContent.getChildren().remove(loadingOverlay);
-        }
-        
-        if (task.getValue()) {
-            setProfile(name, email, dept, session);
-            showAlert("Profile updated successfully!");
-        } else {
+            System.out.println("Profile update failed: " + task.getException().getMessage());
             showAlert("Update failed!");
-        }
-    });
+        });
 
-    task.setOnFailed(e -> {
-        // Remove loading overlay
-        if (mainContent != null) {
-            mainContent.getChildren().remove(loadingOverlay);
-        }
-        
-        System.out.println("Profile update failed: " + task.getException().getMessage());
-        showAlert("Update failed!");
-    });
-
-    new Thread(task).start();
-}
+        new Thread(task).start();
+    }
     // ==========================================================
     // PASSWORD CHANGE
     // ==========================================================
@@ -702,99 +702,99 @@ private void saveProfileAsync(String name, String email, String dept, String ses
     }
 
     private void deleteEventAsync(Object evId, Object evObj, VBox card) {
-    Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-    a.setHeaderText("Delete Event?");
-    String name = extractString(evObj, new String[] { "name", "title", "eventName" });
-    a.setContentText("Are you sure you want to delete: " + (name != null ? name : "this event") + "?");
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setHeaderText("Delete Event?");
+        String name = extractString(evObj, new String[] { "name", "title", "eventName" });
+        a.setContentText("Are you sure you want to delete: " + (name != null ? name : "this event") + "?");
 
-    DialogPane dialogPane = a.getDialogPane();
-    dialogPane.setStyle("-fx-background-color: #1A1A2E;");
-    dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white;");
+        DialogPane dialogPane = a.getDialogPane();
+        dialogPane.setStyle("-fx-background-color: #1A1A2E;");
+        dialogPane.lookup(".content.label").setStyle("-fx-text-fill: white;");
 
-    Optional<ButtonType> r = a.showAndWait();
-    if (r.isEmpty() || r.get() != ButtonType.OK)
-        return;
+        Optional<ButtonType> r = a.showAndWait();
+        if (r.isEmpty() || r.get() != ButtonType.OK)
+            return;
 
-    // Create loading overlay on the card
-    ProgressIndicator progressIndicator = new ProgressIndicator();
-    progressIndicator.setPrefSize(40, 40);
-    progressIndicator.setStyle("-fx-progress-color: #FF6B6B;");
-    
-    Label statusLabel = new Label("Deleting...");
-    statusLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
-    
-    VBox loadingOverlay = new VBox(10, progressIndicator, statusLabel);
-    loadingOverlay.setAlignment(Pos.CENTER);
-    loadingOverlay.setStyle("-fx-background-color: rgba(26, 26, 46, 0.95);");
-    loadingOverlay.setPrefSize(card.getWidth(), card.getHeight());
-    
-    // Disable card and show loading
-    card.setDisable(true);
-    card.getChildren().add(loadingOverlay);
+        // Create loading overlay on the card
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        progressIndicator.setPrefSize(40, 40);
+        progressIndicator.setStyle("-fx-progress-color: #FF6B6B;");
 
-    // Get event ID
-    Integer eventId = null;
-    if (evId instanceof Integer) {
-        eventId = (Integer) evId;
-    } else if (evObj != null) {
-        Object idObj = extractObject(evObj, new String[] { "id", "eventId", "event_id" });
-        if (idObj instanceof Integer) {
-            eventId = (Integer) idObj;
+        Label statusLabel = new Label("Deleting...");
+        statusLabel.setStyle("-fx-text-fill: white; -fx-font-size: 12px;");
+
+        VBox loadingOverlay = new VBox(10, progressIndicator, statusLabel);
+        loadingOverlay.setAlignment(Pos.CENTER);
+        loadingOverlay.setStyle("-fx-background-color: rgba(26, 26, 46, 0.95);");
+        loadingOverlay.setPrefSize(card.getWidth(), card.getHeight());
+
+        // Disable card and show loading
+        card.setDisable(true);
+        card.getChildren().add(loadingOverlay);
+
+        // Get event ID
+        Integer eventId = null;
+        if (evId instanceof Integer) {
+            eventId = (Integer) evId;
+        } else if (evObj != null) {
+            Object idObj = extractObject(evObj, new String[] { "id", "eventId", "event_id" });
+            if (idObj instanceof Integer) {
+                eventId = (Integer) idObj;
+            }
         }
-    }
 
-    if (eventId == null) {
-        card.setDisable(false);
-        card.getChildren().remove(loadingOverlay);
-        showAlert("Error: Could not find event ID");
-        return;
-    }
-
-    // Create async task
-    javafx.concurrent.Task<Boolean> task = EventController.deleteEventAsync(eventId);
-    
-    // Update status label
-    task.messageProperty().addListener((obs, oldMsg, newMsg) -> {
-        Platform.runLater(() -> statusLabel.setText(newMsg));
-    });
-
-    task.setOnSucceeded(e -> {
-        card.setDisable(false);
-        card.getChildren().remove(loadingOverlay);
-        
-        if (task.getValue()) {
-            // Fade out animation before removing
-            javafx.animation.FadeTransition fadeOut = new javafx.animation.FadeTransition(
-                javafx.util.Duration.millis(300), card);
-            fadeOut.setFromValue(1.0);
-            fadeOut.setToValue(0.0);
-            fadeOut.setOnFinished(event -> {
-                if (eventsListBox != null) {
-                    eventsListBox.getChildren().remove(card);
-                }
-            });
-            fadeOut.play();
-            
-            showAlert("Event deleted successfully!");
-        } else {
-            showAlert("Failed to delete event.");
+        if (eventId == null) {
+            card.setDisable(false);
+            card.getChildren().remove(loadingOverlay);
+            showAlert("Error: Could not find event ID");
+            return;
         }
-    });
 
-    task.setOnFailed(e -> {
-        card.setDisable(false);
-        card.getChildren().remove(loadingOverlay);
-        
-        Throwable exception = task.getException();
-        String errorMsg = exception != null ? exception.getMessage() : "Unknown error";
-        System.err.println("Delete failed: " + errorMsg);
-        showAlert("Failed to delete event: " + errorMsg);
-    });
+        // Create async task
+        javafx.concurrent.Task<Boolean> task = EventController.deleteEventAsync(eventId);
 
-    Thread thread = new Thread(task);
-    thread.setDaemon(true);
-    thread.start();
-}
+        // Update status label
+        task.messageProperty().addListener((obs, oldMsg, newMsg) -> {
+            Platform.runLater(() -> statusLabel.setText(newMsg));
+        });
+
+        task.setOnSucceeded(e -> {
+            card.setDisable(false);
+            card.getChildren().remove(loadingOverlay);
+
+            if (task.getValue()) {
+                // Fade out animation before removing
+                javafx.animation.FadeTransition fadeOut = new javafx.animation.FadeTransition(
+                        javafx.util.Duration.millis(300), card);
+                fadeOut.setFromValue(1.0);
+                fadeOut.setToValue(0.0);
+                fadeOut.setOnFinished(event -> {
+                    if (eventsListBox != null) {
+                        eventsListBox.getChildren().remove(card);
+                    }
+                });
+                fadeOut.play();
+
+                showAlert("Event deleted successfully!");
+            } else {
+                showAlert("Failed to delete event.");
+            }
+        });
+
+        task.setOnFailed(e -> {
+            card.setDisable(false);
+            card.getChildren().remove(loadingOverlay);
+
+            Throwable exception = task.getException();
+            String errorMsg = exception != null ? exception.getMessage() : "Unknown error";
+            System.err.println("Delete failed: " + errorMsg);
+            showAlert("Failed to delete event: " + errorMsg);
+        });
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
 
     // ==========================================================
     // REFLECTION HELPERS

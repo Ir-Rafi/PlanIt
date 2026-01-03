@@ -1,3 +1,6 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -6,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -179,7 +183,7 @@ stage.setFullScreenExitHint("");
 
         layout.getChildren().add(bookingCard);
 
-        // Check availability logic
+        // Check availability logic with animated "Checking" effect
         checkBtn.setOnAction(e -> {
             LocalDate startDate = startDatePicker.getValue();
             LocalDate endDate = endDatePicker.getValue();
@@ -190,43 +194,96 @@ stage.setFullScreenExitHint("");
                 resultLabel.setText("❌ Please select start and end dates.");
                 return;
             }
+            if (endDate.isBefore(startDate)) {
+                resultLabel.setText("❌ End date cannot be before start date.");
+                return;
+            }
             if (startTime == null || endTime == null) {
                 resultLabel.setText("❌ Please select start and end times.");
                 return;
             }
-            if (!isValidTimeRange(startTime, endTime)) {
-                resultLabel.setText("❌ End time must be after start time.");
+            if (startDate.isEqual(endDate) && !isValidTimeRange(startTime, endTime)) {
+                resultLabel.setText("❌ End time must be after start time on the same day.");
                 return;
             }
 
-            try (Connection conn = connect()) {
-                PreparedStatement ps = conn.prepareStatement("""
-                    SELECT COUNT(*) FROM bookings
-                    WHERE place_name = ?
-                      AND (
-                            (start_date <= ? AND end_date >= ?)
-                        AND (start_time < ? AND end_time > ?)
-                      )
-                """);
-                ps.setString(1, placeName);
-                ps.setDate(2, Date.valueOf(endDate));
-                ps.setDate(3, Date.valueOf(startDate));
-                ps.setTime(4, Time.valueOf(endTime + ":00"));
-                ps.setTime(5, Time.valueOf(startTime + ":00"));
+            // Disable button during checking
+            checkBtn.setDisable(true);
+            
+            // Create animated "Checking" effect using Timeline
+            final String[] dots = {".", "..", "..."};
+            final int[] dotIndex = {0};
+            
+            Timeline checkingAnimation = new Timeline(
+                new KeyFrame(Duration.millis(500), event -> {
+                    resultLabel.setText("Checking" + dots[dotIndex[0]]);
+                    resultLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px; -fx-font-weight: bold;");
+                    dotIndex[0] = (dotIndex[0] + 1) % dots.length;
+                })
+            );
+            checkingAnimation.setCycleCount(Timeline.INDEFINITE);
+            checkingAnimation.play();
 
-                ResultSet rs = ps.executeQuery();
-                rs.next();
-                boolean isFree = rs.getInt(1) == 0;
+            // Run database check in a separate thread
+            new Thread(() -> {
+                try {
+                    // Simulate processing time (optional - remove if you want instant check)
+                    Thread.sleep(1500);
+                    
+                    Connection conn = connect();
+                    // Check for overlapping bookings
+                    // Two bookings overlap if: NOT (booking1 ends before booking2 starts OR booking1 starts after booking2 ends)
+                    PreparedStatement ps = conn.prepareStatement("""
+                        SELECT COUNT(*) FROM bookings
+                        WHERE place_name = ?
+                          AND NOT (
+                                (end_date < ? OR (end_date = ? AND end_time <= ?))
+                                OR (start_date > ? OR (start_date = ? AND start_time >= ?))
+                          )
+                    """);
+                    ps.setString(1, placeName);
+                    // Booking ends before requested start
+                    ps.setDate(2, Date.valueOf(startDate));
+                    ps.setDate(3, Date.valueOf(startDate));
+                    ps.setTime(4, Time.valueOf(startTime + ":00"));
+                    // Booking starts after requested end
+                    ps.setDate(5, Date.valueOf(endDate));
+                    ps.setDate(6, Date.valueOf(endDate));
+                    ps.setTime(7, Time.valueOf(endTime + ":00"));
 
-                if (isFree) {
-                    resultLabel.setText("✅ Place available! Booking confirmed.");
-                    bookPlace(conn, placeName, organizerId, startDate, endDate, startTime, endTime);
-                } else {
-                    resultLabel.setText("❌ Already booked for that time slot.");
+                    ResultSet rs = ps.executeQuery();
+                    rs.next();
+                    boolean isFree = rs.getInt(1) == 0;
+
+                    // Update UI on JavaFX Application Thread
+                    Platform.runLater(() -> {
+                        checkingAnimation.stop();
+                        if (isFree) {
+                            resultLabel.setText("✅ Place available! Booking confirmed.");
+                            resultLabel.setStyle("-fx-text-fill: #27AE60; -fx-font-size: 18px; -fx-font-weight: bold;");
+                            try {
+                                bookPlace(conn, placeName, organizerId, startDate, endDate, startTime, endTime);
+                            } catch (SQLException sqlEx) {
+                                resultLabel.setText("Error booking: " + sqlEx.getMessage());
+                                resultLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 16px;");
+                            }
+                        } else {
+                            resultLabel.setText("❌ Already booked for that time slot.");
+                            resultLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 18px; -fx-font-weight: bold;");
+                        }
+                        checkBtn.setDisable(false);
+                    });
+                    
+                    conn.close();
+                } catch (Exception ex) {
+                    Platform.runLater(() -> {
+                        checkingAnimation.stop();
+                        resultLabel.setText("Error: " + ex.getMessage());
+                        resultLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 16px;");
+                        checkBtn.setDisable(false);
+                    });
                 }
-            } catch (Exception ex) {
-                resultLabel.setText("Error: " + ex.getMessage());
-            }
+            }).start();
         });
 
         stage.setScene(new Scene(layout, previousScene.getWidth(), previousScene.getHeight()));

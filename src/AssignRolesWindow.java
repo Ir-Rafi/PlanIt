@@ -404,76 +404,83 @@ public class AssignRolesWindow {
 
             // Create Task for validation
             Platform.runLater(() -> {
-                Task<Boolean> validationTask = new Task<Boolean>() {
+                Task<String> validationTask = new Task<String>() {
                     @Override
-                    protected Boolean call() throws Exception {
+                    protected String call() throws Exception {
                         // Add small delay to ensure loading dialog is visible
                         Thread.sleep(300);
 
                         if (!isValidOrganizer(name, code)) {
-                            new Alert(Alert.AlertType.ERROR,
-                                    "No organizer found with this username and ID.\n" +
-                                            "Please make sure the user is registered.")
-                                    .showAndWait();
-                                    return false;
+                            return "NOT_VALID";
                         }
-                        return isSubOrganizerExists(event.eventId, name);
+                        
+                        boolean exists = isSubOrganizerExists(event.eventId, name);
+                        return exists ? "EXISTS" : "VALID";
                     }
                 };
 
                 // Handle validation success
                 validationTask.setOnSucceeded(validationEvent -> {
-                    Boolean exists = validationTask.getValue();
+                    String result = validationTask.getValue();
+                    loadingStage.close();
 
-                    if (exists) {
-                        // Sub-organizer already exists
-                        loadingStage.close();
-                        new Alert(Alert.AlertType.WARNING, "This sub-organizer already exists!").showAndWait();
-                    } else {
-                        // Proceed with insertion
-                        updateLoadingMessage(loadingStage, "Adding sub-organizer...");
-
-                        Task<Void> insertTask = new Task<Void>() {
-                            @Override
-                            protected Void call() throws Exception {
-                                String sql = "INSERT INTO organizers (organizer_name, event_id, organizer_id) VALUES (?, ?, ?)";
-                                try (Connection conn = getConnection();
-                                        PreparedStatement ps = conn.prepareStatement(sql)) {
-                                    ps.setString(1, name);
-                                    ps.setInt(2, event.eventId);
-                                    ps.setInt(3, code);
-                                    ps.executeUpdate();
-                                }
-                                return null;
-                            }
-                        };
-
-                        // Handle insertion success
-                        insertTask.setOnSucceeded(insertEvent -> {
-                            loadingStage.close();
-                            dialog.close();
-                            refreshSubOrganizerCards();
-                        });
-
-                        // Handle insertion failure
-                        insertTask.setOnFailed(insertEvent -> {
-                            loadingStage.close();
-                            Throwable exception = insertTask.getException();
-                            exception.printStackTrace();
-
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Error");
-                            alert.setHeaderText("Failed to add sub-organizer");
-                            alert.setContentText(exception.getMessage());
-                            alert.showAndWait();
-
-                        });
-
-                        // Start insertion task
-                        Thread insertThread = new Thread(insertTask);
-                        insertThread.setDaemon(true);
-                        insertThread.start();
+                    if (result.equals("NOT_VALID")) {
+                        // User doesn't exist in the database
+                        new Alert(Alert.AlertType.ERROR,
+                                "No organizer found with this username and ID.\n" +
+                                        "Please make sure the user is registered.")
+                                .showAndWait();
+                        return;
                     }
+
+                    if (result.equals("EXISTS")) {
+                        // Sub-organizer already exists
+                        new Alert(Alert.AlertType.WARNING, "This sub-organizer already exists!").showAndWait();
+                        return;
+                    }
+
+                    // result is "VALID" - proceed with insertion
+                    Stage insertLoadingStage = showLoadingDialog(dialog, "Adding sub-organizer...");
+
+                    Task<Void> insertTask = new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+                            String sql = "INSERT INTO organizers (organizer_name, event_id, organizer_id) VALUES (?, ?, ?)";
+                            try (Connection conn = getConnection();
+                                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                                ps.setString(1, name);
+                                ps.setInt(2, event.eventId);
+                                ps.setInt(3, code);
+                                ps.executeUpdate();
+                            }
+                            return null;
+                        }
+                    };
+
+                    // Handle insertion success
+                    insertTask.setOnSucceeded(insertEvent -> {
+                        insertLoadingStage.close();
+                        dialog.close();
+                        refreshSubOrganizerCards();
+                    });
+
+                    // Handle insertion failure
+                    insertTask.setOnFailed(insertEvent -> {
+                        insertLoadingStage.close();
+                        Throwable exception = insertTask.getException();
+                        exception.printStackTrace();
+
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Failed to add sub-organizer");
+                        alert.setContentText(exception.getMessage());
+                        alert.showAndWait();
+                    });
+
+                    // Start insertion task
+                    Thread insertThread = new Thread(insertTask);
+                    insertThread.setDaemon(true);
+                    insertThread.start();
                 });
 
                 // Handle validation failure

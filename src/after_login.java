@@ -72,6 +72,11 @@ public class after_login {
 
     // ---------------- HOME SCREEN ----------------
     private void showHomeScreen() {
+        if (stage == null) {
+            System.err.println("Error: Stage is null in showHomeScreen");
+            return;
+        }
+        
         StackPane root = new StackPane();
         
         // Dark gradient background
@@ -232,9 +237,12 @@ public class after_login {
     // ---------------- EVENTS PAGE (ROLE SELECTION) ----------------
     private Scene createEventsPage(Scene homeScene) {
     StackPane root = new StackPane();
-    // Bind root to stage size
-    root.prefWidthProperty().bind(stage.widthProperty());
-    root.prefHeightProperty().bind(stage.heightProperty());
+    
+    // Bind root to stage size only if stage is not null
+    if (stage != null) {
+        root.prefWidthProperty().bind(stage.widthProperty());
+        root.prefHeightProperty().bind(stage.heightProperty());
+    }
 
     // Dark gradient background
     LinearGradient bgGradient = new LinearGradient(

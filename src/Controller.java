@@ -71,6 +71,11 @@ public class Controller {
     }
 
     public static void loadingLoginPage(Stage stage) {
+        if (stage == null) {
+            System.err.println("Error: Stage is null in loadingLoginPage");
+            return;
+        }
+        
         try {
             FXMLLoader loader = new FXMLLoader(Controller.class.getResource("fxml/button.fxml"));
             Parent root = loader.load();

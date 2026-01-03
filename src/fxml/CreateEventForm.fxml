@@ -21,7 +21,7 @@
       fx:controller="EventController"
       styleClass="root-container"
       prefWidth="1920" prefHeight="1080"
-      stylesheets="@eventform.css">
+      stylesheets="@../css/eventform.css">
     
     <!-- Header -->
     <HBox styleClass="header" alignment="CENTER_LEFT">

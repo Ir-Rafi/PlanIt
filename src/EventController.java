@@ -418,7 +418,7 @@ public class EventController implements Initializable {
     public static void openEventForm(Stage parentStage) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    EventController.class.getResource("CreateEventForm.fxml"));
+                    EventController.class.getResource("fxml/CreateEventForm.fxml"));
             VBox root = loader.load();
 
             Stage formStage = new Stage();
@@ -722,25 +722,40 @@ public class EventController implements Initializable {
 
     private boolean isPlaceBookedByOrganizer(String placeName, LocalDate startDate, LocalDate endDate,
             String startTime, String endTime, int organizerId) {
-        String sql = """
+        // If event spans multiple days, only check date overlap (ignore times)
+        boolean isMultiDay = !startDate.equals(endDate);
+        
+        String sql;
+        if (isMultiDay) {
+            sql = """
                     SELECT COUNT(*) FROM bookings
                     WHERE place_name = ?
                       AND organizer_id = ?
-                      AND start_date <= ?
-                      AND end_date >= ?
-                      AND start_time <= ?
-                      AND end_time >= ?
+                      AND NOT (end_date < ? OR start_date > ?)
                 """;
+        } else {
+            // Single day event - check both date and time overlap
+            sql = """
+                    SELECT COUNT(*) FROM bookings
+                    WHERE place_name = ?
+                      AND organizer_id = ?
+                      AND NOT (end_date < ? OR start_date > ?)
+                      AND NOT (end_time <= ? OR start_time >= ?)
+                """;
+        }
 
         try (Connection conn = getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, placeName);
             ps.setInt(2, organizerId);
-            ps.setDate(3, java.sql.Date.valueOf(endDate));
-            ps.setDate(4, java.sql.Date.valueOf(startDate));
-            ps.setString(5, endTime); // end_time as string
-            ps.setString(6, startTime); // start_time as string
+            ps.setDate(3, java.sql.Date.valueOf(startDate));
+            ps.setDate(4, java.sql.Date.valueOf(endDate));
+            
+            if (!isMultiDay) {
+                ps.setTime(5, java.sql.Time.valueOf(startTime + ":00"));
+                ps.setTime(6, java.sql.Time.valueOf(endTime + ":00"));
+            }
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
