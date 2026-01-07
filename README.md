@@ -1,11 +1,10 @@
 <div align="center">
 
-# 🗓️ PlanIt
-
+# PlanIt
 ### *Plan it.  Execute it. Perfect it.*
 
 [![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.java.com/)
-[![JavaFX](https://img.shields.io/badge/JavaFX-007396? style=for-the-badge&logo=java&logoColor=white)](https://openjfx.io/)
+[![JavaFX](https://img.shields.io/badge/JavaFX-007396?style=for-the-badge&logo=java&logoColor=white)](https://openjfx.io/)
 [![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
@@ -15,12 +14,6 @@
 </p>
 
 **Team Members:** Kazi Maheru Tafannum • Rubaiya Sultana • Shadman Zaman Sajid • Md. Irfan Iqbal
-
-[Features](#-key-features) •
-[Architecture](#-system-architecture) •
-[Installation](#-installation--setup) •
-[Tech Stack](#-tech-stack) •
-[Team](#-team-abstrax)
 
 ---
 
@@ -101,6 +94,7 @@ Traditional event management often suffers from **scattered communication** and 
 ### High-Level Architecture Diagram
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#383a42', 'primaryTextColor': '#abb2bf', 'lineColor': '#6b83aA', 'secondaryColor': '#282c34', 'tertiaryColor': '#21252b'}}}%%
 flowchart TB
     subgraph Client["🖥️ Client Layer"]
         UI[JavaFX UI]
@@ -122,7 +116,7 @@ flowchart TB
     
     subgraph Data["💾 Data Layer"]
         MySQL[(MySQL Database)]
-        DAT[(. dat Files)]
+        DAT[(.dat Files)]
     end
     
     UI --> Controllers
@@ -140,6 +134,7 @@ flowchart TB
 ### Application Flow Diagram
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#383a42', 'primaryTextColor': '#abb2bf', 'lineColor': '#6b83aA', 'secondaryColor': '#282c34', 'tertiaryColor': '#21252b'}}}%%
 flowchart LR
     A[🔐 Login] --> B{Authentication}
     B -->|Success| C[📊 Dashboard]
@@ -167,6 +162,7 @@ flowchart LR
 ### Database Schema (ER Diagram)
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#383a42', 'primaryTextColor': '#abb2bf', 'lineColor': '#6b83aA', 'secondaryColor': '#282c34', 'tertiaryColor': '#21252b'}}}%%
 erDiagram
     USERS ||--o{ ORGANIZERS : "managed by"
     EVENTS ||--|{ BOOKINGS : "has"
@@ -214,26 +210,27 @@ erDiagram
 ### Design Patterns Implemented
 
 ```mermaid
-mindmap
-  root((PlanIt<br>Design Patterns))
-    Creational
-      Singleton
-        Session Management
-        Database Connection
-      Factory
-        OrganizerViewFactory
-        Role-specific Views
-    Behavioral
-      Command
-        Client-Server Communication
-        Request Handling
-      Observer
-        UI Updates
-        Data Change Notifications
-    Structural
-      Context
-        Dashboard State
-        Event Portal State
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#383a42', 'primaryTextColor': '#abb2bf', 'lineColor': '#6b83aA', 'secondaryColor': '#282c34', 'tertiaryColor': '#21252b'}}}%%
+graph TD
+    Root((PlanIt<br>Design Patterns)) --> Creational
+    Root --> Behavioral
+    Root --> Structural
+
+    subgraph Creational
+        C1(Singleton) --> C1a(Session Management)
+        C1 --> C1b(Database Connection)
+        C2(Factory) --> C2a(Role-specific Views)
+    end
+
+    subgraph Behavioral
+        B1(Observer) --> B1a(UI Updates)
+        B1 --> B1b(Data Change Notifications)
+        B2(Command) --> B2a(Client-Server Communication)
+    end
+
+    subgraph Structural
+        S1(Facade) --> S1a(DatabaseUtility Class)
+    end
 ```
 
 ---
@@ -243,7 +240,7 @@ mindmap
 <div align="center">
 
 | Category | Technologies |
-|: --------:|:-------------|
+|:--------:|:-------------|
 | **Language** | Java 8+ |
 | **Frontend** | JavaFX, FXML, CSS, Scene Builder |
 | **Backend** | Java Socket Programming, Multi-threading |
@@ -254,10 +251,10 @@ mindmap
 
 ### Technical Highlights
 
-- 🌐 **Networking**: Socket-based client-server architecture using TCP/IP and object serialization
-- 💾 **Persistence**:  Hybrid storage using remote MySQL database (Clever-cloud) and local serialized `.dat` files
-- 🎨 **UI/UX**: Modern dark theme with responsive layouts and animated loading states
-- 🔐 **Security**: Password hashing with BCrypt
+- 🌐 **Networking**: Socket-based client-server architecture using TCP/IP and object serialization.
+- 💾 **Persistence**: Hybrid storage using a remote MySQL database and local serialized `.dat` files.
+- 🎨 **UI/UX**: Modern dark theme with responsive layouts and animated loading states.
+- 🔐 **Security**: Password hashing with BCrypt for secure credential storage.
 
 ---
 
@@ -266,37 +263,34 @@ mindmap
 ### Prerequisites
 
 - ☕ **JDK 8** or higher
-- 🌐 Active internet connection (for remote database)
-- 💻 IntelliJ IDEA or VS Code (recommended)
+- 🌐 Active internet connection (for remote database access)
+- 💻 IntelliJ IDEA or other Java-compatible IDE
 
 ### Quick Start
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Ir-Rafi/PlanIt. git
+git clone https://github.com/Ir-Rafi/PlanIt.git
 
-# 2. Navigate to project directory
+# 2. Navigate to the project directory
 cd PlanIt
 
-# 3. Open in your IDE and build the project
+# 3. Open the project in your IDE and build it
 
-# 4. Run the Main class
+# 4. Run the Main class to start the application
 ```
 
 ### Configuration
 
-```properties
-# Database is pre-configured to use Clever-cloud MySQL
-# No additional setup required for database connection
-```
+The application is pre-configured to use a remote MySQL database hosted on Clever-cloud, so no additional database setup is required for standard use.
 
 ### Running the Application
 
-1. **Import** the project into IntelliJ IDEA or VS Code
-2. **Ensure** JDK 8+ is configured
-3. **Add** JavaFX libraries to your classpath if needed
-4. **Locate** and run the `Main` class
-5. **Start** the Server module first if testing network features locally
+1.  **Import** the project into your IDE (e.g., IntelliJ IDEA).
+2.  **Ensure** a compatible JDK (8+) is configured for the project.
+3.  **Add** the JavaFX libraries to your project's classpath if your IDE requires it.
+4.  **Locate** and run the `Main.java` class to launch the client application.
+5.  **Start** the Server module first if you intend to test network features locally.
 
 ---
 
@@ -307,8 +301,8 @@ PlanIt/
 ├── 📂 src/
 │   ├── 📄 Main.java                    # Application entry point
 │   ├── 📄 Dashboard.java               # Main dashboard controller
-│   ├── 📄 AdvancedTodoListApp.java     # Task management
-│   ├── 📄 EventController.java         # Event handling
+│   ├── 📄 AdvancedTodoListApp.java     # Task management module
+│   ├── 📄 EventController.java         # Event handling logic
 │   ├── 📄 DatabaseUtility.java         # Database operations
 │   ├── 📄 Session.java                 # Session management
 │   ├── 📂 fxml/                        # FXML view files
@@ -336,7 +330,7 @@ PlanIt/
 ---
 
 | Roll | Name | Role | Responsibilities |
-|: ----:|:-----|: ----:|:-----------------|
+|:----:|:-----|:----:|:-----------------|
 | 03 | **Kazi Maheru Tafannum** | 🔧 Backend Dev | Backend Design, DBMS |
 | 05 | **Rubaiya Sultana** | 🎨 UI Designer | UI Design, Conceptualist |
 | 14 | **Shadman Zaman Sajid** | 🧪 Tester | Testing, System Programming |
@@ -349,28 +343,18 @@ PlanIt/
 ## 🔮 Future Roadmap
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#383a42', 'primaryTextColor': '#abb2bf', 'lineColor': '#6b83aA', 'secondaryColor': '#282c34', 'tertiaryColor': '#21252b'}}}%%
 timeline
     title PlanIt Development Roadmap
-    
-    section Phase 1
-        Q1 2026 :  📧 Email Notifications
-               :  Push notifications for task updates
-               : Event reminders
-    
-    section Phase 2
-        Q2 2026 : 📱 Mobile Application
-               : Android & iOS versions
-               : Cross-platform sync
-    
-    section Phase 3
-        Q3 2026 :  🤖 AI Integration
-               :  ML-based event recommendations
-               : Smart scheduling
-    
-    section Phase 4
-        Q4 2026 : 📹 Video Conferencing
-               : Remote meeting integration
-               : 🌍 Multi-language Support
+    section Q1 2026
+        Email Notifications : Push notifications for task updates : Event reminders
+    section Q2 2026
+        Mobile Application : Android & iOS versions : Cross-platform sync
+    section Q3 2026
+        AI Integration : ML-based event recommendations : Smart scheduling
+    section Q4 2026
+        Video Conferencing : Remote meeting integration
+        Multi-language Support
 ```
 
 ### Planned Features
@@ -387,7 +371,7 @@ timeline
 
 <div align="center">
 
-[![GitHub](https://img.shields.io/badge/Source_Code-181717? style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ir-Rafi/PlanIt)
+[![GitHub](https://img.shields.io/badge/Source_Code-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ir-Rafi/PlanIt)
 [![Demo](https://img.shields.io/badge/Watch_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/watch?v=your-demo-link)
 
 </div>
@@ -396,7 +380,7 @@ timeline
 
 ## 📄 License
 
-This project was created for academic purposes as part of the CSE 2104 course at the University of Dhaka.
+This project was created for academic purposes as part of the CSE 2104 course at the University of Dhaka. It is licensed under the MIT License.
 
 ---
 
