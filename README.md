@@ -89,150 +89,265 @@ Traditional event management often suffers from **scattered communication** and 
 
 ---
 
-## 🏗 System Architecture
+## 🏗 System Architecture (UML)
 
-### High-Level Architecture Diagram
-
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#383a42', 'primaryTextColor': '#abb2bf', 'lineColor': '#6b83aA', 'secondaryColor': '#282c34', 'tertiaryColor': '#21252b'}}}%%
-flowchart TB
-    subgraph Client["🖥️ Client Layer"]
-        UI[JavaFX UI]
-        FXML[FXML Views]
-        CSS[CSS Styling]
-    end
-    
-    subgraph Application["⚙️ Application Layer"]
-        Controllers[Controllers]
-        Session[Session Manager]
-        Serialization[Object Serialization]
-    end
-    
-    subgraph Network["🌐 Network Layer"]
-        Socket[Socket Programming]
-        TCP[TCP/IP Protocol]
-        MultiThread[Multi-threaded Server]
-    end
-    
-    subgraph Data["💾 Data Layer"]
-        MySQL[(MySQL Database)]
-        DAT[(.dat Files)]
-    end
-    
-    UI --> Controllers
-    FXML --> UI
-    CSS --> UI
-    Controllers --> Session
-    Controllers --> Socket
-    Session --> Serialization
-    Socket --> TCP
-    TCP --> MultiThread
-    MultiThread --> MySQL
-    Serialization --> DAT
-```
-
-### Application Flow Diagram
+This diagram provides a detailed look at the classes, relationships, and architectural patterns that make up the PlanIt application.
 
 ```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#383a42', 'primaryTextColor': '#abb2bf', 'lineColor': '#6b83aA', 'secondaryColor': '#282c34', 'tertiaryColor': '#21252b'}}}%%
-flowchart LR
-    A[🔐 Login] --> B{Authentication}
-    B -->|Success| C[📊 Dashboard]
-    B -->|Failure| A
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#0f172a', 'primaryTextColor': '#e2e8f0', 'lineColor': '#64748b', 'secondaryColor': '#1e293b', 'tertiaryColor': '#0f172a', 'fontSize': '14px'}}}%%
+classDiagram
+    %% ==================== DOMAIN MODELS ====================
+    class User {
+        -id: int
+        -username: string
+        -email: string
+        -passwordHash: string
+        +getters/setters
+    }
+
+    class Task {
+        -id: int
+        -text: string
+        -isCompleted: bool
+        -priority: Priority
+        -dueDate: LocalDate
+        -createdDate: LocalDate
+        +toggleComplete()
+        +setPriority()
+    }
+
+    class EventData {
+        -id: int
+        -name: string
+        -date: LocalDate
+        -description: string
+        -location: string
+        -capacity: int
+        +addOrganizer()
+        +removeOrganizer()
+    }
+
+    class Organizer {
+        -id: int
+        -name: string
+        -email: string
+        -registrationCode: int
+        +validateCode()
+    }
+
+    class Priority {
+        <<enumeration>>
+        LOW
+        MEDIUM
+        HIGH
+        URGENT
+    }
+
+    %% ==================== PERSISTENCE LAYER ====================
+    class DatabaseUtility {
+        <<Singleton/Facade>>
+        -CONNECTION_URL: string$
+        -instance: DatabaseUtility$
+        -getInstance(): DatabaseUtility$
+        +getConnection(): Connection
+        +registerUser(): boolean
+        +authenticateUser(): boolean
+        +createEvent(): boolean
+        +saveOrganizer(): boolean
+    }
+
+    class TaskStorage {
+        <<Utility>>
+        -FILE_PATH: string$
+        -saveTasks(): void$
+        -loadTasks(): List~Task~$
+        -deleteTasks(): void$
+    }
+
+    class FileUtil {
+        <<Utility>>
+        -ensureFileExists(): void$
+        -readFromFile(): String$
+        -writeToFile(): void$
+    }
+
+    %% ==================== BUSINESS LOGIC / SERVICES ====================
+    class SessionManager {
+        <<Singleton>>
+        -instance: SessionManager$
+        -currentUser: User
+        -getInstance(): SessionManager$
+        +login(): boolean
+        +logout(): void
+        +getCurrentUser(): User
+        +isAuthenticated(): boolean
+    }
+
+    class UserService {
+        -authenticationService: AuthenticationService
+        +registerNewUser(): boolean
+        +validateCredentials(): boolean
+        +updateUserProfile(): boolean
+        +resetPassword(): boolean
+    }
+
+    class AuthenticationService {
+        -hashPassword(): string
+        -verifyPassword(): boolean
+        +authenticate(): User
+    }
+
+    class EventService {
+        -databaseUtility: DatabaseUtility
+        +createEvent(): EventData
+        +fetchAllEvents(): List~EventData~
+        +updateEvent(): boolean
+        +deleteEvent(): boolean
+        +getEventById(): EventData
+    }
+
+    class TaskService {
+        -taskStorage: TaskStorage
+        -currentUser: User
+        +createTask(): Task
+        +getAllTasks(): List~Task~
+        +updateTask(): boolean
+        +deleteTask(): boolean
+        +filterByPriority(): List~Task~
+        +filterByDueDate(): List~Task~
+    }
+
+    %% ==================== UI / PRESENTATION LAYER ====================
+    class JavaFXApplication {
+        <<Abstract>>
+        +start()
+        +launch()
+    }
+
+    class Main {
+        +main(): void
+        +start(Stage): void
+    }
+
+    class LoginController {
+        -userService: UserService
+        -sessionManager: SessionManager
+        +handleLogin(): void
+        +handleRegistration(): void
+        +navigateToDashboard(): void
+    }
+
+    class DashboardController {
+        -eventService: EventService
+        -taskService: TaskService
+        -sessionManager: SessionManager
+        +displayUserEvents(): void
+        +openEventCreator(): void
+        +openTaskManager(): void
+        +logout(): void
+    }
+
+    class EventController {
+        -eventService: EventService
+        -currentEvent: EventData
+        +loadEventForm(): void
+        +saveEvent(): boolean
+        +addOrganizer(): void
+        +removeOrganizer(): void
+        +displayEventDetails(): void
+    }
+
+    class TaskManagerController {
+        -taskService: TaskService
+        -displayedTasks: List~Task~
+        +addTask(): void
+        +updateTask(): void
+        +deleteTask(): void
+        +filterTasks(): void
+        +markComplete(): void
+    }
+
+    %% ==================== NETWORKING LAYER ====================
+    class Server {
+        -port: int
+        -clientHandlers: List~ClientHandler~
+        +start(): void
+        +handleClient(): void
+        +broadcastMessage(): void
+    }
+
+    class ClientHandler {
+        -socket: Socket
+        -server: Server
+        +run(): void
+        -processRequest(): void
+        -sendResponse(): void
+    }
+
+    class Request {
+        <<Serializable>>
+        -command: string
+        -payload: object
+        -timestamp: long
+        +getCommand(): string
+        +getPayload(): object
+    }
+
+    class Response {
+        <<Serializable>>
+        -status: string
+        -data: object
+        -message: string
+        +isSuccess(): bool
+    }
+
+    %% ==================== RELATIONSHIPS ====================
     
-    C --> D[📅 Event Portal]
-    C --> E[📋 Task Manager]
-    C --> F[🏢 Venue Booking]
-    C --> G[💬 Discussion Forum]
+    %% Inheritance
+    Main --|> JavaFXApplication
+
+    %% Service Dependencies
+    LoginController --> UserService
+    LoginController --> SessionManager
+    LoginController --> AuthenticationService
     
-    D --> H[Create Event]
-    D --> I[Manage Organizers]
+    DashboardController --> EventService
+    DashboardController --> TaskService
+    DashboardController --> SessionManager
     
-    E --> J[Add Tasks]
-    E --> K[Set Priority]
-    E --> L[Track Progress]
+    EventController --> EventService
+    TaskManagerController --> TaskService
+
+    UserService --> AuthenticationService
+    UserService --> DatabaseUtility
+    EventService --> DatabaseUtility
+    TaskService --> TaskStorage
+    TaskStorage --> FileUtil
+
+    %% Model Relationships
+    EventData "1" o-- "*" Organizer : contains
+    Task --> Priority : uses
+    User "1" *-- "*" Task : owns
+    User "1" *-- "*" EventData : organizes
+
+    %% UI Navigation
+    LoginController ..> DashboardController : navigates to
+    DashboardController ..> EventController : opens
+    DashboardController ..> TaskManagerController : opens
+
+    %% Session Management
+    SessionManager --> User : maintains
     
-    F --> M[Check Availability]
-    F --> N[Book Venue]
-    
-    G --> O[Create Thread]
-    G --> P[Reply to Posts]
+    %% Networking
+    Server "1" *-- "*" ClientHandler : manages
+    ClientHandler --> Request : receives
+    ClientHandler --> Response : sends
+
+    %% Persistence
+    DatabaseUtility ..> User : CRUD
+    DatabaseUtility ..> EventData : CRUD
+    TaskStorage ..> Task : persist
 ```
-
-### Database Schema (ER Diagram)
-
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#383a42', 'primaryTextColor': '#abb2bf', 'lineColor': '#6b83aA', 'secondaryColor': '#282c34', 'tertiaryColor': '#21252b'}}}%%
-erDiagram
-    USERS ||--o{ ORGANIZERS : "managed by"
-    EVENTS ||--|{ BOOKINGS : "has"
-    EVENTS ||--|{ ORGANIZERS : "coordinated by"
-    USERS ||--o{ EVENTS : "creates"
-    
-    USERS {
-        int id PK
-        string username UK
-        string password_hashed
-        string email
-        string department
-        string session
-    }
-
-    EVENTS {
-        int event_id PK
-        string event_name
-        int organizer_id FK
-        datetime start_date
-        datetime end_date
-        string place_name
-        string description
-        string color
-    }
-
-    BOOKINGS {
-        int booking_id PK
-        string place_name
-        int organizer_id FK
-        time start_time
-        time end_time
-        date booking_date
-    }
-
-    ORGANIZERS {
-        int organizer_id PK
-        string organizer_name
-        string phone
-        string code
-        int event_id FK
-    }
-```
-
-### Design Patterns Implemented
-
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#383a42', 'primaryTextColor': '#abb2bf', 'lineColor': '#6b83aA', 'secondaryColor': '#282c34', 'tertiaryColor': '#21252b'}}}%%
-graph TD
-    Root((PlanIt<br>Design Patterns)) --> Creational
-    Root --> Behavioral
-    Root --> Structural
-
-    subgraph Creational
-        C1(Singleton) --> C1a(Session Management)
-        C1 --> C1b(Database Connection)
-        C2(Factory) --> C2a(Role-specific Views)
-    end
-
-    subgraph Behavioral
-        B1(Observer) --> B1a(UI Updates)
-        B1 --> B1b(Data Change Notifications)
-        B2(Command) --> B2a(Client-Server Communication)
-    end
-
-    subgraph Structural
-        S1(Facade) --> S1a(DatabaseUtility Class)
-    end
-```
-
 ---
 
 ## 💻 Tech Stack
