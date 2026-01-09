@@ -501,10 +501,9 @@ This project was created for academic purposes as part of the CSE 2104 course at
 
 <div align="center">
 
-**⭐ Star this repository if you found it helpful!**
+** Star this repository if you found it helpful!**
 
-Made with ❤️ by **Team Abstrax**
+ **Team Abstrax**
 
-*Submitted on January 03, 2026*
 
 </div>
